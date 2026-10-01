@@ -3122,13 +3122,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5258
+5259
 
 EOD
         $bn =~ s/\s+$/:/;
         print $fh <<"EOD";
 <p class="build">
-Build $bn 2022-04-05 19:18 UTC
+Build $bn 2026-10-01 19:39 UTC
 </p>
 EOD
 #    }
@@ -8038,6 +8038,9 @@ EOD
                 clusterCopy("/server/pub/hackdiet/Users/$user_file_name/$md.hdb");
             }
         }
+        if ($imported > 0) {
+            propagate_trend($ui, "0000-00", 0);
+        }
     }
 
 
@@ -10668,12 +10671,12 @@ EOD
 
     my $zto = 'bitbucket@fourmilab.ch';
     my $bn = <<"EOD";
-5258
+5259
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2022-04-05 19:18 UTC
+2026-10-01 19:39 UTC
 
 EOD
     $bt =~ s/\s+$//;
