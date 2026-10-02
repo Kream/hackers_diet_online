@@ -69,7 +69,7 @@ EOD
         if (!$noheader) {
             if ($handheld) {
                 print $fh <<"EOD";
-<h1 class="c"><a href="http://www.fourmilab.ch/hackdiet/online/hdo.html"><span class="title1">The Hacker's Diet <em>Online</em></span></a></h1>
+<h1 class="c"><span class="title1">The Hacker's Diet <em>Online</em></span></h1>
 
 EOD
             } else {
@@ -84,9 +84,7 @@ EOD
 </a>
 </td>
 <td align="center" valign="top">
-<a href="http://www.fourmilab.ch/hackdiet/online/hdo.html"><span class="title1">The Hacker's Diet <em>Online</em></span></a><br />
-<span class="title2">How to lose weight and hair<br />
-through stress and poor nutrition</span>
+<span class="title1">The Hacker's Diet <em>Online</em></span>
 </td>
 <td class="ricon">
 <a href="http://www.fourmilab.ch/hackdiet" class="i"><img src="$homeBase/figures/titleicon.png"
