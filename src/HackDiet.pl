@@ -3122,13 +3122,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5261
+5262
 
 EOD
         $bn =~ s/\s+$/:/;
         print $fh <<"EOD";
 <p class="build">
-Build $bn 2026-10-02 15:05 UTC
+Build $bn 2026-10-02 17:06 UTC
 </p>
 EOD
 #    }
@@ -10668,16 +10668,18 @@ EOD
 
     if (!$readOnly) {
         
-    $from = "noreply\@fourmilab.ch" if !defined($from);
-
-    my $zto = 'bitbucket@fourmilab.ch';
+    my $user_from = $from;
+    $from = $ENV{HDO_MAIL_FROM};
+    die("HDO_MAIL_FROM is not set") if !defined($from) || $from eq '';
+    my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
+    die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-5261
+5262
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-02 15:05 UTC
+2026-10-02 17:06 UTC
 
 EOD
     $bt =~ s/\s+$//;
@@ -10701,7 +10703,7 @@ To: $zto\r
 Subject: [HackDiet Feedback] $category\r
 Content-type: text/plain; charset=utf-8\r
 \r
-From:     $ui->{login_name} <$from>$fullName\r
+From:     $ui->{login_name} <$user_from>$fullName\r
 Category: $category\r
 Subject:  $subject$browser\r
 Build:    $bn: $bt\r
@@ -10715,16 +10717,16 @@ EOD
         if ($CGIargs{copy_sender}) {
             
     open(MAIL, "|-:utf8", "/usr/lib/sendmail",
-            "-fnoreply\@fourmilab.ch",
-            $from) ||
+            "-f$from",
+            $user_from) ||
         die("Cannot create pipe to /usr/lib/sendmail");
     print MAIL <<"EOD";
 From $from\r
-To: $from\r
+To: $user_from\r
 Subject: [Hacker's Diet Online Feedback] $category\r
 Content-type: text/plain; charset=utf-8\r
 \r
-From:     $ui->{login_name} <$from>\r
+From:     $ui->{login_name} <$user_from>\r
 Category: $category\r
 Subject:  $subject\r
 \r
