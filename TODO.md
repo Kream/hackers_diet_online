@@ -7,4 +7,4 @@
 2026-10-02 15:42 implement Telegram notifications on weight log including Δ. 
 2026-10-02 15:39 restrict account creation to admin user
 2026-10-02 15:41 allow Google OAuth authentication for registered users
-
+2026-10-02 18:41 check "Two leftovers are not in this commit. webdoc/hdiet.js still defines loadDietCalcFields(), and nothing calls it." - this is from removing the diet calculator 
