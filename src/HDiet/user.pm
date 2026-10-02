@@ -538,7 +538,7 @@ EOD
         open(MAIL, "|-:utf8", "/usr/lib/sendmail",
                 "-f$from",
                 $self->{e_mail}) ||
-            die("Cannot create pipe to /usr/lib/sendmail");
+            return 0;
         print MAIL <<"EOD";
 From $from\r
 To: $self->{e_mail}\r
@@ -548,7 +548,7 @@ Content-type: text/plain; charset=utf-8\r
 $message
 .\r
 EOD
-        close(MAIL);
+        return close(MAIL) ? 1 : 0;
     }
 
     sub exportUserInformationXML {

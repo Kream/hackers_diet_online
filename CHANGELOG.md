@@ -8,6 +8,8 @@
         docker/msmtprc - msmtp config file
         docker/sendmail-msmtp - msmtp (sendmail)  wrapper
 ### Changed
+    - 2026-10-02 15:00 fixed a flaw where the password reset system reset the password even if the password reset email was not properly sent. Now, the password is only reset if the mail is properly
+      sent.
     - 2026-10-02 14:35 for password reset mails, HDO_MAIL_FROM and HDO_MAIL_DOMAIN are now to be defined in secrets.env. There's a sendmail wrapper that now supplies the EHLO name. Feedback is still 
       TODO.
     - 2026-10-02 12:54 UTC remember-me cookie gains Secure when HDO_SITE_SCHEME is https. Apache PassEnv now forwards that scheme, or mod_cgid would hide it and the flag would never be set. Build 5260.

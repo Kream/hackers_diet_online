@@ -3122,13 +3122,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5260
+5261
 
 EOD
         $bn =~ s/\s+$/:/;
         print $fh <<"EOD";
 <p class="build">
-Build $bn 2026-10-02 12:54 UTC
+Build $bn 2026-10-02 15:05 UTC
 </p>
 EOD
 #    }
@@ -4270,15 +4270,9 @@ EOD
 
     $ui->resetPassword(8);
 
-    
-    open(FU, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
-        die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    $ui->save(\*FU);
-    close(FU);
-    clusterCopy("/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-
-
-    
+    # Mail first. resetPassword only changes this object. The account file
+    # is written below, and only if sendMail returns true. A failed pipe
+    # must not replace the password the user still knows.
     $ui->sendMail("Password reset",
 "Your password for The Hacker's Diet Online:
 
@@ -4293,7 +4287,14 @@ lower case letters are not the same.  After logging into your
 account with this new password, you are encouraged to change
 your password to something easier to remember, but difficult
 for a stranger to guess.
-\n");
+\n") ||
+        die("There was an error properly sending the password reset email. The password was not changed.");
+
+    open(FU, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
+    $ui->save(\*FU);
+    close(FU);
+    clusterCopy("/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
 
 
     
@@ -10671,12 +10672,12 @@ EOD
 
     my $zto = 'bitbucket@fourmilab.ch';
     my $bn = <<"EOD";
-5260
+5261
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-02 12:54 UTC
+2026-10-02 15:05 UTC
 
 EOD
     $bt =~ s/\s+$//;
