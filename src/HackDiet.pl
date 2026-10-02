@@ -886,156 +886,6 @@ EOD
 
     exit(0);
 
-        } elsif ($CGIargs{q} eq 'backup') {
-            
-    
-    $CGIargs{s} = '' if !defined($CGIargs{s});
-    if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
-        die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
-    }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
-        %CGIargs = (
-            q => "relogin",
-        );
-        if (!$inHTML) {
-            goto requeue;
-        }
-        next;
-    }
-    $session->load(\*FS);
-    close(FS);
-    my $user_name = $session->{login_name};
-    my $real_user_name = $user_name;
-    my $effective_user_name = '';
-    my $assumed_identity = 0;
-    my $browse_public = 0;
-    $readOnly = $session->{read_only};
-    if ($readOnly) {
-        delete $browsing_user_requests{browsepub};
-        delete $browsing_user_requests{do_public_browseacct};
-    }
-    if ($session->{effective_name} ne '') {
-        $assumed_identity = 1;
-        $effective_user_name = $session->{effective_name};
-    } elsif ($session->{browse_name} ne '') {
-        $browse_public = 1;
-        $effective_user_name = $session->{browse_name};
-        if (!$browsing_user_requests{$CGIargs{q}}) {
-            my $qun = quoteUserName($real_user_name);
-            my $qpn = quoteUserName($effective_user_name);
-            die("Invalid \"$CGIargs{q}\" transaction attempted by $qun while browsing public account $qpn");
-        }
-    }
-    my $user_file_name = quoteUserName($user_name);
-
-
-    
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
-        die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
-
-    if ($assumed_identity) {
-        if (!$ui->{administrator}) {
-            die("Attempt by non-administrator $user_file_name to assume identity");
-        }
-        $user_name = $effective_user_name;
-        $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
-            die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
-    } elsif ($browse_public) {
-        my $pn = HDiet::pubname->new();
-        if (defined($pn->findPublicName($effective_user_name))) {
-            $user_name = $pn->{public_name};
-            $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
-                die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
-        } else {
-            $browse_public = 0;
-        }
-    }
-
-
-    my $nlogs = `ls -1 /server/pub/hackdiet/Users/$user_file_name/????-??.hdb 2>/dev/null | wc -l`;
-    chomp($nlogs);
-
-    if ($nlogs > 0) {
-        my ($year, $mon, $mday, $hour, $min, $sec) =
-            unix_time_to_civil_date_time($userTime);
-        my $date = sprintf("%04d-%02d-%02d", $year, $mon, $mday);
-
-        print($fh "Content-type: application/zip\r\n");
-        print($fh "Content-disposition: attachment; filename=\"hackdiet_log_backup_$date.zip\"\r\n");
-        print($fh "\r\n");
-
-        system("zip -q -j - /server/pub/hackdiet/Users/$user_file_name/????-??.hdb");
-        exit(0);
-    }
-
-
-    print($fh "Content-type: text/html\r\n\r\n");
-
-write_XHTML_prologue($fh, $homeBase, "Download backup copy", undef, $session->{handheld});
-generate_XHTML_navigation_bar($fh, $homeBase, $session->{session_id}, undef, undef, $browse_public, $timeZoneOffset);
-
-
-    if ($readOnly) {
-        print $fh <<"EOD";
-<h3 class="browsing">Read-only access: Changes are not saved.</h3>
-EOD
-    }
-
-    if ($assumed_identity) {
-        my $eu = quoteHTML($effective_user_name);
-        print $fh <<"EOD";
-<form id="Hdiet_quitadm" method="post" action="/cgi-bin/HackDiet">
-<div>
-<input type="hidden" name="q" value="quitbrowse" />
-<input type="hidden" name="s" value="$session->{session_id}" />
-</div>
-
-<h3 class="browsing">Administrator accessing account of $eu
-&nbsp; &nbsp; &nbsp;
-<input type="submit"
-    title="End browsing this account" value="Exit" />
-</h3>
-</form>
-EOD
-    } elsif ($browse_public) {
-        my $eu = quoteHTML($effective_user_name);
-        print $fh <<"EOD";
-<form id="Hdiet_quitbrowse" method="post" action="/cgi-bin/HackDiet">
-<div>
-<input type="hidden" name="q" value="quitbrowse" />
-<input type="hidden" name="s" value="$session->{session_id}" />
-</div>
-
-<h3 class="browsing">Browsing public account $eu
-&nbsp; &nbsp; &nbsp;
-<input type="submit"
-    title="End browsing this public account" value="Exit" />
-</h3>
-</form>
-EOD
-    }
-
-
-print $fh <<"EOD";
-<h1 class="c">You have no logs to back up!</h1>
-
-<h4 class="nav"><a href="/cgi-bin/HackDiet?q=log&amp;s=$session->{session_id}$tzOff">Back to monthly log</a></h4>
-EOD
-write_XHTML_epilogue($fh, $homeBase);
-
-    update_last_transaction($user_file_name) if !$readOnly;
-    exit(0);
-
         } elsif ($CGIargs{q} eq 'do_exportdb') {
             
     
@@ -3013,7 +2863,6 @@ EOD
 
     <li class="skip"><a href="/cgi-bin/HackDiet?s=$session->{session_id}&amp;q=exportdb$tzOff">Export database as CSV or XML</a></li>
     <li><a href="/cgi-bin/HackDiet?s=$session->{session_id}&amp;q=importcsv$tzOff">Import CSV  or XML database</a></li>
-    <li><a href="/cgi-bin/HackDiet?s=$session->{session_id}&amp;q=backup$tzOff">Download native database backup</a></li>
 
     <li class="skip"><a href="/cgi-bin/HackDiet?s=$session->{session_id}&amp;q=wipedb$tzOff">Delete entire log database</a></li>
     <li><a href="/cgi-bin/HackDiet?s=$session->{session_id}&amp;q=closeaccount$tzOff">Close this user account</a></li>
@@ -3118,13 +2967,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5266
+5267
 
 EOD
         $bn =~ s/\s+$/:/;
         print $fh <<"EOD";
 <p class="build">
-Build $bn 2026-10-02 19:10 UTC
+Build $bn 2026-10-02 19:22 UTC
 </p>
 EOD
 #    }
@@ -8674,12 +8523,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-5266
+5267
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-02 19:10 UTC
+2026-10-02 19:22 UTC
 
 EOD
     $bt =~ s/\s+$//;
