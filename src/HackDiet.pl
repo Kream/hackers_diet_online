@@ -3008,7 +3008,6 @@ EOD
         
     print $fh <<"EOD";
     <li class="skip"><a href="/cgi-bin/HackDiet?s=$session->{session_id}&amp;q=modacct$tzOff">Edit account settings</a></li>
-    <li><a href="/cgi-bin/HackDiet?s=$session->{session_id}&amp;q=paper_logs$tzOff">Print paper log forms</a></li>
     <li><a href="/cgi-bin/HackDiet?s=$session->{session_id}&amp;q=update_trend&amp;m=0000-00&amp;canon=0$tzOff">Recalculate trend carry-forward</a></li>
     <li><a href="/cgi-bin/HackDiet?s=$session->{session_id}&amp;q=clearcookies$tzOff">Forget persistent logins</a></li>
 
@@ -3119,13 +3118,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5265
+5266
 
 EOD
         $bn =~ s/\s+$/:/;
         print $fh <<"EOD";
 <p class="build">
-Build $bn 2026-10-02 18:54 UTC
+Build $bn 2026-10-02 19:10 UTC
 </p>
 EOD
 #    }
@@ -8675,12 +8674,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-5265
+5266
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-02 18:54 UTC
+2026-10-02 19:10 UTC
 
 EOD
     $bt =~ s/\s+$//;
