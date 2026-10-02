@@ -27,6 +27,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         cpanminus \
         libssl-dev \
         perl \
+        ca-certificates \
+        msmtp \
     && cpanm --notest \
         Crypt::OpenSSL::AES \
         Digest::SHA1 \
@@ -62,7 +64,11 @@ RUN mkdir -p /server/bin/httpd/cgi-bin \
 RUN rm -f /etc/apache2/sites-enabled/* \
     && cp /opt/hackers_diet_online/docker/apache/hackersdiet.conf /etc/apache2/sites-available/hackersdiet.conf \
     && a2enmod cgid \
-    && a2ensite hackersdiet
+    && a2ensite hackersdiet \
+    && cp /opt/hackers_diet_online/docker/msmtprc /etc/msmtprc \
+    && chmod 644 /etc/msmtprc \
+    && cp /opt/hackers_diet_online/docker/sendmail-msmtp /usr/lib/sendmail \
+    && chmod 755 /usr/lib/sendmail
 
 VOLUME ["/server/pub/hackdiet"]
 

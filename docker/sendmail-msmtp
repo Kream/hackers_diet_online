@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ -z "$HDO_MAIL_DOMAIN" ]; then
+    echo "HDO_MAIL_DOMAIN is not set" >&2
+    exit 78
+fi
+exec /usr/bin/msmtp --domain "$HDO_MAIL_DOMAIN" "$@"

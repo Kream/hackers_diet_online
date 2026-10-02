@@ -532,7 +532,8 @@ EOD
         my $self = shift;
         my ($subject, $message, $from) = @_;
 
-        $from = "noreply\@fourmilab.ch" if !defined($from);
+        $from = $ENV{HDO_MAIL_FROM} if !defined($from) || $from eq '';
+        die("HDO_MAIL_FROM is not set") if !defined($from) || $from eq '';
 
         open(MAIL, "|-:utf8", "/usr/lib/sendmail",
                 "-f$from",
