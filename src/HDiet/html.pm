@@ -25,7 +25,7 @@
 
         $onload = '' if !$onload;
         $noheader = 0 if !$noheader;
-        my $stylesheet = $handheld ? 'hdiet_handheld' : 'hdiet';
+        my $stylesheet = 'hdiet';
         print $fh <<"EOD";
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -67,12 +67,6 @@ EOD
 EOD
 
         if (!$noheader) {
-            if ($handheld) {
-                print $fh <<"EOD";
-<h1 class="c"><span class="title1">The Hacker's Diet <em>Online</em></span></h1>
-
-EOD
-            } else {
                 print $fh <<"EOD";
 <table class="title">
 <tr>
@@ -96,7 +90,6 @@ EOD
 </table>
 
 EOD
-            }
         }
     }
 

@@ -1725,7 +1725,6 @@ EOD
     #   Create new session and add file to session directory
     my $s = HDiet::session->new($CGIargs{HDiet_username});
     $s->{read_only} = $readOnly;
-    $s->{handheld} = 1 if $CGIargs{HDiet_handheld};
     $s->{cookie} = $cookieLogin;
     open(FS, ">:utf8", "/server/pub/hackdiet/Sessions/$s->{session_id}.hds") ||
         die("Cannot create session file /server/pub/hackdiet/Sessions/$s->{session_id}.hds");
@@ -2967,13 +2966,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5267
+5268
 
 EOD
         $bn =~ s/\s+$/:/;
         print $fh <<"EOD";
 <p class="build">
-Build $bn 2026-10-02 19:22 UTC
+Build $bn 2026-10-02 19:40 UTC
 </p>
 EOD
 #    }
@@ -8523,12 +8522,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-5267
+5268
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-02 19:22 UTC
+2026-10-02 19:40 UTC
 
 EOD
     $bt =~ s/\s+$//;

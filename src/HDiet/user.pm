@@ -248,8 +248,6 @@ EOD
 &nbsp;
 <input type="reset" value=" Reset " />
 <br />
-<input type="checkbox" name="HDiet_handheld" id="HDiet_handheld"
-       value="y"$ckhandheld />&nbsp;<label for="HDiet_handheld">Handheld&nbsp;device</label>
 &nbsp;
 <input type="checkbox" name="HDiet_remember" id="HDiet_remember"
        value="y"$ckremember />&nbsp;<label for="HDiet_remember">Remember&nbsp;me</label>
