@@ -144,6 +144,14 @@
         return ($domain, $path);
     }
 
+    # Secure is a browser rule, not a Perl check. document.cookie can set it
+    # only when this page was loaded over HTTPS. HDO_SITE_SCHEME is baked at
+    # image build and must also be PassEnv'd or mod_cgid will not show it.
+    sub cookie_secure_flag {
+        my $scheme = $ENV{HDO_SITE_SCHEME} // '';
+        return lc($scheme) eq 'https';
+    }
+
     sub generateCookie {
         my $self = shift;
         my ($name) = @_;
@@ -154,6 +162,7 @@
         push(@parts, "Path=$path");
         push(@parts, "Expires=" .
                 jd_to_old_cookie_date(unix_time_to_jd($self->{expiry_time})));
+        push(@parts, "Secure") if cookie_secure_flag();
         return join("; ", @parts);
     }
 
@@ -167,6 +176,7 @@
         push(@parts, "Path=$path");
         push(@parts, "Expires=" .
                 jd_to_old_cookie_date(gregorian_to_jd(1990, 1, 1)));
+        push(@parts, "Secure") if cookie_secure_flag();
         return join("; ", @parts);
     }
 

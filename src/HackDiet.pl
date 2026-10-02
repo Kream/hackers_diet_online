@@ -3122,13 +3122,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5259
+5260
 
 EOD
         $bn =~ s/\s+$/:/;
         print $fh <<"EOD";
 <p class="build">
-Build $bn 2026-10-01 19:39 UTC
+Build $bn 2026-10-02 12:54 UTC
 </p>
 EOD
 #    }
@@ -10671,12 +10671,12 @@ EOD
 
     my $zto = 'bitbucket@fourmilab.ch';
     my $bn = <<"EOD";
-5259
+5260
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-01 19:39 UTC
+2026-10-02 12:54 UTC
 
 EOD
     $bt =~ s/\s+$//;
