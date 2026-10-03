@@ -419,11 +419,9 @@ EOD
 <th>Fat 🔥</th>
 EOD
 
-    if (!$browse_public) {
-        print $fh <<"EOD";
+    print $fh <<"EOD";
 <th>Comments</th>
 EOD
-    }
 
     print $fh <<"EOD";
 </tr>
@@ -500,20 +498,16 @@ EOD
     }
     print($fh "</td>\n");
 
-            if (!$browse_public) {
-                
-    print($fh "<td>");
-    my $cmt = quoteHTML(defined($self->{comment}[$i]) ? $self->{comment}[$i] : "");
-    if ($edit) {
-        print($fh "<input type=\"text\" name=\"c$i\" id=\"c$i\" size=\"60\" " .
-                  "maxlength=\"4096\" " .
-                  "value=\"$cmt\" onchange=\"changeComment($i);\" />");
-    } else {
-        print($fh $cmt);
-    }
-    print($fh "</td>\n");
-
+            print($fh "<td>");
+            my $cmt = quoteHTML(defined($self->{comment}[$i]) ? $self->{comment}[$i] : "");
+            if ($edit) {
+                print($fh "<input type=\"text\" name=\"c$i\" id=\"c$i\" size=\"60\" " .
+                          "maxlength=\"4096\" " .
+                          "value=\"$cmt\" onchange=\"changeComment($i);\" />");
+            } else {
+                print($fh $cmt);
             }
+            print($fh "</td>\n");
 
             print($fh "</tr>\n");
         }

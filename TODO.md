@@ -1,5 +1,4 @@
 # Do before Launch
-2026-10-02 18:06 allow pseudonym view to see comments
 2026-10-03 03:52 centre align the checkbox in the Fat burning field
 2026-10-02 15:38 implement logging system so weightlog updates, account creation and password reset attempts are logged
 2026-10-02 15:42 implement Telegram notifications on weight log including Δ. 
