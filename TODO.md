@@ -1,5 +1,4 @@
 2026-10-02 18:06 allow pseudonym view to see comments
-2026-10-02 18:07 change "Flag" in weight log to "Fat burning"
 2026-10-02 18:08 see whether "Rung" stuff can be removed
 2026-10-02 15:38 implement logging system so weightlog updates, account creation and password reset attempts are logged
 2026-10-02 15:42 implement Telegram notifications on weight log including Δ. 
