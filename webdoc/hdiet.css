@@ -368,6 +368,10 @@
         text-align: right;
     }
 
+    td.c {
+        text-align: center;
+    }
+
     span.r {
         color: #FF0000;
         background-color: #D0D0D0;

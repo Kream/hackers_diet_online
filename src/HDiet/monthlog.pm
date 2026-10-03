@@ -486,7 +486,7 @@ EOD
     }
 
             
-    print($fh "<td>");
+    print($fh "<td class=\"c\">");
     if ($edit) {
         print($fh "<input type=\"checkbox\" name=\"f$i\" id=\"f$i\" onclick=\"updateFlag($i);\"" .
             ($self->{flag}[$i] ? " checked=\"checked\"" : "") . " />");
