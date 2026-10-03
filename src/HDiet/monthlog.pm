@@ -410,7 +410,7 @@
 <th>Trend</th>
 <th>Var.</th>
 <th>Rung</th>
-<th>Flag</th>
+<th>Fat 🔥</th>
 EOD
 
     if (!$browse_public) {

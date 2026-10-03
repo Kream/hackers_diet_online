@@ -7,3 +7,4 @@
 2026-10-02 15:41 allow Google OAuth authentication for registered users
 2026-10-02 18:41 check "Two leftovers are not in this commit. webdoc/hdiet.js still defines loadDietCalcFields(), and nothing calls it." - this is from removing the diet calculator 
 2026-10-02 19:00 check "HackDietBadge.pl is still copied into the image, so a direct /cgi-bin/HackDietBadge URL can still answer." - after removing the web badge functionality
+2026-10-03 03:26 check "Still unused, and not served as a control: the forgotten-password line that would have appended HDiet_handheld=y, and hdiet_handheld.css in the image."
