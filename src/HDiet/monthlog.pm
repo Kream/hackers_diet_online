@@ -409,7 +409,13 @@
 <th>Weight</th>
 <th>Trend</th>
 <th>Var.</th>
+EOD
+    if ($browse_public) {
+        print $fh <<"EOD";
 <th>Rung</th>
+EOD
+    }
+    print $fh <<"EOD";
 <th>Fat 🔥</th>
 EOD
 
@@ -477,14 +483,9 @@ EOD
                     var($var, $decimal_character) . "</span></td>\n");
 
             
-    print($fh "<td>");
-    if ($edit) {
-        print($fh "<input type=\"text\" name=\"r$i\" id=\"r$i\" size=\"3\" value=\"" .
-            bnd($self->{rung}[$i]) . "\" onchange=\"changeRung($i);\" />");
-    } else {
-        print($fh bnd($self->{rung}[$i]));
+    if ($browse_public) {
+        print($fh "<td>" . bnd($self->{rung}[$i]) . "</td>\n");
     }
-    print($fh "</td>\n");
 
             
     print($fh "<td>");
