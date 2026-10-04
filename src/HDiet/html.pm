@@ -32,7 +32,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>The Hacker's Diet Online: $pageTitle</title>
+<title>The Word of Mouth Diet: $pageTitle</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 EOD
 
@@ -46,6 +46,8 @@ EOD
         print $fh <<"EOD";
 <link rel="stylesheet" href="$homeBase/$stylesheet.css" type="text/css" />
 <link rel="shortcut icon" href="$homeBase/figures/hdicon.ico" />
+<link rel="apple-touch-icon" href="$homeBase/figures/apple-touch-icon.png" />
+<link rel="manifest" href="$homeBase/manifest.json" />
 <script type="text/javascript" src="$homeBase/hdiet.js">
 </script>
 EOD
