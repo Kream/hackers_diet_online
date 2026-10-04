@@ -1,8 +1,11 @@
 # Do before Launch
+2026-10-03 20:02 implement logging of weightlog updates including Δ and NLW / NLW-since ELWD (Earlier Lowest Weight Date) where ELWD is more than 15 days earlier
 2026-10-02 15:38 implement logging system so weightlog updates, account creation and password reset attempts are logged
 2026-10-02 15:42 implement Telegram notifications on weight log including Δ. 
 
 # Post-Launch
+2026-10-03 20:08 log and notify streaks in fat burning 
+2026-10-03 20:09 log and notify streaks in consecutive days of weight loss
 2026-10-02 15:39 restrict account creation to admin user
 2026-10-02 15:41 allow Google OAuth authentication for registered users
 2026-10-02 18:41 check "Two leftovers are not in this commit. webdoc/hdiet.js still defines loadDietCalcFields(), and nothing calls it." - this is from removing the diet calculator 
