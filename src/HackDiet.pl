@@ -4861,7 +4861,41 @@ EOD
                     my $who = $user_name;
                     $who =~ s/[\r\n\t]/ /g;
                     $today_weight =~ s/[\r\n\t]/ /g;
-                    print $slf "$stamp user $who $today_weight\n";
+                    my $previous = '';
+                    for (my $d = $userMday - 1; $d >= 1; $d--) {
+                            if (defined($mlog->{weight}[$d]) && $mlog->{weight}[$d] ne '') {
+                                $previous = $mlog->{weight}[$d];
+                                last;
+                            }
+                    }
+                    if ($previous eq '') {
+                        my $this_month = sprintf("%04d-%02d", $mlog->{year}, $mlog->{month});
+                        foreach my $mon (reverse($ui->enumerateMonths())) {
+                            next if $mon ge $this_month;
+                            if (open(my $ofl, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$mon.hdb")) {
+                                my $old = HDiet::monthlog->new();
+                                $old->load($ofl);
+                                close($ofl);
+                                for (my $d = $old->monthdays(); $d >= 1; $d--) {
+                                    if (defined($old->{weight}[$d]) && $old->{weight}[$d] ne '') {
+                                        $previous = $old->{weight}[$d];
+                                        last;
+                                    }
+                                }
+                            }
+                            last if $previous ne '';
+                        }
+                    }
+                    my $delta = '';
+                    if ($previous ne '') {
+                        my $diff = $today_weight - $previous;
+                        if ($mlog->{log_unit} == HDiet::monthlog::WEIGHT_KILOGRAM) {
+                            $delta = sprintf(" \x{0394} %+dg.", sprintf("%.0f", $diff * 1000));
+                        } else {
+                            $delta = sprintf(" \x{0394} %+.1flb.", $diff);
+                        }
+                    }
+                    print $slf "$stamp user $who $today_weight$delta\n";
                     close($slf);
                 }
             }
