@@ -71,20 +71,20 @@ EOD
 <table class="title">
 <tr>
 <td class="licon">
-<a href="http://www.fourmilab.ch/" class="i"><img src="$homeBase/figures/swlogo.png"
+<a href="/" class="i"><img src="$homeBase/figures/swlogo.png"
     id="flicon"
     class="b0" width="82" height="74"
-    alt="Fourmilab home" />
+    alt="Home" />
 </a>
 </td>
 <td align="center" valign="top">
 <span class="title1">The Word of Mouth Diet</span>
 </td>
 <td class="ricon">
-<a href="http://www.fourmilab.ch/hackdiet" class="i"><img src="$homeBase/figures/titleicon.png"
+<img src="$homeBase/figures/titleicon.png"
     id="hdicon"
     class="b0" width="82" height="80"
-    alt="The Hacker's Diet Home" /></a>
+    alt="The Hacker's Diet Home" />
 </td>
 </tr>
 </table>
