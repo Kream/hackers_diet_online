@@ -2969,10 +2969,10 @@ EOD
 5275
 
 EOD
-        $bn =~ s/\s+$/:/;
+        $bn =~ s/\s+$//;
         print $fh <<"EOD";
 <p class="build">
-Build $bn 2026-10-04 12:02 UTC
+<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-04 12:02 UTC
 </p>
 EOD
 #    }

@@ -1,6 +1,7 @@
 # Changelog 
 ## Unreleased
 ### Added
+    - 2026-10-04 12:09 new weight logs or modifications to the current day's weight logs are logged in the site log
     - 2026-10-03 19:57 On new account creation, write a logfile with IST timing to /server/pub/hackdiet/log/hdo.log
     - firstnames.txt and lastnames.txt files to generate pseudonyms that users can share with others who then want to be able to view their progress. In the absence of these files, selecting "add a 
       pseudonym" fails.
@@ -9,6 +10,7 @@
         docker/msmtprc - msmtp config file
         docker/sendmail-msmtp - msmtp (sendmail)  wrapper
 ### Changed
+    - 2026-10-04 12:10 In Utilities, the build text now is a hyperlink to the github repo
     - 2026-10-04 11:08 Changed the date format for the site log
     - 2026-10-03 16:15 the Fat burn checkbox is now centre-aligned, not left-aligned. Also updated CHANGELOG.md   
     - 2026-10-03 14:45 public account view shows the weight-log comments as text. The owner's log still has the input box. Build 5271.
