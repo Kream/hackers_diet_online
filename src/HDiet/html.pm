@@ -78,7 +78,7 @@ EOD
 </a>
 </td>
 <td align="center" valign="top">
-<span class="title1">The Hacker's Diet <em>Online</em></span>
+<span class="title1">The Word of Mouth Diet</span>
 </td>
 <td class="ricon">
 <a href="http://www.fourmilab.ch/hackdiet" class="i"><img src="$homeBase/figures/titleicon.png"
