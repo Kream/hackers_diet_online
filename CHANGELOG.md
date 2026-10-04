@@ -10,6 +10,7 @@
         docker/msmtprc - msmtp config file
         docker/sendmail-msmtp - msmtp (sendmail)  wrapper
 ### Changed
+    - 2026-10-04 14:42 site log weight delta is from the previous logged day, not today's old value. Kilograms show grams. Pounds stay pounds. Build 5276.
     - 2026-10-04 12:10 In Utilities, the build text now is a hyperlink to the github repo
     - 2026-10-04 11:08 Changed the date format for the site log
     - 2026-10-03 16:15 the Fat burn checkbox is now centre-aligned, not left-aligned. Also updated CHANGELOG.md   
