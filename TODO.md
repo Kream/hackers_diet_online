@@ -1,9 +1,11 @@
 # Do before Launch
-2026-10-03 20:02 implement logging of weightlog updates including Δ and NLW / NLW-since ELWD (Earlier Lowest Weight Date) where ELWD is more than 15 days earlier
-2026-10-02 15:38 implement logging system so weightlog updates, account creation and password reset attempts are logged
+2026-10-03 20:02 implement logging of weightlog updates including Δ
+2026-10-02 15:38 implement logging system so weightlog updates, account creation are logged
 2026-10-02 15:42 implement Telegram notifications on weight log including Δ. 
 
 # Post-Launch
+2026-10-04 11:17 in weightlog addition log include message about NLW / NLW-since Earlier Lowest Weight Date (ELWD) where ELWD is more than 15 days ago.
+2026-10-04 11:18 consider logging failed login attempts
 2026-10-03 20:08 log and notify streaks in fat burning 
 2026-10-03 20:09 log and notify streaks in consecutive days of weight loss
 2026-10-02 15:39 restrict account creation to admin user
