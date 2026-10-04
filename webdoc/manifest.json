@@ -1,0 +1,18 @@
+{
+  "name": "Word of Mouth",
+  "short_name": "Word of Mouth",
+  "icons": [
+    {
+      "src": "/hackdiet/online/figures/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/hackdiet/online/figures/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/cgi-bin/HackDiet",
+  "display": "standalone"
+}
