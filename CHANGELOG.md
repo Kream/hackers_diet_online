@@ -10,6 +10,7 @@
         docker/msmtprc - msmtp config file
         docker/sendmail-msmtp - msmtp (sendmail)  wrapper
 ### Changed
+    - 2026-10-04 20:34 Dockerfile makes the copied webdoc tree readable, so a restrictive host umask cannot leave CSS and images at mode 600. Build number unchanged.
     - 2026-10-04 19:25 Dockerfile makes the CGI tree readable after copy, so a restrictive host umask cannot leave www-data unable to read HackDiet.pl. Build number unchanged.
     - 2026-10-04 16:59 Fixed the links for the icons on the top of the page, changed the site name. Ready to go live with this. Build 5277.
     - 2026-10-04 14:42 site log weight delta is from the previous logged day, not today's old value. Kilograms show grams. Pounds stay pounds. Build 5276.

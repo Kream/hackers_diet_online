@@ -58,7 +58,7 @@ RUN mkdir -p /server/bin/httpd/cgi-bin \
     && mkdir -p /var/www/html/hackdiet/online \
     && rm -rf /var/www/html/hackdiet/online/* \
     && cp -r /opt/hackers_diet_online/webdoc/. /var/www/html/hackdiet/online/ \
-    && chmod -R a+rX /server/bin/httpd/cgi-bin && chmod 755 /server/bin/httpd/cgi-bin/*.pl /opt/hackers_diet_online/docker/entrypoint.sh /opt/hackers_diet_online/docker/rewrite-links.sh \
+    && chmod -R a+rX /server/bin/httpd/cgi-bin /var/www/html/hackdiet/online && chmod 755 /server/bin/httpd/cgi-bin/*.pl /opt/hackers_diet_online/docker/entrypoint.sh /opt/hackers_diet_online/docker/rewrite-links.sh \
     && chown -R www-data:www-data /server/pub/hackdiet
 
 RUN rm -f /etc/apache2/sites-enabled/* \
