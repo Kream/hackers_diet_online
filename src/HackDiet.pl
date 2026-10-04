@@ -2966,13 +2966,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5274
+5275
 
 EOD
         $bn =~ s/\s+$/:/;
         print $fh <<"EOD";
 <p class="build">
-Build $bn 2026-10-04 11:06 UTC
+Build $bn 2026-10-04 12:02 UTC
 </p>
 EOD
 #    }
@@ -4833,6 +4833,12 @@ EOD
 
 
 
+    my $weight_before = '';
+    if (($mlog->{year} == $userYear) && ($mlog->{month} == $userMon)
+        && defined($mlog->{weight}[$userMday])) {
+        $weight_before = $mlog->{weight}[$userMday];
+    }
+
     my ($changes, $change_weight, $change_rung,
         $change_flag, $change_comment) = $mlog->updateFromCGI(\%CGIargs);
 
@@ -4845,6 +4851,21 @@ EOD
         close(FL);
         clusterCopy("/server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb");
 
+        if (($mlog->{year} == $userYear) && ($mlog->{month} == $userMon)) {
+            my $today_weight = defined($mlog->{weight}[$userMday]) ? $mlog->{weight}[$userMday] : '';
+            if (($today_weight ne '') && ($today_weight ne $weight_before)) {
+                if (open(my $slf, ">>:utf8", "/server/pub/hackdiet/log/hdo.log")) {
+                    my @t = gmtime(time() + 19800);
+                    my @mon = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
+                    my $stamp = sprintf("%d %s %d IST %02d:%02d:%02d", $t[5] + 1900, $mon[$t[4]], $t[3], $t[2], $t[1], $t[0]);
+                    my $who = $user_name;
+                    $who =~ s/[\r\n\t]/ /g;
+                    $today_weight =~ s/[\r\n\t]/ /g;
+                    print $slf "$stamp user $who $today_weight\n";
+                    close($slf);
+                }
+            }
+        }
 
         append_history($user_file_name, 5,
             "$CGIargs{m},$changes,$change_weight,$change_rung,$change_flag,$change_comment");
@@ -8534,12 +8555,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-5274
+5275
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-04 11:06 UTC
+2026-10-04 12:02 UTC
 
 EOD
     $bt =~ s/\s+$//;
