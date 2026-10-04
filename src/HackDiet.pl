@@ -2966,13 +2966,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5273
+5274
 
 EOD
         $bn =~ s/\s+$/:/;
         print $fh <<"EOD";
 <p class="build">
-Build $bn 2026-10-03 19:22 UTC
+Build $bn 2026-10-04 11:06 UTC
 </p>
 EOD
 #    }
@@ -3160,7 +3160,9 @@ EOD
     clusterCopy("/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
 
     if (open(my $slf, ">>:utf8", "/server/pub/hackdiet/log/hdo.log")) {
-        my $stamp = gmtime(time() + 19800) . " IST";
+        my @t = gmtime(time() + 19800);
+        my @mon = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
+        my $stamp = sprintf("%d %s %d IST %02d:%02d:%02d", $t[5] + 1900, $mon[$t[4]], $t[3], $t[2], $t[1], $t[0]);
         my $who = $ui->{login_name};
         my $mail = $ui->{e_mail};
         $who =~ s/[\r\n\t]/ /g;
@@ -8532,12 +8534,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-5273
+5274
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-03 19:22 UTC
+2026-10-04 11:06 UTC
 
 EOD
     $bt =~ s/\s+$//;

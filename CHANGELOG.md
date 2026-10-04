@@ -9,7 +9,8 @@
         docker/msmtprc - msmtp config file
         docker/sendmail-msmtp - msmtp (sendmail)  wrapper
 ### Changed
-	- 2026-10-03 16:15 the Fat burn checkbox is now centre-aligned, not left-aligned. Also updated CHANGELOG.md   
+    - 2026-10-04 11:08 Changed the date format for the site log
+    - 2026-10-03 16:15 the Fat burn checkbox is now centre-aligned, not left-aligned. Also updated CHANGELOG.md   
     - 2026-10-03 14:45 public account view shows the weight-log comments as text. The owner's log still has the input box. Build 5271.
     - 2026-10-03 03:30 the weight-log column header Flag is now Fat 🔥. The control is still the checkbox and still stores 1. Build 5269.
     - 2026-10-02 17:07 feedback mail uses HDO_MAIL_FROM and HDO_FEEDBACK_RECIPIENT from secrets.env. Build 5262.:
