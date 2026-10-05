@@ -2966,13 +2966,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-15279
+15280
 
 EOD
         $bn =~ s/\s+$//;
         print $fh <<"EOD";
 <p class="build">
-<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-05 10:44 UTC
+<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-05 11:55 UTC
 </p>
 EOD
 #    }
@@ -4900,7 +4900,33 @@ EOD
                             - gregorian_to_jd($previous_year, $previous_month, $previous_day);
                         $gap = sprintf(" (%dd)", $days) if $days > 1;
                     }
-                    print $slf "$stamp user $who $today_weight$delta$gap\n";
+                    my $quote_comment = sub {
+                        my ($c) = @_;
+                        return "" if !defined($c);
+                        $c =~ s/[\r\n\t]+/ /g;
+                        $c =~ s/^\s+|\s+$//g;
+                        return "" if $c eq "";
+                        $c =~ s/"/\\"/g;
+                        return qq{"$c"};
+                    };
+                    my $today_comment = $quote_comment->($mlog->{comment}[$userMday]);
+                    my $prev_comment = "";
+                    if ($userMday > 1) {
+                        $prev_comment = $quote_comment->($mlog->{comment}[$userMday - 1]);
+                    } else {
+                        my ($py, $pm) = $mlog->previousMonth();
+                        my $prev_mon = sprintf("%04d-%02d", $py, $pm);
+                        if (open(my $ycl, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$prev_mon.hdb")) {
+                            my $yesterday = HDiet::monthlog->new();
+                            $yesterday->load($ycl);
+                            close($ycl);
+                            $prev_comment = $quote_comment->($yesterday->{comment}[$yesterday->monthdays()]);
+                        }
+                    }
+                    my $note = "";
+                    $note .= " $today_comment" if $today_comment ne "";
+                    $note .= " (Prev) $prev_comment" if $prev_comment ne "";
+                    print $slf "$stamp user $who $today_weight$delta$gap$note\n";
                     close($slf);
                 }
             }
@@ -8594,12 +8620,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-15279
+15280
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-05 10:44 UTC
+2026-10-05 11:55 UTC
 
 EOD
     $bt =~ s/\s+$//;
