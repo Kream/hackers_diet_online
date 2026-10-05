@@ -10,6 +10,7 @@
         docker/msmtprc - msmtp config file
         docker/sendmail-msmtp - msmtp (sendmail)  wrapper
 ### Changed
+    - 2026-10-05 12:20 UTC site log for a current-day weight change appends today's comment in quotes, then (Prev) and yesterday's comment in quotes. Yesterday means the previous calendar day, including the last day of the previous month. A blank comment is omitted. Build 5280.
     - 2026-10-05 10:19 site log weight delta includes the calendar gap, such as (2d), when the previous weight is older than yesterday. Build 5279.
     - 2026-10-04 22:29 document title is The Word of Mouth Diet, with an iPhone touch icon and an Android manifest. Build 5278.
     - 2026-10-04 20:34 Dockerfile makes the copied webdoc tree readable, so a restrictive host umask cannot leave CSS and images at mode 600. Build number unchanged.
