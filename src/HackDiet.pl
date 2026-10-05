@@ -2966,13 +2966,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5278
+5279
 
 EOD
         $bn =~ s/\s+$//;
         print $fh <<"EOD";
 <p class="build">
-<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-04 22:37 UTC
+<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-05 11:00 UTC
 </p>
 EOD
 #    }
@@ -4861,10 +4861,11 @@ EOD
                     my $who = $user_name;
                     $who =~ s/[\r\n\t]/ /g;
                     $today_weight =~ s/[\r\n\t]/ /g;
-                    my $previous = '';
+                    my ($previous, $previous_year, $previous_month, $previous_day) = ('', 0, 0, 0);
                     for (my $d = $userMday - 1; $d >= 1; $d--) {
                             if (defined($mlog->{weight}[$d]) && $mlog->{weight}[$d] ne '') {
                                 $previous = $mlog->{weight}[$d];
+                                ($previous_year, $previous_month, $previous_day) = ($mlog->{year}, $mlog->{month}, $d);
                                 last;
                             }
                     }
@@ -4879,6 +4880,7 @@ EOD
                                 for (my $d = $old->monthdays(); $d >= 1; $d--) {
                                     if (defined($old->{weight}[$d]) && $old->{weight}[$d] ne '') {
                                         $previous = $old->{weight}[$d];
+                                        ($previous_year, $previous_month, $previous_day) = ($old->{year}, $old->{month}, $d);
                                         last;
                                     }
                                 }
@@ -4886,7 +4888,7 @@ EOD
                             last if $previous ne '';
                         }
                     }
-                    my $delta = '';
+                    my ($delta, $gap) = ('', '');
                     if ($previous ne '') {
                         my $diff = $today_weight - $previous;
                         if ($mlog->{log_unit} == HDiet::monthlog::WEIGHT_KILOGRAM) {
@@ -4894,8 +4896,11 @@ EOD
                         } else {
                             $delta = sprintf(" \x{0394} %+.1flb.", $diff);
                         }
+                        my $days = gregorian_to_jd($userYear, $userMon, $userMday)
+                            - gregorian_to_jd($previous_year, $previous_month, $previous_day);
+                        $gap = sprintf(" (%dd)", $days) if $days > 1;
                     }
-                    print $slf "$stamp user $who $today_weight$delta\n";
+                    print $slf "$stamp user $who $today_weight$delta$gap\n";
                     close($slf);
                 }
             }
@@ -8589,12 +8594,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-5278
+5279
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-04 22:37 UTC
+2026-10-05 11:00 UTC
 
 EOD
     $bt =~ s/\s+$//;
