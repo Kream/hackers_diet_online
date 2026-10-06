@@ -2966,13 +2966,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-15280
+15281
 
 EOD
         $bn =~ s/\s+$//;
         print $fh <<"EOD";
 <p class="build">
-<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-05 11:55 UTC
+<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-06 14:06 UTC
 </p>
 EOD
 #    }
@@ -4900,6 +4900,47 @@ EOD
                             - gregorian_to_jd($previous_year, $previous_month, $previous_day);
                         $gap = sprintf(" (%dd)", $days) if $days > 1;
                     }
+                    my $mark = "";
+                    my $today_jd = gregorian_to_jd($userYear, $userMon, $userMday);
+                    my ($window_min, $recent_low, $recent_jd, $earlier_le);
+                    my $note_weight = sub {
+                        my ($y, $m, $d, $w) = @_;
+                        return if !defined($w) || $w eq "";
+                        my $jd = gregorian_to_jd($y, $m, $d);
+                        return if $jd >= $today_jd;
+                        $earlier_le = 1 if $w <= $today_weight;
+                        if ($jd >= $today_jd - 15) {
+                            $window_min = $w if !defined($window_min) || $w < $window_min;
+                        } elsif ($w < $today_weight && (!defined($recent_jd) || $jd > $recent_jd)) {
+                            $recent_low = $w;
+                            $recent_jd = $jd;
+                        }
+                    };
+                    for (my $d = 1; $d < $userMday; $d++) {
+                        $note_weight->($mlog->{year}, $mlog->{month}, $d, $mlog->{weight}[$d]);
+                    }
+                    my $mark_month = sprintf("%04d-%02d", $mlog->{year}, $mlog->{month});
+                    foreach my $mon (reverse($ui->enumerateMonths())) {
+                        next if $mon ge $mark_month;
+                        if (open(my $mfl, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$mon.hdb")) {
+                            my $oldlog = HDiet::monthlog->new();
+                            $oldlog->load($mfl);
+                            close($mfl);
+                            for (my $d = 1; $d <= $oldlog->monthdays(); $d++) {
+                                $note_weight->($oldlog->{year}, $oldlog->{month}, $d, $oldlog->{weight}[$d]);
+                            }
+                        }
+                    }
+                    if (!defined($window_min) || $today_weight < $window_min) {
+                        if (defined($recent_jd)) {
+                            my ($oy, $om, $od) = jd_to_gregorian($recent_jd);
+                            my $grams = sprintf("%.0f", ($today_weight - $recent_low) *
+                                HDiet::monthlog::WEIGHT_CONVERSION->[$mlog->{log_unit}][HDiet::monthlog::WEIGHT_KILOGRAM] * 1000);
+                            $mark = sprintf(" \x{2606} LWI %02d-%02d-%02d %dd %+dg.", $od, $om, $oy % 100, $today_jd - $recent_jd, $grams);
+                        } elsif (!$earlier_le) {
+                            $mark = " \x{272A}NLW";
+                        }
+                    }
                     my $quote_comment = sub {
                         my ($c) = @_;
                         return "" if !defined($c);
@@ -4926,7 +4967,7 @@ EOD
                     my $note = "";
                     $note .= " $today_comment" if $today_comment ne "";
                     $note .= " (Prev) $prev_comment" if $prev_comment ne "";
-                    print $slf "$stamp user $who $today_weight$delta$gap$note\n";
+                    print $slf "$stamp user $who $today_weight$delta$gap$mark$note\n";
                     close($slf);
                 }
             }
@@ -8620,12 +8661,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-15280
+15281
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-05 11:55 UTC
+2026-10-06 14:06 UTC
 
 EOD
     $bt =~ s/\s+$//;
