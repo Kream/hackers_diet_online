@@ -3,14 +3,14 @@
 ### Added
     - 2026-10-04 12:09 new weight logs or modifications to the current day's weight logs are logged in the site log
     - 2026-10-03 19:57 On new account creation, write a logfile with IST timing to /server/pub/hackdiet/log/hdo.log
-    - firstnames.txt and lastnames.txt files to generate pseudonyms that users can share with others who then want to be able to view their progress. In the absence of these files, selecting "add a 
-      pseudonym" fails.
+    - firstnames.txt and lastnames.txt files to generate pseudonyms that users can share with others who then want to be able to view their progress. In the absence of these files, selecting "add a pseudonym" fails.
     - 2026-10-02 14:37 TODO.md
     - 2026-10-02 14:37 
         docker/msmtprc - msmtp config file
         docker/sendmail-msmtp - msmtp (sendmail)  wrapper
 ### Changed
-    - 2026-10-05 12:20 UTC site log for a current-day weight change appends today's comment in quotes, then (Prev) and yesterday's comment in quotes. Yesterday means the previous calendar day, including the last day of the previous month. A blank comment is omitted. Build 5280.
+    - 2026-10-06 14:16 if weight is lower than the lowest in 15 days, write log mentioning that it's the lowest weight in (number) days, the number of days since that date and the difference in the weight. if weight is the lowest so far recorded then it mentions New Low Weight and by how much. Build 5281.
+    - 2026-10-05 12:20 site log for a current-day weight change appends today's comment in quotes, then (Prev) and yesterday's comment in quotes. Yesterday means the previous calendar day, including the last day of the previous month. A blank comment is omitted. Build 5280.
     - 2026-10-05 10:19 site log weight delta includes the calendar gap, such as (2d), when the previous weight is older than yesterday. Build 5279.
     - 2026-10-04 22:29 document title is The Word of Mouth Diet, with an iPhone touch icon and an Android manifest. Build 5278.
     - 2026-10-04 20:34 Dockerfile makes the copied webdoc tree readable, so a restrictive host umask cannot leave CSS and images at mode 600. Build number unchanged.
@@ -23,14 +23,10 @@
     - 2026-10-03 14:45 public account view shows the weight-log comments as text. The owner's log still has the input box. Build 5271.
     - 2026-10-03 03:30 the weight-log column header Flag is now Fat 🔥. The control is still the checkbox and still stores 1. Build 5269.
     - 2026-10-02 17:07 feedback mail uses HDO_MAIL_FROM and HDO_FEEDBACK_RECIPIENT from secrets.env. Build 5262.:
-    - 2026-10-02 15:00 fixed a flaw where the password reset system reset the password even if the password reset email was not properly sent. Now, the password is only reset if the mail is properly
-      sent.
-    - 2026-10-02 14:35 for password reset mails, HDO_MAIL_FROM and HDO_MAIL_DOMAIN are now to be defined in secrets.env. There's a sendmail wrapper that now supplies the EHLO name. Feedback is still 
-      TODO.
+    - 2026-10-02 15:00 fixed a flaw where the password reset system reset the password even if the password reset email was not properly sent. Now, the password is only reset if the mail is properly sent.
+    - 2026-10-02 14:35 for password reset mails, HDO_MAIL_FROM and HDO_MAIL_DOMAIN are now to be defined in secrets.env. There's a sendmail wrapper that now supplies the EHLO name. Feedback is still TODO.
     - 2026-10-02 12:54 remember-me cookie gains Secure when HDO_SITE_SCHEME is https. Apache PassEnv now forwards that scheme, or mod_cgid would hide it and the flag would never be set. Build 5260.
-    - 2026-10-01 19:45 on import of a backup, carry the previous month's last trend into the imported log instead of letting the next month recompute from zero. This is the first real improvement to 
-      the code since the passing of John Walker (1949-2024). What a titan you were and thank you forever for open-sourcing your code. Rest in Peace. Also increments the build id by 1 so we're in build 
-      5259, after a hiatus in development of about 4 years.
+    - 2026-10-01 19:45 on import of a backup, carry the previous month's last trend into the imported log instead of letting the next month recompute from zero. This is the first real improvement to the code since the passing of John Walker (1949-2024). What a titan you were and thank you forever for open-sourcing your code. Rest in Peace. Also increments the build id by 1 so we're in build 5259, after a hiatus in development of about 4 years.
     - 2026-09-30 17:47 docker/entrypoint.sh copies firstnames.txt and lastnames.txt from the image into the Pubname data directory every start so a fresh bind mount gets the lists without a manual copy
 ### Removed
     - 2026-10-03 03:57 Rung is hidden on the weight-log entry page. The public account view and the month file still have it. Build 5270.
