@@ -2966,13 +2966,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5281
+5282
 
 EOD
         $bn =~ s/\s+$//;
         print $fh <<"EOD";
 <p class="build">
-<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-06 14:15 UTC
+<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-07 08:54 UTC
 </p>
 EOD
 #    }
@@ -4967,7 +4967,8 @@ EOD
                     my $note = "";
                     $note .= " $today_comment" if $today_comment ne "";
                     $note .= " (Prev) $prev_comment" if $prev_comment ne "";
-                    print $slf "$stamp user $who $today_weight$delta$gap$mark$note\n";
+                    my $flame = (defined($mlog->{flag}[$userMday]) && $mlog->{flag}[$userMday]) ? " \x{1F525} " : "";
+                    print $slf "$stamp user $who $today_weight$flame$delta$gap$mark$note\n";
                     close($slf);
                 }
             }
@@ -8661,12 +8662,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-5281
+5282
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-06 14:15 UTC
+2026-10-07 08:54 UTC
 
 EOD
     $bt =~ s/\s+$//;

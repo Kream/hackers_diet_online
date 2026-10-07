@@ -9,6 +9,7 @@
         docker/msmtprc - msmtp config file
         docker/sendmail-msmtp - msmtp (sendmail)  wrapper
 ### Changed
+    - 2026-10-07 09:10 if the flag checkbox is ticked, insert the flame emoji in the site log. Build 5282.
     - 2026-10-06 14:16 if weight is lower than the lowest in 15 days, write log mentioning that it's the lowest weight in (number) days, the number of days since that date and the difference in the weight. if weight is the lowest so far recorded then it mentions New Low Weight and by how much. Build 5281.
     - 2026-10-05 12:20 site log for a current-day weight change appends today's comment in quotes, then (Prev) and yesterday's comment in quotes. Yesterday means the previous calendar day, including the last day of the previous month. A blank comment is omitted. Build 5280.
     - 2026-10-05 10:19 site log weight delta includes the calendar gap, such as (2d), when the previous weight is older than yesterday. Build 5279.
