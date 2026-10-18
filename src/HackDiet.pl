@@ -2966,13 +2966,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-5282
+5283
 
 EOD
         $bn =~ s/\s+$//;
         print $fh <<"EOD";
 <p class="build">
-<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-07 08:54 UTC
+<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-18 16:24 UTC
 </p>
 EOD
 #    }
@@ -4902,13 +4902,17 @@ EOD
                     }
                     my $mark = "";
                     my $today_jd = gregorian_to_jd($userYear, $userMon, $userMday);
-                    my ($window_min, $recent_low, $recent_jd, $earlier_le);
+                    my ($window_min, $recent_low, $recent_jd, $earlier_le, $prev_low, $prev_low_jd);
                     my $note_weight = sub {
                         my ($y, $m, $d, $w) = @_;
                         return if !defined($w) || $w eq "";
                         my $jd = gregorian_to_jd($y, $m, $d);
                         return if $jd >= $today_jd;
                         $earlier_le = 1 if $w <= $today_weight;
+                        if (!defined($prev_low) || $w < $prev_low || ($w == $prev_low && $jd > $prev_low_jd)) {
+                            $prev_low = $w;
+                            $prev_low_jd = $jd;
+                        }
                         if ($jd >= $today_jd - 15) {
                             $window_min = $w if !defined($window_min) || $w < $window_min;
                         } elsif ($w < $today_weight && (!defined($recent_jd) || $jd > $recent_jd)) {
@@ -4939,6 +4943,7 @@ EOD
                             $mark = sprintf(" \x{2606} LWI %02d-%02d-%02d %dd %+dg.", $od, $om, $oy % 100, $today_jd - $recent_jd, $grams);
                         } elsif (!$earlier_le) {
                             $mark = " \x{272A}NLW";
+                            $mark .= sprintf(" (%dd)", $today_jd - $prev_low_jd) if defined($prev_low_jd);
                         }
                     }
                     my $quote_comment = sub {
@@ -8662,12 +8667,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-5282
+5283
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-07 08:54 UTC
+2026-10-18 16:24 UTC
 
 EOD
     $bt =~ s/\s+$//;
