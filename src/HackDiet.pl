@@ -2966,13 +2966,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-15283
+15284
 
 EOD
         $bn =~ s/\s+$//;
         print $fh <<"EOD";
 <p class="build">
-<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-18 15:44 UTC
+<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-20 14:06 UTC
 </p>
 EOD
 #    }
@@ -4904,8 +4904,9 @@ EOD
                     my $today_jd = gregorian_to_jd($userYear, $userMon, $userMday);
                     my ($window_min, $recent_low, $recent_jd, $earlier_le, $prev_low, $prev_low_jd);
                     my $note_weight = sub {
-                        my ($y, $m, $d, $w) = @_;
+                        my ($y, $m, $d, $w, $from_unit) = @_;
                         return if !defined($w) || $w eq "";
+                        $w *= HDiet::monthlog::WEIGHT_CONVERSION->[$from_unit][$mlog->{log_unit}];
                         my $jd = gregorian_to_jd($y, $m, $d);
                         return if $jd >= $today_jd;
                         $earlier_le = 1 if $w <= $today_weight;
@@ -4921,7 +4922,7 @@ EOD
                         }
                     };
                     for (my $d = 1; $d < $userMday; $d++) {
-                        $note_weight->($mlog->{year}, $mlog->{month}, $d, $mlog->{weight}[$d]);
+                        $note_weight->($mlog->{year}, $mlog->{month}, $d, $mlog->{weight}[$d], $mlog->{log_unit});
                     }
                     my $mark_month = sprintf("%04d-%02d", $mlog->{year}, $mlog->{month});
                     foreach my $mon (reverse($ui->enumerateMonths())) {
@@ -4931,7 +4932,7 @@ EOD
                             $oldlog->load($mfl);
                             close($mfl);
                             for (my $d = 1; $d <= $oldlog->monthdays(); $d++) {
-                                $note_weight->($oldlog->{year}, $oldlog->{month}, $d, $oldlog->{weight}[$d]);
+                                $note_weight->($oldlog->{year}, $oldlog->{month}, $d, $oldlog->{weight}[$d], $oldlog->{log_unit});
                             }
                         }
                     }
@@ -8667,12 +8668,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-15283
+15284
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-18 15:44 UTC
+2026-10-20 14:06 UTC
 
 EOD
     $bt =~ s/\s+$//;
