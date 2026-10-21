@@ -420,7 +420,7 @@ EOD
 EOD
 
     print $fh <<"EOD";
-<th>Comments</th>
+<th>Notes for myself on food, sleep and fat 🔥</th>
 EOD
 
     print $fh <<"EOD";
