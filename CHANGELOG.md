@@ -9,6 +9,7 @@
         docker/msmtprc - msmtp config file
         docker/sendmail-msmtp - msmtp (sendmail)  wrapper
 ### Changed
+    - 2026-10-21 14:05 Tweaked the header text of the Comments field to hopefully provoke more comment entries.
     - 2026-10-18 16:25 when the site logs a New Low Weight (NLW) it also adds the number of days since the last NLW. Build 5283.
     - 2026-10-07 09:10 if the flag checkbox is ticked, insert the flame emoji in the site log. Build 5282.
     - 2026-10-06 14:16 if weight is lower than the lowest in 15 days, write log mentioning that it's the lowest weight in (number) days, the number of days since that date and the difference in the weight. if weight is the lowest so far recorded then it mentions New Low Weight and by how much. Build 5281.
