@@ -2966,13 +2966,13 @@ EOD
     
 #    if (0) {
         my $bn = <<"EOD";
-15285
+25285
 
 EOD
         $bn =~ s/\s+$//;
         print $fh <<"EOD";
 <p class="build">
-<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-21 13:49 UTC
+<a href="https://github.com/Kream/hackers_diet_online" target="_blank" rel="noopener">Build $bn</a>: 2026-10-21 15:45 UTC
 </p>
 EOD
 #    }
@@ -8668,12 +8668,12 @@ EOD
     my $zto = $ENV{HDO_FEEDBACK_RECIPIENT};
     die("HDO_FEEDBACK_RECIPIENT is not set") if !defined($zto) || $zto eq '';
     my $bn = <<"EOD";
-15285
+25285
 
 EOD
     $bn =~ s/\s+$//;
     my $bt = <<"EOD";
-2026-10-21 13:49 UTC
+2026-10-21 15:45 UTC
 
 EOD
     $bt =~ s/\s+$//;
