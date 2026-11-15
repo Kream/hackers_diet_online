@@ -29,6 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         perl \
         ca-certificates \
         msmtp \
+        libfaketime \
+        curl \
     && cpanm --notest \
         Crypt::OpenSSL::AES \
         Digest::SHA1 \
