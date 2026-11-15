@@ -1112,10 +1112,9 @@ EOD
     for (my $i = 0; $i <= $#logs; $i++) {
         if (($logs[$i] ge $start_ym) && ($logs[$i] le $end_ym)) {
             my $mlog = HDiet::monthlog->new();
-            open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb") ||
-                die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb");
-            $mlog->load(\*FL);
-            close(FL);
+            $mlog = HDiet::Store->read_month($user_file_name, $logs[$i]);
+            die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb")
+                unless defined $mlog;
 
             $mlog->exportXML($fh, 1);
 
@@ -1235,10 +1234,9 @@ EOD
     for (my $i = 0; $i <= $#logs; $i++) {
         if (($logs[$i] ge $start_ym) && ($logs[$i] le $end_ym)) {
             my $mlog = HDiet::monthlog->new();
-            open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb") ||
-                die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb");
-            $mlog->load(\*FL);
-            close(FL);
+            $mlog = HDiet::Store->read_month($user_file_name, $logs[$i]);
+            die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb")
+                unless defined $mlog;
 
             $mlog->exportCSV($fh);
 
@@ -1331,10 +1329,9 @@ EOD
     for (my $i = 0; $i <= $#logs; $i++) {
         if (($logs[$i] ge $start_ym) && ($logs[$i] le $end_ym)) {
             my $mlog = HDiet::monthlog->new();
-            open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb") ||
-                die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb");
-            $mlog->load(\*FL);
-            close(FL);
+            $mlog = HDiet::Store->read_month($user_file_name, $logs[$i]);
+            die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb")
+                unless defined $mlog;
 
             $mlog->exportHDReadCSV($fh);
 
@@ -1427,10 +1424,9 @@ EOD
     for (my $i = 0; $i <= $#logs; $i++) {
         if (($logs[$i] ge $start_ym) && ($logs[$i] le $end_ym)) {
             my $mlog = HDiet::monthlog->new();
-            open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb") ||
-                die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb");
-            $mlog->load(\*FL);
-            close(FL);
+            $mlog = HDiet::Store->read_month($user_file_name, $logs[$i]);
+            die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb")
+                unless defined $mlog;
 
             $mlog->exportExcelCSV($fh);
 
