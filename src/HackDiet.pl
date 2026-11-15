@@ -4840,10 +4840,8 @@ EOD
                         my $this_month = sprintf("%04d-%02d", $mlog->{year}, $mlog->{month});
                         foreach my $mon (reverse($ui->enumerateMonths())) {
                             next if $mon ge $this_month;
-                            if (open(my $ofl, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$mon.hdb")) {
-                                my $old = HDiet::monthlog->new();
-                                $old->load($ofl);
-                                close($ofl);
+                            my $old = HDiet::Store->read_month($user_file_name, $mon);
+                            if (defined $old) {
                                 for (my $d = $old->monthdays(); $d >= 1; $d--) {
                                     if (defined($old->{weight}[$d]) && $old->{weight}[$d] ne '') {
                                         $previous = $old->{weight}[$d];
@@ -4894,10 +4892,8 @@ EOD
                     my $mark_month = sprintf("%04d-%02d", $mlog->{year}, $mlog->{month});
                     foreach my $mon (reverse($ui->enumerateMonths())) {
                         next if $mon ge $mark_month;
-                        if (open(my $mfl, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$mon.hdb")) {
-                            my $oldlog = HDiet::monthlog->new();
-                            $oldlog->load($mfl);
-                            close($mfl);
+                        my $oldlog = HDiet::Store->read_month($user_file_name, $mon);
+                        if (defined $oldlog) {
                             for (my $d = 1; $d <= $oldlog->monthdays(); $d++) {
                                 $note_weight->($oldlog->{year}, $oldlog->{month}, $d, $oldlog->{weight}[$d], $oldlog->{log_unit});
                             }
@@ -4930,10 +4926,8 @@ EOD
                     } else {
                         my ($py, $pm) = $mlog->previousMonth();
                         my $prev_mon = sprintf("%04d-%02d", $py, $pm);
-                        if (open(my $ycl, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$prev_mon.hdb")) {
-                            my $yesterday = HDiet::monthlog->new();
-                            $yesterday->load($ycl);
-                            close($ycl);
+                        my $yesterday = HDiet::Store->read_month($user_file_name, $prev_mon);
+                        if (defined $yesterday) {
                             $prev_comment = $quote_comment->($yesterday->{comment}[$yesterday->monthdays()]);
                         }
                     }
