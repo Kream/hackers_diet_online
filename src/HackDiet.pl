@@ -417,11 +417,8 @@ EOD
         my @logs = $ui->enumerateMonths();
         for (my $m = $#logs; $m >= 0; $m--) {
             if ($logs[$m] lt $cmon) {
-                my $llog = HDiet::monthlog->new();
-                open(LL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$logs[$m].hdb") ||
-                    die("Cannot open previous monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$m].hdb");
-                $llog->load(\*LL);
-                close(LL);
+                my $llog = HDiet::Store->read_month($user_file_name, $logs[$m]);
+                next unless defined $llog;
                 for (my $d = $llog->monthdays(); $d >= 1; $d--) {
                     if ($llog->{trend}[$d]) {
                         $mlog->{trend_carry_forward} = $llog->{trend}[$d] *
@@ -691,11 +688,8 @@ EOD
         my @logs = $ui->enumerateMonths();
         for (my $m = $#logs; $m >= 0; $m--) {
             if ($logs[$m] lt $cmon) {
-                my $llog = HDiet::monthlog->new();
-                open(LL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$logs[$m].hdb") ||
-                    die("Cannot open previous monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$m].hdb");
-                $llog->load(\*LL);
-                close(LL);
+                my $llog = HDiet::Store->read_month($user_file_name, $logs[$m]);
+                next unless defined $llog;
                 for (my $d = $llog->monthdays(); $d >= 1; $d--) {
                     if ($llog->{trend}[$d]) {
                         $mlog->{trend_carry_forward} = $llog->{trend}[$d] *
@@ -853,11 +847,8 @@ EOD
         my @logs = $ui->enumerateMonths();
         for (my $m = $#logs; $m >= 0; $m--) {
             if ($logs[$m] lt $cmon) {
-                my $llog = HDiet::monthlog->new();
-                open(LL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$logs[$m].hdb") ||
-                    die("Cannot open previous monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$m].hdb");
-                $llog->load(\*LL);
-                close(LL);
+                my $llog = HDiet::Store->read_month($user_file_name, $logs[$m]);
+                next unless defined $llog;
                 for (my $d = $llog->monthdays(); $d >= 1; $d--) {
                     if ($llog->{trend}[$d]) {
                         $mlog->{trend_carry_forward} = $llog->{trend}[$d] *
@@ -4354,11 +4345,8 @@ EOD
         my @logs = $ui->enumerateMonths();
         for (my $m = $#logs; $m >= 0; $m--) {
             if ($logs[$m] lt $cmon) {
-                my $llog = HDiet::monthlog->new();
-                open(LL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$logs[$m].hdb") ||
-                    die("Cannot open previous monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$m].hdb");
-                $llog->load(\*LL);
-                close(LL);
+                my $llog = HDiet::Store->read_month($user_file_name, $logs[$m]);
+                next unless defined $llog;
                 for (my $d = $llog->monthdays(); $d >= 1; $d--) {
                     if ($llog->{trend}[$d]) {
                         $mlog->{trend_carry_forward} = $llog->{trend}[$d] *
@@ -4811,11 +4799,8 @@ EOD
         my @logs = $ui->enumerateMonths();
         for (my $m = $#logs; $m >= 0; $m--) {
             if ($logs[$m] lt $cmon) {
-                my $llog = HDiet::monthlog->new();
-                open(LL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$logs[$m].hdb") ||
-                    die("Cannot open previous monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$m].hdb");
-                $llog->load(\*LL);
-                close(LL);
+                my $llog = HDiet::Store->read_month($user_file_name, $logs[$m]);
+                next unless defined $llog;
                 for (my $d = $llog->monthdays(); $d >= 1; $d--) {
                     if ($llog->{trend}[$d]) {
                         $mlog->{trend_carry_forward} = $llog->{trend}[$d] *
