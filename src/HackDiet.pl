@@ -6731,10 +6731,9 @@ EOD
         $mondb{$monkey} = $mlog;
         $monchanges{$monkey} = 0;
         if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
-            open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") ||
-                die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb");
-            $mlog->load(\*FL);
-            close(FL);
+            $mlog = HDiet::Store->read_month($user_file_name, $monkey);
+            die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb")
+                unless defined $mlog;
         } else {
             $mlog->{year} = $yy;
             $mlog->{month} = $mm;
@@ -6871,10 +6870,9 @@ EOD
         $mondb{$monkey} = $mlog;
         $monchanges{$monkey} = 0;
         if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
-            open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") ||
-                die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb");
-            $mlog->load(\*FL);
-            close(FL);
+            $mlog = HDiet::Store->read_month($user_file_name, $monkey);
+            die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb")
+                unless defined $mlog;
         } else {
             $mlog->{year} = $yy;
             $mlog->{month} = $mm;
@@ -6968,10 +6966,9 @@ EOD
         $mondb{$monkey} = $mlog;
         $monchanges{$monkey} = 0;
         if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
-            open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") ||
-                die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb");
-            $mlog->load(\*FL);
-            close(FL);
+            $mlog = HDiet::Store->read_month($user_file_name, $monkey);
+            die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb")
+                unless defined $mlog;
         } else {
             $mlog->{year} = $yy;
             $mlog->{month} = $mm;
