@@ -12,5 +12,5 @@ secrets.env
 docker-compose.override.yml
 
 # Per-developer agent notes / config — each contributor keeps their own
-*.bak
+*.bak*
 golden-step1/

@@ -94,6 +94,7 @@ This program is in the public domain.
     use HDiet::Aggregator;
     use HDiet::Cluster;
     use HDiet::monthlog;
+    use HDiet::Store;
     use HDiet::user;
     use HDiet::history;
     use HDiet::pubname;
@@ -666,12 +667,9 @@ EOD
     }
 
 
-    my $mlog = HDiet::monthlog->new();
-    if (-f "/server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb") {
-        open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb") ||
-            die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb");
-        $mlog->load(\*FL);
-        close(FL);
+    my $mlog = HDiet::Store->read_month($user_file_name, $CGIargs{m});
+    if (!defined $mlog) {
+        $mlog = HDiet::monthlog->new();
     } else {
         $mlog->{login_name} = $user_name;
         $CGIargs{m} =~ m/(^\d+)\-(\d+)$/;
@@ -825,12 +823,9 @@ EOD
     }
 
 
-    my $mlog = HDiet::monthlog->new();
-    if (-f "/server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb") {
-        open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb") ||
-            die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb");
-        $mlog->load(\*FL);
-        close(FL);
+    my $mlog = HDiet::Store->read_month($user_file_name, $CGIargs{m});
+    if (!defined $mlog) {
+        $mlog = HDiet::monthlog->new();
     } else {
         $mlog->{login_name} = $user_name;
         $CGIargs{m} =~ m/(^\d+)\-(\d+)$/;
@@ -4323,12 +4318,9 @@ EOD
     }
 
 
-    my $mlog = HDiet::monthlog->new();
-    if (-f "/server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb") {
-        open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb") ||
-            die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb");
-        $mlog->load(\*FL);
-        close(FL);
+    my $mlog = HDiet::Store->read_month($user_file_name, $CGIargs{m});
+    if (!defined $mlog) {
+        $mlog = HDiet::monthlog->new();
     } else {
         $mlog->{login_name} = $user_name;
         $CGIargs{m} =~ m/(^\d+)\-(\d+)$/;
@@ -4777,12 +4769,9 @@ EOD
     }
 
 
-    my $mlog = HDiet::monthlog->new();
-    if (-f "/server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb") {
-        open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb") ||
-            die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb");
-        $mlog->load(\*FL);
-        close(FL);
+    my $mlog = HDiet::Store->read_month($user_file_name, $CGIargs{m});
+    if (!defined $mlog) {
+        $mlog = HDiet::monthlog->new();
     } else {
         $mlog->{login_name} = $user_name;
         $CGIargs{m} =~ m/(^\d+)\-(\d+)$/;
