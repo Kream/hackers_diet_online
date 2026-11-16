@@ -14,6 +14,7 @@
 
     use HDiet::Julian qw(WEEKDAY_NAMES :DEFAULT);
     use HDiet::Cluster;
+    use HDiet::Store;
     use GD;
 
     require Exporter;
@@ -197,13 +198,9 @@
 
     for (my $monkey = sprintf("%04d-%02d", $start_y, $start_m); $monkey le sprintf("%04d-%02d", $end_y, $end_m); $monkey = sprintf("%04d-%02d", $cur_y, $cur_m)) {
         if (!$logs{$monkey}) {
-            if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
-                open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") ||
-                    die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb");
-                my $mlog = HDiet::monthlog->new();
+            my $mlog = HDiet::Store->read_month($user_file_name, $monkey);
+            if (defined $mlog) {
                 $logs{$monkey} = $mlog;
-                $mlog->load(\*FL);
-                close(FL);
             }
         }
         ($cur_y, $cur_m) = HDiet::monthlog::nextMonth($cur_y, $cur_m);
@@ -299,13 +296,9 @@
     for (my $monkey = sprintf("%04d-%02d", $start_y, $start_m);
          $monkey le sprintf("%04d-%02d", $end_y, $end_m);
          $monkey = sprintf("%04d-%02d", $cur_y, $cur_m)) {
-        if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
-            open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") ||
-                die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb");
-            my $mlog = HDiet::monthlog->new();
+        my $mlog = HDiet::Store->read_month($user_file_name, $monkey);
+        if (defined $mlog) {
             $logs{$monkey} = $mlog;
-            $mlog->load(\*FL);
-            close(FL);
 
             if (($cur_y == $end_y) && ($cur_m == $end_m)) {
                 $last_day = $end_d;
@@ -992,13 +985,9 @@
 
     for (my $monkey = sprintf("%04d-%02d", $start_y, $start_m); $monkey le sprintf("%04d-%02d", $end_y, $end_m); $monkey = sprintf("%04d-%02d", $cur_y, $cur_m)) {
         if (!$logs{$monkey}) {
-            if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
-                open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") ||
-                    die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb");
-                my $mlog = HDiet::monthlog->new();
+            my $mlog = HDiet::Store->read_month($user_file_name, $monkey);
+            if (defined $mlog) {
                 $logs{$monkey} = $mlog;
-                $mlog->load(\*FL);
-                close(FL);
             }
         }
         ($cur_y, $cur_m) = HDiet::monthlog::nextMonth($cur_y, $cur_m);
@@ -1115,12 +1104,10 @@ print("</pre>\n");
             for (my $m = $#months; $m >= 0; $m--) {
                 
     if (!$logs{$months[$m]}) {
-        open(FL, "<:utf8", "/server/pub/hackdiet/Users/$self->{user_file_name}/$months[$m].hdb") ||
-            die("Cannot open monthly log file /server/pub/hackdiet/Users/$self->{user_file_name}/$months[$m].hdb");
-        my $mlog = HDiet::monthlog->new();
+        my $mlog = HDiet::Store->read_month($self->{user_file_name}, $months[$m]);
+        die("Cannot open monthly log file /server/pub/hackdiet/Users/$self->{user_file_name}/$months[$m].hdb")
+            unless defined $mlog;
         $logs{$months[$m]} = $mlog;
-        $mlog->load(\*FL);
-        close(FL);
     }
 
                 for (my $d = $logs{$months[$m]}->monthdays(); $d >= 1;  $d--) {
@@ -1150,12 +1137,10 @@ print("</pre>\n");
             for (my $m = 0; $m <= $#months; $m++) {
                 
     if (!$logs{$months[$m]}) {
-        open(FL, "<:utf8", "/server/pub/hackdiet/Users/$self->{user_file_name}/$months[$m].hdb") ||
-            die("Cannot open monthly log file /server/pub/hackdiet/Users/$self->{user_file_name}/$months[$m].hdb");
-        my $mlog = HDiet::monthlog->new();
+        my $mlog = HDiet::Store->read_month($self->{user_file_name}, $months[$m]);
+        die("Cannot open monthly log file /server/pub/hackdiet/Users/$self->{user_file_name}/$months[$m].hdb")
+            unless defined $mlog;
         $logs{$months[$m]} = $mlog;
-        $mlog->load(\*FL);
-        close(FL);
     }
 
                 for (my $d = 1; $d <= $logs{$months[$m]}->monthdays();  $d++) {
