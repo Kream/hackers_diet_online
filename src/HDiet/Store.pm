@@ -24,4 +24,27 @@ sub read_month {
     return $mlog;
 }
 
+# list_months returns the user's month keys ("YYYY-MM"), sorted,
+# for every .hdb file in their directory, or only those in $year if given.
+# Copied from HDiet::user::enumerateMonths so behaviour is identical,
+# including its quirks: $year is used as a regex, and the pattern is not
+# anchored after ".hdb".
+sub list_months {
+    my ($class, $user_file_name, $year) = @_;
+
+    my $dir = "/server/pub/hackdiet/Users/$user_file_name";
+    my $selpat = $year ? $year : '\d+';
+
+    opendir(my $dh, $dir)
+        or die("Cannot open directory $dir");
+    my @logs;
+    foreach my $f (sort(grep(/^$selpat\-\d\d\.hdb/, readdir($dh)))) {
+        $f =~ s/\.\w*$//;
+        push(@logs, $f);
+    }
+    closedir($dh);
+
+    return @logs;
+}
+
 1;

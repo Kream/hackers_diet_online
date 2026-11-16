@@ -8,6 +8,7 @@
 
 
     use HDiet::monthlog qw();
+    use HDiet::Store;
 
     package HDiet::user;
 
@@ -616,19 +617,8 @@ EOD
         my ($year) = @_;
 
         my $user_file_name = quoteUserName($self->{login_name});
-        my $selpat = $year ? $year : '\d+';
 
-        opendir(CD, "/server/pub/hackdiet/Users/$user_file_name") ||
-            die("Cannot open directory /server/pub/hackdiet/Users/$user_file_name");
-        my @logs;
-        my $f;
-        foreach $f (sort(grep(/^$selpat\-\d\d\.hdb/, readdir(CD)))) {
-            $f =~ s/\.\w*$//;
-            push(@logs, $f);
-        }
-        closedir(CD);
-
-        return @logs;
+        return HDiet::Store->list_months($user_file_name, $year);
     }
 
     sub enumerateYears {
@@ -638,17 +628,14 @@ EOD
         my $lyear = '';
         my @years;
 
-        opendir(CD, "/server/pub/hackdiet/Users/$user_file_name") ||
-            die("Cannot open directory /server/pub/hackdiet/Users/$user_file_name");
         my $m;
-        foreach $m (sort(grep(/^\d+\-\d\d\.hdb/, readdir(CD)))) {
+        foreach $m (HDiet::Store->list_months($user_file_name)) {
             $m =~ m/^(\d+)\-/;
             if ($1 ne $lyear) {
                 $lyear = $1;
                 push(@years, $lyear);
             }
         }
-        closedir(CD);
 
         return @years;
     }
