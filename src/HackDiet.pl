@@ -401,8 +401,8 @@ EOD
 
     my $mlog = HDiet::Store->read_month($user_file_name, $CGIargs{m});
     if (!defined $mlog) {
+        # month file does not exist — create and initialise
         $mlog = HDiet::monthlog->new();
-    } else {
         $mlog->{login_name} = $user_name;
         $CGIargs{m} =~ m/(^\d+)\-(\d+)$/;
         my ($yy, $mm) = ($1, $2);
@@ -411,6 +411,9 @@ EOD
         $mlog->{log_unit} = $ui->{log_unit};
         $mlog->{last_modification_time} = 0;
         $mlog->{trend_carry_forward} = 0;
+    } else {
+        # month file exists — just ensure login_name is set
+        $mlog->{login_name} = $user_name;
     }
     
     if ($mlog->{trend_carry_forward} == 0) {
@@ -669,8 +672,8 @@ EOD
 
     my $mlog = HDiet::Store->read_month($user_file_name, $CGIargs{m});
     if (!defined $mlog) {
+        # month file does not exist — create and initialise
         $mlog = HDiet::monthlog->new();
-    } else {
         $mlog->{login_name} = $user_name;
         $CGIargs{m} =~ m/(^\d+)\-(\d+)$/;
         my ($yy, $mm) = ($1, $2);
@@ -679,6 +682,9 @@ EOD
         $mlog->{log_unit} = $ui->{log_unit};
         $mlog->{last_modification_time} = 0;
         $mlog->{trend_carry_forward} = 0;
+    } else {
+        # month file exists — just ensure login_name is set
+        $mlog->{login_name} = $user_name;
     }
     
     if ($mlog->{trend_carry_forward} == 0) {
@@ -825,8 +831,8 @@ EOD
 
     my $mlog = HDiet::Store->read_month($user_file_name, $CGIargs{m});
     if (!defined $mlog) {
+        # month file does not exist — create and initialise
         $mlog = HDiet::monthlog->new();
-    } else {
         $mlog->{login_name} = $user_name;
         $CGIargs{m} =~ m/(^\d+)\-(\d+)$/;
         my ($yy, $mm) = ($1, $2);
@@ -835,6 +841,9 @@ EOD
         $mlog->{log_unit} = $ui->{log_unit};
         $mlog->{last_modification_time} = 0;
         $mlog->{trend_carry_forward} = 0;
+    } else {
+        # month file exists — just ensure login_name is set
+        $mlog->{login_name} = $user_name;
     }
     
     if ($mlog->{trend_carry_forward} == 0) {
@@ -4316,8 +4325,8 @@ EOD
 
     my $mlog = HDiet::Store->read_month($user_file_name, $CGIargs{m});
     if (!defined $mlog) {
+        # month file does not exist — create and initialise
         $mlog = HDiet::monthlog->new();
-    } else {
         $mlog->{login_name} = $user_name;
         $CGIargs{m} =~ m/(^\d+)\-(\d+)$/;
         my ($yy, $mm) = ($1, $2);
@@ -4326,6 +4335,9 @@ EOD
         $mlog->{log_unit} = $ui->{log_unit};
         $mlog->{last_modification_time} = 0;
         $mlog->{trend_carry_forward} = 0;
+    } else {
+        # month file exists — just ensure login_name is set
+        $mlog->{login_name} = $user_name;
     }
     
     if ($mlog->{trend_carry_forward} == 0) {
@@ -4767,8 +4779,8 @@ EOD
 
     my $mlog = HDiet::Store->read_month($user_file_name, $CGIargs{m});
     if (!defined $mlog) {
+        # month file does not exist — create and initialise
         $mlog = HDiet::monthlog->new();
-    } else {
         $mlog->{login_name} = $user_name;
         $CGIargs{m} =~ m/(^\d+)\-(\d+)$/;
         my ($yy, $mm) = ($1, $2);
@@ -4777,6 +4789,9 @@ EOD
         $mlog->{log_unit} = $ui->{log_unit};
         $mlog->{last_modification_time} = 0;
         $mlog->{trend_carry_forward} = 0;
+    } else {
+        # month file exists — just ensure login_name is set
+        $mlog->{login_name} = $user_name;
     }
     
     if ($mlog->{trend_carry_forward} == 0) {
@@ -13270,18 +13285,11 @@ EOD
     
     sub validMailDomain {
         my ($dn) = @_;
-
-        my $nmx = `dig +short $dn MX | egrep -v ' 127\.0\.0.' | wc -l`;
-        $nmx =~ s/\s//g;
-
-        if ($nmx == 0) {
-            $nmx = `dig +short $dn A | egrep -v ' 127\.0\.0.' | wc -l`;
-            $nmx =~ s/\s//g;
-        }
-
-        return $nmx > 0;
+        # Temporary stub for Phase 1 Step 1 corpus runs under libfaketime.
+        # DNS lookups via dig hang under the preload. Mail is unused on dev.
+        # Remove this stub once the golden outputs are captured.
+        return 1;
     }
-
     
     sub drawText {
         my ($img, $text, $font, $size, $angle, $x, $y, $alignh, $alignv, $colour) = @_;
