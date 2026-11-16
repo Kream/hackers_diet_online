@@ -12,6 +12,7 @@
     package HDiet::Aggregator;
 
     use HDiet::Julian;
+    use HDiet::Store;
 
     require Exporter;
 
@@ -62,12 +63,8 @@
         my ($cur_y, $cur_m, $cur_d) = ($from_y, $from_m, $from_d);
         for (my $j = $start_jd; $j <= $end_jd; ) {
             my $monkey = sprintf("%04d-%02d", $cur_y, $cur_m);
-            if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
-                open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") ||
-                    die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb");
-                my $mlog = HDiet::monthlog->new();
-                $mlog->load(\*FL);
-                close(FL);
+            my $mlog = HDiet::Store->read_month($user_file_name, $monkey);
+            if (defined($mlog)) {
                 for (my $dd = $cur_d; $dd <= $mlog->monthdays(); $dd++) {
                     my ($rw, $rt) = ($mlog->{weight}[$dd], $mlog->{trend}[$dd]);
                     $rw *= HDiet::monthlog::WEIGHT_CONVERSION->[$mlog->{log_unit}][$self->{weight_unit}]
@@ -114,12 +111,8 @@
         my ($cur_y, $cur_m, $cur_d) = ($from_y, $from_m, $from_d);
         for (my $j = $start_jd; $j <= $end_jd; ) {
             my $monkey = sprintf("%04d-%02d", $cur_y, $cur_m);
-            if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
-                open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") ||
-                    die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb");
-                my $mlog = HDiet::monthlog->new();
-                $mlog->load(\*FL);
-                close(FL);
+            my $mlog = HDiet::Store->read_month($user_file_name, $monkey);
+            if (defined($mlog)) {
                 for (my $dd = $cur_d; $dd <= $mlog->monthdays(); $dd++) {
                     my ($rw, $rt) = ($mlog->{weight}[$dd], $mlog->{trend}[$dd]);
                     $rw *= HDiet::monthlog::WEIGHT_CONVERSION->[$mlog->{log_unit}][$self->{weight_unit}]

@@ -6,6 +6,8 @@
 
 
 
+- Remember HDiet::Aggregator (src/HDiet/Aggregator.pm). It powers the admin-only Global Statistics page (q=globalstats) and is the only code that reads every user's months at once, so the SQLite backend must serve it too. Its .hdb reads now go through HDiet::Store->read_month; UserAccount.hdu reads and the readdir of Users/ are still direct. The golden harness does not cover globalstats (needs an admin login). Pre-existing bug: when a month file is missing, retrieve() does not advance $j, so later days get the wrong dates until the next January resync. jig.pl imports HDiet::Aggregator but never calls it.
+
 REPORTED BY GROK BOT 2026-11-16
 
 **CSV/XML import wipes existing months** ([L6729-6737](https://github.com/Kream/hackers_diet_online/blob/3d656b6fb848bfa4aee7b7fae4009d22c31b4834/src/HackDiet.pl#L6729-L6737) and the two copies after it). A blank month gets put in `%mondb` first, and the month loaded from disk never replaces it. The save loop then writes the blank one over the real file. In my test, a month with 30 weights was empty after importing 2 rows. Load the month first, then cache it.
