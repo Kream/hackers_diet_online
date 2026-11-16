@@ -65,11 +65,11 @@ echo "Writing January days..."
 curl -s -X POST -d 'q=update_log' -d "s=$SESSION" -d 'm=2026-01' \
   -d 'w15=82.5' -d 'f15=1' -d 'c15=golden flag comment' "$BASE" > /dev/null
 curl -s -X POST -d 'q=update_log' -d "s=$SESSION" -d 'm=2026-01' \
-  -d 'w16=82.3' "$BASE" > /dev/null
+  -d 'f15=1' -d 'w16=82.3' "$BASE" > /dev/null
 curl -s -X POST -d 'q=update_log' -d "s=$SESSION" -d 'm=2026-01' \
-  -d 'c17=golden comment only' "$BASE" > /dev/null
+  -d 'f15=1' -d 'c17=golden comment only' "$BASE" > /dev/null
 curl -s -X POST -d 'q=update_log' -d "s=$SESSION" -d 'm=2026-01' \
-  -d 'w31=82.0' -d 'c31=end of january' "$BASE" > /dev/null
+  -d 'f15=1' -d 'w31=82.0' -d 'c31=end of january' "$BASE" > /dev/null
 echo "January writes done."
 
 echo "Writing February day 1..."
