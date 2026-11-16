@@ -10,6 +10,10 @@ BASE="http://127.0.0.1:8082/cgi-bin/HackDiet"
 echo "=== Golden run into $OUTDIR ==="
 # steps will be added here
 
+echo "Building image from current checkout..."
+docker compose build hackers-diet
+echo "Image built."
+
 echo "Restoring snapshot..."
 sudo rsync -a --delete /var/tmp/hdo-phase1-snapshot/ ./hackdiet-data/
 sudo chown -R www-data:www-data ./hackdiet-data
