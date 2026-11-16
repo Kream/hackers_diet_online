@@ -65,6 +65,11 @@ SESSION=$(curl -s -X POST \
   | cut -d= -f2)
 echo "Session: $SESSION"
 
+echo "Writing December 2025 day 10..."
+curl -s -X POST -d 'q=update_log' -d "s=$SESSION" -d 'm=2025-12' \
+  -d 'w10=83.0' -d 'c10=golden december' "$BASE" > /dev/null
+echo "December write done."
+
 echo "Writing January days..."
 curl -s -X POST -d 'q=update_log' -d "s=$SESSION" -d 'm=2026-01' \
   -d 'w15=82.5' -d 'f15=1' -d 'c15=golden flag comment' "$BASE" > /dev/null
@@ -80,6 +85,11 @@ echo "Writing February day 1..."
 curl -s -X POST -d 'q=update_log' -d "s=$SESSION" -d 'm=2026-02' \
   -d 'w1=81.8' -d 'c1=start of february' "$BASE" > /dev/null
 echo "February write done."
+
+echo "Writing April days 2 and 5 (March left empty)..."
+curl -s -X POST -d 'q=update_log' -d "s=$SESSION" -d 'm=2026-04' \
+  -d 'w2=81.6' -d 'w5=81.2' -d 'c5=golden april' "$BASE" > /dev/null
+echo "April write done."
 
 echo "Fetching empty March view..."
 mkdir -p "$OUTDIR"
@@ -98,12 +108,21 @@ curl -s -o "$OUTDIR/view-cal.html" \
   "$BASE?s=$SESSION&q=calendar"
 curl -s -o "$OUTDIR/chart-jan.png" \
   "$BASE?s=$SESSION&q=chart&m=2026-01"
+curl -s -o "$OUTDIR/view-feb.html" \
+  "$BASE?s=$SESSION&q=log&m=2026-02"
+curl -s -o "$OUTDIR/view-apr.html" \
+  "$BASE?s=$SESSION&q=log&m=2026-04"
+curl -s -o "$OUTDIR/chart-hist.png" \
+  "$BASE?s=$SESSION&q=histchart&start=2025-12-01&end=2026-04-30&width=640&height=480"
 
+cp hackdiet-data/Users/golden1/2025-12.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-01.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-02.hdb "$OUTDIR/"
+cp hackdiet-data/Users/golden1/2026-04.hdb "$OUTDIR/"
 
 cd "$OUTDIR"
-sha256sum 2026-01.hdb 2026-02.hdb export-jan.xml \
+sha256sum 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml \
   view-jan.html view-trend.html view-cal.html view-mar.html chart-jan.png \
+  view-feb.html view-apr.html chart-hist.png \
   > SHA256SUMS.txt
 echo "Oracles and SHA256SUMS.txt written to $OUTDIR"
