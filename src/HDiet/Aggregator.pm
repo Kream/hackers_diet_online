@@ -52,11 +52,8 @@
                 my $user_file_name = HDiet::user::quoteUserName($u);
                 
 #my $recret = 0;
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account directory /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
     $naccts++;
     $npaccts++ if $ui->{public};
     if ((!$public_only) || $ui->{public}) {
@@ -100,11 +97,8 @@
             for my $user_file_name (grep(!/\.\.?\z/, readdir(CD))) {
                 
 #my $recret = 0;
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account directory /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
     $naccts++;
     $npaccts++ if $ui->{public};
     if ((!$public_only) || $ui->{public}) {

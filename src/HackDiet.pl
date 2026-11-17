@@ -293,11 +293,8 @@ This program is in the public domain.
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -305,19 +302,15 @@ This program is in the public domain.
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -500,11 +493,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -512,19 +502,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -601,11 +587,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -613,19 +596,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -760,11 +739,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -772,19 +748,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -922,11 +894,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -934,19 +903,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -1060,11 +1025,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -1072,19 +1034,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -1181,11 +1139,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -1193,19 +1148,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -1298,11 +1249,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -1310,19 +1258,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -1393,11 +1337,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -1405,19 +1346,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -1910,11 +1847,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -1922,19 +1856,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -2117,11 +2047,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -2129,19 +2056,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -2309,11 +2232,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -2321,19 +2241,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -2512,11 +2428,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -2524,19 +2437,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -2723,11 +2632,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -2735,19 +2641,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -3278,11 +3180,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -3290,19 +3189,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -3489,11 +3384,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -3501,19 +3393,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -3667,11 +3555,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -3679,19 +3564,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -4238,11 +4119,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -4250,19 +4128,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -4708,11 +4582,8 @@ EOD
 
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -4720,19 +4591,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -5032,11 +4899,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -5044,19 +4908,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -5268,11 +5128,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -5280,19 +5137,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -5831,11 +5684,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -5843,19 +5693,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -6360,11 +6206,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -6372,19 +6215,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -6557,11 +6396,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -6569,19 +6405,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -7144,11 +6976,8 @@ Log items imported: $imported.<br />\n");
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -7156,19 +6985,15 @@ Log items imported: $imported.<br />\n");
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -7512,11 +7337,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -7524,19 +7346,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -7781,11 +7599,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -7793,19 +7608,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -7996,11 +7807,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -8008,19 +7816,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -8083,11 +7887,8 @@ EOD
 
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -8095,19 +7896,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -8263,11 +8060,8 @@ write_XHTML_epilogue($fh, $homeBase);
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -8275,19 +8069,15 @@ write_XHTML_epilogue($fh, $homeBase);
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -8549,11 +8339,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -8561,19 +8348,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -8807,11 +8590,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -8819,19 +8599,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -9029,11 +8805,8 @@ EOD
             }
         }
 
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$f/UserAccount.hdu") ||
+        my $ui = HDiet::Store->read_user($f) ||
             die("Cannot open user account directory /server/pub/hackdiet/Users/$f/UserAccount.hdu");
-        my $ui = HDiet::user->new();
-        $ui->load(\*FU);
-        close(FU);
         my $sortcode = $ui->{login_name};
         $accounts{$sortcode} = $f;
     }
@@ -9162,11 +8935,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -9174,19 +8944,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -9435,11 +9201,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -9447,19 +9210,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -9806,11 +9565,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -9818,19 +9574,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -10177,11 +9929,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -10189,19 +9938,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -10447,11 +10192,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -10459,19 +10201,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -10709,11 +10447,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -10721,19 +10456,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -11015,11 +10746,8 @@ print(STDERR "Bogus delete cookie request for $CGIargs{cookieid}\n");
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -11027,19 +10755,15 @@ print(STDERR "Bogus delete cookie request for $CGIargs{cookieid}\n");
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -11569,11 +11293,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -11581,19 +11302,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -12012,11 +11729,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
     
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -12024,19 +11738,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -12403,11 +12113,8 @@ print(STDERR "Deleting bogus open session $CGIargs{sessionid} for user $user_fil
     my $user_file_name = quoteUserName($user_name);
 
         
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -12415,19 +12122,15 @@ print(STDERR "Deleting bogus open session $CGIargs{sessionid} for user $user_fil
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
@@ -12611,11 +12314,8 @@ EOD
     my $user_file_name = quoteUserName($user_name);
 
         
-    open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    my $ui = HDiet::Store->read_user($user_file_name) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     if ($assumed_identity) {
         if (!$ui->{administrator}) {
@@ -12623,19 +12323,15 @@ EOD
         }
         $user_name = $effective_user_name;
         $user_file_name = quoteUserName($user_name);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        $ui = HDiet::Store->read_user($user_file_name) ||
             die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        $ui->load(\*FU);
-        close(FU);
     } elsif ($browse_public) {
         my $pn = HDiet::pubname->new();
         if (defined($pn->findPublicName($effective_user_name))) {
             $user_name = $pn->{public_name};
             $user_file_name = quoteUserName($pn->{true_name});
-            open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+            $ui = HDiet::Store->read_user($user_file_name) ||
                 die("Cannot open effective user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-            $ui->load(\*FU);
-            close(FU);
         } else {
             $browse_public = 0;
         }
