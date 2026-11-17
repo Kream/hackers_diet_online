@@ -147,6 +147,64 @@ curl -s -o "$OUTDIR/session-old.html" \
 } > "$OUTDIR/session-check.txt"
 echo "Session replacement checked."
 
+echo "Testing remember-me..."
+# Log in with "Remember me" ticked. The cookie is set by JavaScript in the page
+# (document.cookie = 'HDiet=...'), not a Set-Cookie header, so read it from the HTML.
+curl -s -o "$OUTDIR/remember-login.html" -X POST \
+  -d 'q=validate_user' \
+  -d 'HDiet_username=golden1' \
+  -d 'HDiet_password=Golden1Test!' \
+  -d 'HDiet_remember=y' \
+  -d 'login=Sign In' \
+  "$BASE"
+COOKIE1=$(grep -oE 'HDiet=[0-9FGJKQW]{48}' "$OUTDIR/remember-login.html" | head -1 | cut -d= -f2 || true)
+# The file name is the cookie with its 8-character signature (positions 23-30) removed
+CID1="${COOKIE1:0:23}${COOKIE1:31}"
+FIRST_FILE=absent
+[[ -n "$COOKIE1" && -f "hackdiet-data/RememberMe/$CID1.hdr" ]] && FIRST_FILE=present
+
+# Come back with only the cookie: no session, no q, like a returning browser
+curl -s -o "$OUTDIR/remember-cookie-login.html" \
+  -H "Cookie: HDiet=$COOKIE1" "$BASE"
+SESSION4=$(grep -oE 's=[A-Za-z0-9]{10,}' "$OUTDIR/remember-cookie-login.html" | head -1 | cut -d= -f2 || true)
+COOKIE2=$(grep -oE 'HDiet=[0-9FGJKQW]{48}' "$OUTDIR/remember-cookie-login.html" | head -1 | cut -d= -f2 || true)
+CID2="${COOKIE2:0:23}${COOKIE2:31}"
+
+# Replay the first cookie: it should have been used up
+curl -s -o "$OUTDIR/remember-replay.html" \
+  -H "Cookie: HDiet=$COOKIE1" "$BASE"
+
+{
+  [[ -n "$COOKIE1" ]] && echo "first_cookie_issued=yes" || echo "first_cookie_issued=no"
+  echo "first_cookie_file_after_login=$FIRST_FILE"
+  if [[ -n "$SESSION4" && -f "hackdiet-data/Sessions/$SESSION4.hds" ]]; then
+    echo "logged_in_by_cookie=yes"
+  else
+    echo "logged_in_by_cookie=no"
+  fi
+  if [[ -n "$COOKIE1" && -f "hackdiet-data/RememberMe/$CID1.hdr" ]]; then
+    echo "first_cookie_file_after_use=present"
+  else
+    echo "first_cookie_file_after_use=absent"
+  fi
+  if [[ -n "$COOKIE2" && "$COOKIE2" != "$COOKIE1" ]]; then
+    echo "new_cookie_issued=yes"
+  else
+    echo "new_cookie_issued=no"
+  fi
+  if [[ -n "$COOKIE2" && -f "hackdiet-data/RememberMe/$CID2.hdr" ]]; then
+    echo "new_cookie_file=present"
+  else
+    echo "new_cookie_file=absent"
+  fi
+  if grep -q '<title>[^<]*Please Sign In' "$OUTDIR/remember-replay.html"; then
+    echo "replayed_cookie_gets_sign_in=yes"
+  else
+    echo "replayed_cookie_gets_sign_in=no"
+  fi
+} > "$OUTDIR/remember-check.txt"
+echo "Remember-me checked."
+
 cp hackdiet-data/Users/golden1/2025-12.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-01.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-02.hdb "$OUTDIR/"
@@ -158,5 +216,6 @@ sha256sum 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml \
   view-jan.html view-trend.html view-cal.html view-mar.html chart-jan.png \
   view-feb.html view-apr.html chart-hist.png \
   LastTransaction.hdl session-check.txt session-old.html \
+  remember-check.txt remember-login.html remember-cookie-login.html remember-replay.html \
   > SHA256SUMS.txt
 echo "Oracles and SHA256SUMS.txt written to $OUTDIR"

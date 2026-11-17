@@ -1,0 +1,7 @@
+first_cookie_issued=yes
+first_cookie_file_after_login=present
+logged_in_by_cookie=yes
+first_cookie_file_after_use=absent
+new_cookie_issued=yes
+new_cookie_file=present
+replayed_cookie_gets_sign_in=yes
