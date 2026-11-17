@@ -1,9 +1,17 @@
 #!/bin/bash
 # Golden corpus runner for Phase 1 Step 1
-# Usage: ./run-golden.sh <output-dir>
+# Usage: ./run-golden.sh [output-dir]   (default: test-run-temp)
 set -euo pipefail
 
-OUTDIR="${1:?Usage: $0 <output-dir>}"
+OUTDIR="${1:-test-run-temp}"
+
+# Never write into an existing directory: it may be golden-run-1, or a
+# failed run you still want to look at, and stale files would mix in.
+if [[ -e "$OUTDIR" ]]; then
+  echo "$OUTDIR already exists. Look at it or remove it first (rm -r $OUTDIR)," >&2
+  echo "or give another directory: $0 <output-dir>" >&2
+  exit 1
+fi
 SESSION=""
 BASE="http://127.0.0.1:8082/cgi-bin/HackDiet"
 

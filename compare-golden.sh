@@ -1,10 +1,19 @@
 #!/bin/bash
 # Compare two golden-run directories, ignoring per-run session tokens
-# Usage: ./compare-golden.sh <test-dir> <reference-dir>
+# Usage: ./compare-golden.sh [test-dir] [reference-dir]
+#        (defaults: test-run-temp golden-run-1)
+# If everything matches and test-dir is test-run-temp, it is deleted.
 set -euo pipefail
 
-TEST="${1:?Usage: $0 <test-dir> <reference-dir>}"
-REF="${2:?Usage: $0 <test-dir> <reference-dir>}"
+TEST="${1:-test-run-temp}"
+REF="${2:-golden-run-1}"
+
+for d in "$TEST" "$REF"; do
+  if [[ ! -d "$d" ]]; then
+    echo "No such directory: $d" >&2
+    exit 2
+  fi
+done
 
 sanitize() {
   sed -E \
@@ -38,6 +47,11 @@ done
 
 if [[ $fail -eq 0 ]]; then
   echo "All oracles match (after normalization)."
+  # Only ever delete the scratch run, never a directory named otherwise
+  if [[ "$(basename "$TEST")" == "test-run-temp" ]]; then
+    rm -r "$TEST"
+    echo "Removed $TEST."
+  fi
   exit 0
 else
   echo "Differences found."
