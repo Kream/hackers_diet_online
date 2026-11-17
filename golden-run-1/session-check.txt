@@ -1,0 +1,3 @@
+active_session_is_second_login=yes
+old_session_file=absent
+new_session_file=present

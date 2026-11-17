@@ -115,14 +115,48 @@ curl -s -o "$OUTDIR/view-apr.html" \
 curl -s -o "$OUTDIR/chart-hist.png" \
   "$BASE?s=$SESSION&q=histchart&start=2025-12-01&end=2026-04-30&width=640&height=480"
 
+echo "Logging in again to test session replacement..."
+SESSION2=$(curl -s -X POST \
+  -d 'q=validate_user' \
+  -d 'HDiet_username=golden1' \
+  -d 'HDiet_password=Golden1Test!' \
+  -d 'login=Sign In' \
+  "$BASE" \
+  | grep -oE 's=[A-Za-z0-9]{10,}' \
+  | head -1 \
+  | cut -d= -f2)
+echo "Second session: $SESSION2"
+curl -s -o "$OUTDIR/session-old.html" \
+  "$BASE?s=$SESSION&q=log&m=2026-01"
+{
+  if [[ "$(sed -n 2p hackdiet-data/Users/golden1/ActiveSession.hda)" == "$SESSION2" ]]; then
+    echo "active_session_is_second_login=yes"
+  else
+    echo "active_session_is_second_login=no"
+  fi
+  if [[ -f "hackdiet-data/Sessions/$SESSION.hds" ]]; then
+    echo "old_session_file=present"
+  else
+    echo "old_session_file=absent"
+  fi
+  if [[ -f "hackdiet-data/Sessions/$SESSION2.hds" ]]; then
+    echo "new_session_file=present"
+  else
+    echo "new_session_file=absent"
+  fi
+} > "$OUTDIR/session-check.txt"
+echo "Session replacement checked."
+
 cp hackdiet-data/Users/golden1/2025-12.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-01.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-02.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-04.hdb "$OUTDIR/"
+cp hackdiet-data/Users/golden1/LastTransaction.hdl "$OUTDIR/"
 
 cd "$OUTDIR"
 sha256sum 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml \
   view-jan.html view-trend.html view-cal.html view-mar.html chart-jan.png \
   view-feb.html view-apr.html chart-hist.png \
+  LastTransaction.hdl session-check.txt session-old.html \
   > SHA256SUMS.txt
 echo "Oracles and SHA256SUMS.txt written to $OUTDIR"

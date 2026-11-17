@@ -16,7 +16,7 @@ sanitize() {
 fail=0
 
 # Exact files
-for f in 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml chart-jan.png chart-hist.png; do
+for f in 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml chart-jan.png chart-hist.png LastTransaction.hdl session-check.txt; do
   if ! cmp -s "$TEST/$f" "$REF/$f"; then
     echo "MISMATCH (exact): $f"
     fail=1
@@ -26,7 +26,7 @@ for f in 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml chart-ja
 done
 
 # HTML files (normalized)
-for f in view-jan.html view-trend.html view-cal.html view-mar.html view-feb.html view-apr.html; do
+for f in view-jan.html view-trend.html view-cal.html view-mar.html view-feb.html view-apr.html session-old.html; do
   if ! diff -q <(sanitize "$TEST/$f") <(sanitize "$REF/$f") >/dev/null; then
     echo "MISMATCH (normalized HTML): $f"
     fail=1
