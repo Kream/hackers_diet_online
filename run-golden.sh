@@ -264,6 +264,40 @@ if [[ -n "$PUBNAME" ]]; then
 fi
 echo "Public names checked."
 
+echo "Testing XML import round trip..."
+# Leave public browsing, since import is not allowed while browsing
+curl -s -o /dev/null -X POST \
+  -d 'q=quitbrowse' \
+  -d "s=$SESSION4" \
+  "$BASE"
+
+# Remember January as the site wrote it, then lose it, like a month restored from backup
+ORIG_JAN=$(sha256sum < hackdiet-data/Users/golden1/2026-01.hdb)
+sudo rm hackdiet-data/Users/golden1/2026-01.hdb
+
+# Paste the earlier export into the import form's text box. -F sends multipart like
+# the browser form, and "file=<path" sends the file's contents as the field value.
+curl -s -o "$OUTDIR/import-jan.html" \
+  -F 'q=csv_import_data' \
+  -F "s=$SESSION4" \
+  -F "file=<$OUTDIR/export-jan.xml" \
+  "$BASE"
+
+{
+  if [[ -f hackdiet-data/Users/golden1/2026-01.hdb ]]; then
+    echo "jan_file_after_import=present"
+    if [[ "$(sha256sum < hackdiet-data/Users/golden1/2026-01.hdb)" == "$ORIG_JAN" ]]; then
+      echo "reimport_matches_original=yes"
+    else
+      echo "reimport_matches_original=no"
+    fi
+  else
+    echo "jan_file_after_import=absent"
+    echo "reimport_matches_original=no"
+  fi
+} > "$OUTDIR/import-check.txt"
+echo "XML import checked."
+
 cp hackdiet-data/Users/golden1/2025-12.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-01.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-02.hdb "$OUTDIR/"
@@ -277,5 +311,6 @@ sha256sum 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml \
   LastTransaction.hdl session-check.txt session-old.html \
   remember-check.txt remember-login.html remember-cookie-login.html remember-replay.html \
   pub-check.txt pub-settings.html pub-browse.html pub-account.html pub-view-jan.html \
+  import-check.txt import-jan.html \
   > SHA256SUMS.txt
 echo "Oracles and SHA256SUMS.txt written to $OUTDIR"

@@ -10,6 +10,8 @@
 
 - src/Makefile and src/Makefile.mkf are dead upstream build files: they build everything from hdiet.w, which is not in this repo, and still list the removed jig.pl. Decide whether to delete them.
 
+- Trend carry-forward is stored with different digits depending on which path wrote the month last. The log save for a new month (HackDiet.pl around L4797-4810) stores the raw previous trend, e.g. 82.69685; propagate_trend (around L12940) stores sprintf("%.4f") with trailing zeros stripped, e.g. 82.6968. Same value, different text. The XML import round trip in the golden harness shows it: propagate_trend from "0000-00" rewrites April. Next: make the log save format it the same way, in its own commit. The file-vs-db shadow diff should compare carry-forward as a number, not text.
+
 REPORTED BY GROK BOT 2026-11-16
 
 **CSV/XML import wipes existing months** ([L6729-6737](https://github.com/Kream/hackers_diet_online/blob/3d656b6fb848bfa4aee7b7fae4009d22c31b4834/src/HackDiet.pl#L6729-L6737) and the two copies after it). A blank month gets put in `%mondb` first, and the month loaded from disk never replaces it. The save loop then writes the blank one over the real file. In my test, a month with 30 weights was empty after importing 2 rows. Load the month first, then cache it.
