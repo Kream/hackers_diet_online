@@ -232,6 +232,49 @@ sub has_pubname {
     return -f "/server/pub/hackdiet/Pubname/$pub_file_name.hdp";
 }
 
+# ---- Writes ----
+# Each write method returns true on success, or false if the file cannot
+# be opened, so the caller keeps its own die message.
+
+# write_last_transaction stores <time> in Users/<user>/LastTransaction.hdl
+# (version line 1, then the time).
+sub write_last_transaction {
+    my ($class, $user_file_name, $time) = @_;
+
+    open(my $fh, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/LastTransaction.hdl")
+        or return 0;
+    print $fh "1\n$time\n";
+    close($fh);
+
+    return 1;
+}
+
+# write_last_login stores <time> in Users/<user>/LastLogin.hdl
+# (version line 1, then the time).
+sub write_last_login {
+    my ($class, $user_file_name, $time) = @_;
+
+    open(my $fh, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/LastLogin.hdl")
+        or return 0;
+    print $fh "1\n$time\n";
+    close($fh);
+
+    return 1;
+}
+
+# append_history appends one line (without its newline) to
+# Users/<user>/History.hdh. The caller builds the line.
+sub append_history {
+    my ($class, $user_file_name, $line) = @_;
+
+    open(my $fh, ">>:utf8", "/server/pub/hackdiet/Users/$user_file_name/History.hdh")
+        or return 0;
+    print $fh "$line\n";
+    close($fh);
+
+    return 1;
+}
+
 # _line reads one line with trailing whitespace removed, dying at end of
 # file with the same message as main::in.
 sub _line {

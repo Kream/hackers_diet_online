@@ -1636,13 +1636,8 @@ EOD
         
     #   Update the date and time of the last login by this user
     if ($readOnly) {
-        open(FL, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/LastLogin.hdl") ||
+        HDiet::Store->write_last_login($user_file_name, $s->{login_time}) ||
            die("Cannot create last login file /server/pub/hackdiet/Users/$user_file_name/LastLogin.hdl");
-        print FL <<"EOD";
-1
-$s->{login_time}
-EOD
-        close(FL);
 
         update_last_transaction($user_file_name);
     }
@@ -12493,10 +12488,8 @@ EOD
         if ($extra ne '') {
             $extra = ',' . $extra;
         }
-        open(FH, ">>:utf8", "/server/pub/hackdiet/Users/$user_file/History.hdh") ||
+        HDiet::Store->append_history($user_file, "$type," . time() . ",$ENV{REMOTE_ADDR}$extra") ||
            die("Cannot append to history file /server/pub/hackdiet/Users/$user_file/History.hdh");
-        print(FH "$type," . time() . ",$ENV{REMOTE_ADDR}$extra\n");
-        close(FH);
     }
 
     
@@ -12505,13 +12498,8 @@ EOD
 
         #   Update the date and time of the last transaction by this user
         my $now = time();
-        open(FL, ">:utf8", "/server/pub/hackdiet/Users/$user_file/LastTransaction.hdl") ||
+        HDiet::Store->write_last_transaction($user_file, $now) ||
             die("Cannot update last transaction file /server/pub/hackdiet/Users/$user_file/LastTransaction.hdl");
-        print FL <<"EOD";
-1
-$now
-EOD
-        close(FL);
    }
 
     
