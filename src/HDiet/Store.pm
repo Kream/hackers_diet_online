@@ -5,6 +5,7 @@ use warnings;
 use HDiet::monthlog;
 use HDiet::user ();
 use HDiet::session ();
+use HDiet::cookie ();
 
 # File-backed month-log storage.
 # read_month returns a loaded HDiet::monthlog object,
@@ -105,6 +106,36 @@ sub list_sessions {
     opendir(my $dh, $dir)
         or die("Cannot open directory $dir");
     my @ids = map { /^(\w+)\.hds$/ ? $1 : () } readdir($dh);
+    closedir($dh);
+
+    return @ids;
+}
+
+# read_cookie returns a loaded HDiet::cookie object for RememberMe/<id>.hdr,
+# or undef if the file does not exist or cannot be opened.
+sub read_cookie {
+    my ($class, $cookie_id) = @_;
+
+    my $path = "/server/pub/hackdiet/RememberMe/$cookie_id.hdr";
+    return undef unless -f $path;
+    open(my $fh, "<:utf8", $path) or return undef;
+    my $cookie = HDiet::cookie->new();
+    $cookie->load($fh);
+    close($fh);
+
+    return $cookie;
+}
+
+# list_cookies returns the ids of all remember-me cookies in RememberMe/,
+# in readdir order. Like list_sessions, only files named exactly
+# <word chars>.hdr are listed.
+sub list_cookies {
+    my ($class) = @_;
+
+    my $dir = "/server/pub/hackdiet/RememberMe";
+    opendir(my $dh, $dir)
+        or die("Cannot open directory $dir");
+    my @ids = map { /^(\w+)\.hdr$/ ? $1 : () } readdir($dh);
     closedir($dh);
 
     return @ids;

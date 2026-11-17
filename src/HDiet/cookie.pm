@@ -13,6 +13,7 @@
     use Digest::SHA1  qw(sha1_hex);
 
     use HDiet::Cluster;
+    use HDiet::Store;
     use HDiet::Julian;
     use HDiet::Digest::Crc32;
 
@@ -204,10 +205,8 @@
             my $cid = checkCookieSignature($csig);
             if (defined($cid)) {
                 if (-f "/server/pub/hackdiet/RememberMe/$cid.hdr") {
-                    if (open(CI, "<:utf8", "/server/pub/hackdiet/RememberMe/$cid.hdr")) {
-                        my $cook = HDiet::cookie->new();
-                        $cook->load(\*CI);
-                        close(CI);
+                    my $cook = HDiet::Store->read_cookie($cid);
+                    if (defined($cook)) {
                         if (($cook->{cookie_id} eq $cid) &&
                             ($cook->{expiry_time} >= time())) {
                             $cuser = $cook->{login_name};

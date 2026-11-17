@@ -3366,19 +3366,12 @@ EOD
     
     my %cookies;
 
-    opendir(CD, "/server/pub/hackdiet/RememberMe") ||
-        die("Cannot open directory /server/pub/hackdiet/RememberMe");
-    for my $f (grep(/\w+\.hdr/, readdir(CD))) {
-        open(FU, "<:utf8", "/server/pub/hackdiet/RememberMe/$f") ||
-#        open(FU, "<", "/server/pub/hackdiet/RememberMe/$f") ||                #### Poison cookie search
-            die("Cannot open persistent login /server/pub/hackdiet/RememberMe/$f");
-        my $cookie = HDiet::cookie->new();
-        $cookie->load(\*FU);
+    for my $cid (HDiet::Store->list_cookies()) {
+        my $cookie = HDiet::Store->read_cookie($cid) ||
+            die("Cannot open persistent login /server/pub/hackdiet/RememberMe/$cid.hdr");
 #if ($cookie->{login_name} =~ m/^[ -~]*$/) { next; }                     #### Poison cookie search
-        close(FU);
         $cookies{$cookie->{cookie_id}} = $cookie;
     }
-    closedir(CD);
 
 
     write_XHTML_prologue($fh, $homeBase, "Forget Persistent Logins", undef, $session->{handheld});
@@ -10213,19 +10206,12 @@ EOD
     
     my %cookies;
 
-    opendir(CD, "/server/pub/hackdiet/RememberMe") ||
-        die("Cannot open directory /server/pub/hackdiet/RememberMe");
-    for my $f (grep(/\w+\.hdr/, readdir(CD))) {
-        open(FU, "<:utf8", "/server/pub/hackdiet/RememberMe/$f") ||
-#        open(FU, "<", "/server/pub/hackdiet/RememberMe/$f") ||                #### Poison cookie search
-            die("Cannot open persistent login /server/pub/hackdiet/RememberMe/$f");
-        my $cookie = HDiet::cookie->new();
-        $cookie->load(\*FU);
+    for my $cid (HDiet::Store->list_cookies()) {
+        my $cookie = HDiet::Store->read_cookie($cid) ||
+            die("Cannot open persistent login /server/pub/hackdiet/RememberMe/$cid.hdr");
 #if ($cookie->{login_name} =~ m/^[ -~]*$/) { next; }                     #### Poison cookie search
-        close(FU);
         $cookies{$cookie->{cookie_id}} = $cookie;
     }
-    closedir(CD);
 
 
     print $fh <<"EOD";
@@ -10483,19 +10469,12 @@ EOD
     
     my %cookies;
 
-    opendir(CD, "/server/pub/hackdiet/RememberMe") ||
-        die("Cannot open directory /server/pub/hackdiet/RememberMe");
-    for my $f (grep(/\w+\.hdr/, readdir(CD))) {
-        open(FU, "<:utf8", "/server/pub/hackdiet/RememberMe/$f") ||
-#        open(FU, "<", "/server/pub/hackdiet/RememberMe/$f") ||                #### Poison cookie search
-            die("Cannot open persistent login /server/pub/hackdiet/RememberMe/$f");
-        my $cookie = HDiet::cookie->new();
-        $cookie->load(\*FU);
+    for my $cid (HDiet::Store->list_cookies()) {
+        my $cookie = HDiet::Store->read_cookie($cid) ||
+            die("Cannot open persistent login /server/pub/hackdiet/RememberMe/$cid.hdr");
 #if ($cookie->{login_name} =~ m/^[ -~]*$/) { next; }                     #### Poison cookie search
-        close(FU);
         $cookies{$cookie->{cookie_id}} = $cookie;
     }
-    closedir(CD);
 
 
     if (defined($cookies{$CGIargs{cookieid}})) {
