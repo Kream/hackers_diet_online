@@ -4805,6 +4805,10 @@ EOD
                     if ($llog->{trend}[$d]) {
                         $mlog->{trend_carry_forward} = $llog->{trend}[$d] *
                             HDiet::monthlog::WEIGHT_CONVERSION->[$llog->{log_unit}][$mlog->{log_unit}];;
+                        # Store it the way propagate_trend does: 4 decimals, trailing zeros stripped
+                        $mlog->{trend_carry_forward} = sprintf("%.4f", $mlog->{trend_carry_forward});
+                        $mlog->{trend_carry_forward} =~ s/(\.[^0]*)0+$/$1/;
+                        $mlog->{trend_carry_forward} =~ s/\.$//;
                         last;
                     }
                 }
