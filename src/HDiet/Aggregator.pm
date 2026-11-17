@@ -92,9 +92,7 @@
 
             }
         } else {
-            opendir(CD, "/server/pub/hackdiet/Users") ||
-                die("Cannot open directory /server/pub/hackdiet/Users");
-            for my $user_file_name (grep(!/\.\.?\z/, readdir(CD))) {
+            for my $user_file_name (HDiet::Store->list_users()) {
                 
 #my $recret = 0;
     my $ui = HDiet::Store->read_user($user_file_name) ||
@@ -136,7 +134,6 @@
     }
 
             }
-            closedir(CD);
         }
 
         return ($naccts, $npaccts);

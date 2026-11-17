@@ -195,6 +195,21 @@ sub read_last_transaction {
     return $lt;
 }
 
+# list_users returns the directory names (quoted user names) in Users/,
+# in readdir order. Same match as the old loops: anything not ending
+# in . or .. (which drops the . and .. entries).
+sub list_users {
+    my ($class) = @_;
+
+    my $dir = "/server/pub/hackdiet/Users";
+    opendir(my $dh, $dir)
+        or die("Cannot open directory $dir");
+    my @names = grep { !/\.\.?\z/ } readdir($dh);
+    closedir($dh);
+
+    return @names;
+}
+
 # _line reads one line with trailing whitespace removed, dying at end of
 # file with the same message as main::in.
 sub _line {

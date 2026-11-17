@@ -8691,9 +8691,7 @@ EOD
         $acct_category = 'active';
     }
 
-    opendir(CD, "/server/pub/hackdiet/Users") ||
-        die("Cannot open directory /server/pub/hackdiet/Users");
-    for my $f (grep(!/\.\.?\z/, readdir(CD))) {
+    for my $f (HDiet::Store->list_users()) {
 
         if ($acct_category ne 'all') {
             my $lti = time() - last_transaction_time($f);
@@ -8709,7 +8707,6 @@ EOD
         my $sortcode = $ui->{login_name};
         $accounts{$sortcode} = $f;
     }
-    closedir(CD);
 
 
     my ($naccts, $npub) = (0, 0);
