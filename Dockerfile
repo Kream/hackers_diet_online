@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         msmtp \
         libfaketime \
         curl \
+        bzip2 \
     && cpanm --notest \
         Crypt::OpenSSL::AES \
         Digest::SHA1 \
