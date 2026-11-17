@@ -9,8 +9,6 @@
 
     package HDiet::pubname;
 
-    use Fcntl;
-
     use HDiet::Store;
 
     require Exporter;
@@ -104,35 +102,33 @@
         if ($ui->{public}) {
             
     my $pfn = HDiet::user::quoteUserName($ui->{public_name});
-    if (!unlink("/server/pub/hackdiet/Pubname/$pfn.hdp")) {
+    if (!HDiet::Store->delete_pubname($pfn)) {
         die("Unable to delete old public name: /server/pub/hackdiet/Pubname/$pfn.hdp");
     }
     $ui->{public_name} = '';
 
         }
 
+        my $public_since = $ui->{public} ? $ui->{public_since} : time();
+
         my ($name, $pfn);
         while (1) {
             $name = $self->generateRandomName();
             $pfn = HDiet::user::quoteUserName($name);
-            if (sysopen(PF, "/server/pub/hackdiet/Pubname/$pfn.hdp", O_CREAT | O_EXCL | O_WRONLY)) {
-                binmode(PF, ":utf8");
-                last;
-            }
+
+            $self->{public_name} = $name;
+            $self->{true_name} = $ui->{login_name};
+            $self->{true_create_time} = $ui->{account_created};
+            $self->{public_create_time} = $public_since;
+
+            last if HDiet::Store->create_pubname($pfn, $self);
         }
 
         if (!($ui->{public})) {
             $ui->{public} = 1;
-            $ui->{public_since} = time();
+            $ui->{public_since} = $public_since;
         }
-
-        $self->{public_name} = $ui->{public_name} = $name;
-        $self->{true_name} = $ui->{login_name};
-        $self->{true_create_time} = $ui->{account_created};
-        $self->{public_create_time} = $ui->{public_since};
-
-        $self->save(\*PF);
-        close(PF);
+        $ui->{public_name} = $name;
 
         return $name;
     }
@@ -166,7 +162,7 @@
         if ($ui->{public}) {
             
     my $pfn = HDiet::user::quoteUserName($ui->{public_name});
-    if (!unlink("/server/pub/hackdiet/Pubname/$pfn.hdp")) {
+    if (!HDiet::Store->delete_pubname($pfn)) {
         die("Unable to delete old public name: /server/pub/hackdiet/Pubname/$pfn.hdp");
     }
     $ui->{public_name} = '';

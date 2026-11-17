@@ -2,6 +2,7 @@ package HDiet::Store;
 
 use strict;
 use warnings;
+use Fcntl qw(O_CREAT O_EXCL O_WRONLY);
 use HDiet::monthlog;
 use HDiet::user ();
 use HDiet::session ();
@@ -376,6 +377,30 @@ sub write_month {
     close($fh);
 
     return 1;
+}
+
+# create_pubname claims Pubname/<file>.hdp and saves the HDiet::pubname
+# object into it, where <file> is the public name already quoted with
+# quoteUserName. O_EXCL makes the claim atomic: it returns 0 if the file
+# already exists (someone else has the name), so the caller can pick
+# another name. Returns 1 on success.
+sub create_pubname {
+    my ($class, $pubname_file, $pubname) = @_;
+
+    sysopen(my $fh, "/server/pub/hackdiet/Pubname/$pubname_file.hdp", O_CREAT | O_EXCL | O_WRONLY)
+        or return 0;
+    binmode($fh, ":utf8");
+    $pubname->save($fh);
+    close($fh);
+
+    return 1;
+}
+
+# delete_pubname removes Pubname/<file>.hdp and returns unlink's result.
+sub delete_pubname {
+    my ($class, $pubname_file) = @_;
+
+    return unlink("/server/pub/hackdiet/Pubname/$pubname_file.hdp");
 }
 
 # _line reads one line with trailing whitespace removed, dying at end of
