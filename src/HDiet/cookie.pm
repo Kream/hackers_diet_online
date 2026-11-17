@@ -12,7 +12,6 @@
     use Encode qw(encode_utf8);
     use Digest::SHA1  qw(sha1_hex);
 
-    use HDiet::Cluster;
     use HDiet::Store;
     use HDiet::Julian;
     use HDiet::Digest::Crc32;
@@ -189,7 +188,6 @@
             die("Cannot create persistent login file /server/pub/hackdiet/RememberMe/$cook->{cookie_id}.hdr");
         $cook->save(\*CO);
         close(CO);
-        clusterCopy("/server/pub/hackdiet/RememberMe/$cook->{cookie_id}.hdr");
 
         return $cook->generateCookie('HDiet');
     }
@@ -213,7 +211,6 @@
                         }
                     }
                     unlink("/server/pub/hackdiet/RememberMe/$cid.hdr");
-                    clusterDelete("/server/pub/hackdiet/RememberMe/$cid.hdr");
                 }
             }
         }

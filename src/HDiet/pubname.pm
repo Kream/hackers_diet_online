@@ -11,7 +11,6 @@
 
     use Fcntl;
 
-    use HDiet::Cluster;
     use HDiet::Store;
 
     require Exporter;
@@ -108,7 +107,6 @@
     if (!unlink("/server/pub/hackdiet/Pubname/$pfn.hdp")) {
         die("Unable to delete old public name: /server/pub/hackdiet/Pubname/$pfn.hdp");
     }
-    clusterDelete("/server/pub/hackdiet/Pubname/$pfn.hdp");
     $ui->{public_name} = '';
 
         }
@@ -135,7 +133,6 @@
 
         $self->save(\*PF);
         close(PF);
-        clusterCopy("/server/pub/hackdiet/Pubname/$pfn.hdp");
 
         return $name;
     }
@@ -172,7 +169,6 @@
     if (!unlink("/server/pub/hackdiet/Pubname/$pfn.hdp")) {
         die("Unable to delete old public name: /server/pub/hackdiet/Pubname/$pfn.hdp");
     }
-    clusterDelete("/server/pub/hackdiet/Pubname/$pfn.hdp");
     $ui->{public_name} = '';
 
             $ui->{public} = 0;

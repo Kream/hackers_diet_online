@@ -13,7 +13,6 @@
     package HDiet::history;
 
     use HDiet::Julian qw(WEEKDAY_NAMES :DEFAULT);
-    use HDiet::Cluster;
     use HDiet::Store;
     use GD;
 
@@ -1065,7 +1064,6 @@
             die("Cannot update monthly log file /server/pub/hackdiet/Users/$user_file_name/$k.hdb");
         $mlog->save(\*FL);
         close(FL);
-        clusterCopy("/server/pub/hackdiet/Users/$user_file_name/$k.hdb");
     }
 
     if (scalar(keys(%logs)) > 0) {
@@ -1075,7 +1073,6 @@
             $self->drawBadgeImage(\*FB, $self->{user}->{badge_trend});
             close(FB);
             ::do_command("mv /server/pub/hackdiet/Users/$user_file_name/BadgeImageNew.png /server/pub/hackdiet/Users/$user_file_name/BadgeImage.png");
-            clusterCopy("/server/pub/hackdiet/Users/$user_file_name/BadgeImage.png");
         }
     }
 

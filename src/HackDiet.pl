@@ -92,7 +92,6 @@ This program is in the public domain.
     use CGI;
 
     use HDiet::Aggregator;
-    use HDiet::Cluster;
     use HDiet::monthlog;
     use HDiet::Store;
     use HDiet::user;
@@ -1610,9 +1609,7 @@ EOD
         
     if ((!$readOnly) && defined(my $asn = HDiet::Store->read_active_session($user_file_name))) {
         unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
-        clusterDelete("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
         unlink("/server/pub/hackdiet/Sessions/$asn.hds");
-        clusterDelete("/server/pub/hackdiet/Sessions/$asn.hds");
         append_history($user_file_name, 3);
     }
 
@@ -1626,7 +1623,6 @@ EOD
         die("Cannot create session file /server/pub/hackdiet/Sessions/$s->{session_id}.hds");
     $s->save(\*FS);
     close(FS);
-    clusterCopy("/server/pub/hackdiet/Sessions/$s->{session_id}.hds");
 
     #   Add the ActiveSession.hda back-link to the user directory
     if (!$readOnly) {
@@ -1634,7 +1630,6 @@ EOD
             die("Cannot create active session file /server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
         $s->save_active_session(\*FS);
         close(FS);
-        clusterCopy("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
     }
 
 
@@ -1648,7 +1643,6 @@ EOD
 $s->{login_time}
 EOD
         close(FL);
-        clusterCopy("/server/pub/hackdiet/Users/$user_file_name/LastLogin.hdl");
 
         update_last_transaction($user_file_name);
     }
@@ -1757,11 +1751,9 @@ EOD
 
     #   Delete active session file
     unlink("/server/pub/hackdiet/Sessions/$CGIargs{s}.hds");
-    clusterDelete("/server/pub/hackdiet/Sessions/$CGIargs{s}.hds");
 
     if (!$readOnly) {
         unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
-        clusterDelete("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
         append_history($user_file_name, 2);
     }
 
@@ -2119,7 +2111,6 @@ EOD
     if ("/server/pub/hackdiet/Backups" ne '') {
         do_command("( cd /server/pub/hackdiet/Backups; tar cfj ${user_file_name}_" .
             $tfn . ".bz2 -C ../Users $user_file_name )");
-        clusterCopy("/server/pub/hackdiet/Backups/${user_file_name}_$tfn.bz2");
     }
 
 
@@ -2127,7 +2118,6 @@ EOD
             for my $m (@months) {
                 unlink("/server/pub/hackdiet/Users/$user_file_name/$m.hdb") ||
                    die("Cannot delete log file /server/pub/hackdiet/Users/$user_file_name/$m.hdb");
-                clusterDelete("/server/pub/hackdiet/Users/$user_file_name/$m.hdb");
             }
 
             append_history($user_file_name, 12);
@@ -2511,9 +2501,7 @@ EOD
             if (!$readOnly) {
                 #   Delete active session file
                 unlink("/server/pub/hackdiet/Sessions/$CGIargs{s}.hds");
-                clusterDelete("/server/pub/hackdiet/Sessions/$CGIargs{s}.hds");
                 unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
-                clusterDelete("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
 
                 
     my $tfn = timeXML(time());
@@ -2521,14 +2509,12 @@ EOD
     if ("/server/pub/hackdiet/Backups" ne '') {
         do_command("( cd /server/pub/hackdiet/Backups; tar cfj ${user_file_name}_" .
             $tfn . ".bz2 -C ../Users $user_file_name )");
-        clusterCopy("/server/pub/hackdiet/Backups/${user_file_name}_$tfn.bz2");
     }
 
 
                 #   At this point the user is logged out.  We can now delete
                 #   the user directory and all its contents.
                 do_command("rm -rf /server/pub/hackdiet/Users/$user_file_name");
-                clusterRecursiveDelete("/server/pub/hackdiet/Users/$user_file_name");
             }
 
             print $fh <<"EOD";
@@ -2954,7 +2940,6 @@ EOD
 
     
     if (mkdir("/server/pub/hackdiet/Users/$user_file_name")) {
-        clusterMkdir("/server/pub/hackdiet/Users/$user_file_name");
         my $ui = HDiet::user->new($CGIargs{HDiet_username});
         
     if (defined($CGIargs{HDiet_height_cm})) {
@@ -3006,7 +2991,6 @@ EOD
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
     $ui->save(\*FU);
     close(FU);
-    clusterCopy("/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
 
     if (open(my $slf, ">>:utf8", "/server/pub/hackdiet/log/hdo.log")) {
         my @t = gmtime(time() + 19800);
@@ -3088,7 +3072,6 @@ EOD
             if (!unlink("/server/pub/hackdiet/Invitations/$betaInvitation.hdi")) {
                 print(STDERR "Unable to unlink /server/pub/hackdiet/Invitations/$betaInvitation.hdi\n");
             }
-            clusterDelete("/server/pub/hackdiet/Invitations/$betaInvitation.hdi");
         }
     }
 
@@ -3426,7 +3409,6 @@ EOD
         if ($cook->{login_name} eq $ui->{login_name}) {
 #            $cook->describe($fh);
             $ndel += unlink("/server/pub/hackdiet/RememberMe/$f.hdr");
-            clusterDelete("/server/pub/hackdiet/RememberMe/$f.hdr");
         }
     }
 #print($fh "</pre>\n");
@@ -3718,7 +3700,6 @@ EOD
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
     $ui->save(\*FU);
     close(FU);
-    clusterCopy("/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
 
     }
 
@@ -3924,9 +3905,7 @@ EOD
     
     if ((!$readOnly) && defined(my $asn = HDiet::Store->read_active_session($user_file_name))) {
         unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
-        clusterDelete("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
         unlink("/server/pub/hackdiet/Sessions/$asn.hds");
-        clusterDelete("/server/pub/hackdiet/Sessions/$asn.hds");
         append_history($user_file_name, 3);
     }
 
@@ -3957,7 +3936,6 @@ for a stranger to guess.
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
     $ui->save(\*FU);
     close(FU);
-    clusterCopy("/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
 
 
     
@@ -4636,7 +4614,6 @@ EOD
             die("Cannot update monthly log file /server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb");
         $mlog->save(\*FL);
         close(FL);
-        clusterCopy("/server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb");
 
         if (($mlog->{year} == $userYear) && ($mlog->{month} == $userMon)) {
             my $today_weight = defined($mlog->{weight}[$userMday]) ? $mlog->{weight}[$userMday] : '';
@@ -6813,7 +6790,6 @@ EOD
                     die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$md.hdb");
                 $mondb{$md}->save(\*FL);
                 close(FL);
-                clusterCopy("/server/pub/hackdiet/Users/$user_file_name/$md.hdb");
             }
         }
         if ($imported > 0) {
@@ -7668,7 +7644,6 @@ EOD
         die("Cannot create session file /server/pub/hackdiet/Sessions/$session->{session_id}.hds");
     $session->save(\*FS);
     close(FS);
-    clusterCopy("/server/pub/hackdiet/Sessions/$session->{session_id}.hds");
     $CGIargs{q} = 'account';
     next;
 
@@ -7744,7 +7719,6 @@ EOD
             die("Cannot create session file /server/pub/hackdiet/Sessions/$session->{session_id}.hds");
         $session->save(\*FS);
         close(FS);
-        clusterCopy("/server/pub/hackdiet/Sessions/$session->{session_id}.hds");
     }
     $CGIargs{q} = 'account';
     next;
@@ -9044,7 +9018,6 @@ EOD
         die("Cannot create session file /server/pub/hackdiet/Sessions/$session->{session_id}.hds");
     $session->save(\*FS);
     close(FS);
-    clusterCopy("/server/pub/hackdiet/Sessions/$session->{session_id}.hds");
     $CGIargs{q} = 'account';
     next;
 
@@ -9382,14 +9355,12 @@ EOD
     if ("/server/pub/hackdiet/Backups" ne '') {
         do_command("( cd /server/pub/hackdiet/Backups; tar cfj ${user_file_name}_" .
             $tfn . ".bz2 -C ../Users $user_file_name )");
-        clusterCopy("/server/pub/hackdiet/Backups/${user_file_name}_$tfn.bz2");
     }
 
 
         for my $m (@months) {
             unlink("/server/pub/hackdiet/Users/$user_file_name/$m.hdb") ||
                die("Cannot delete log file /server/pub/hackdiet/Users/$user_file_name/$m.hdb");
-            clusterDelete("/server/pub/hackdiet/Users/$user_file_name/$m.hdb");
 #print($fh "<pre>unlink /server/pub/hackdiet/Users/$user_file_name/$m.hdb</pre>\n");
         }
 
@@ -9747,11 +9718,9 @@ EOD
     if ("/server/pub/hackdiet/Backups" ne '') {
         do_command("( cd /server/pub/hackdiet/Backups; tar cfj ${user_file_name}_" .
             $tfn . ".bz2 -C ../Users $user_file_name )");
-        clusterCopy("/server/pub/hackdiet/Backups/${user_file_name}_$tfn.bz2");
     }
 
             do_command("rm -rf /server/pub/hackdiet/Users/$user_file_name");
-            clusterRecursiveDelete("/server/pub/hackdiet/Users/$user_file_name");
 
             print $fh <<"EOD";
 <h1 class="c">Account Deleted</h1>
@@ -10541,7 +10510,6 @@ EOD
 
         if (-f "/server/pub/hackdiet/RememberMe/$CGIargs{cookieid}.hdr") {
             unlink("/server/pub/hackdiet/RememberMe/$CGIargs{cookieid}.hdr");
-            clusterDelete("/server/pub/hackdiet/RememberMe/$CGIargs{cookieid}.hdr");
         }
 
         append_history($user_file_name, 17, "$qun,$cook->{cookie_id}");
@@ -11880,9 +11848,7 @@ EOD
     
     if ((!$readOnly) && defined(my $asn = HDiet::Store->read_active_session($user_file_name))) {
         unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
-        clusterDelete("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
         unlink("/server/pub/hackdiet/Sessions/$asn.hds");
-        clusterDelete("/server/pub/hackdiet/Sessions/$asn.hds");
         append_history($user_file_name, 3);
     }
 
@@ -11894,7 +11860,6 @@ EOD
 
     if (-f "/server/pub/hackdiet/Sessions/$CGIargs{sessionid}.hds") {
         unlink("/server/pub/hackdiet/Sessions/$CGIargs{sessionid}.hds");
-        clusterDelete("/server/pub/hackdiet/Sessions/$CGIargs{sessionid}.hds");
 print(STDERR "Deleting bogus open session $CGIargs{sessionid} for user $user_file_name\n");
     }
 
@@ -12313,7 +12278,6 @@ EOD
                 die("Cannot create invitation file /server/pub/hackdiet/Invitations/$pw.hdi");
             print(FO time() . "\n");
             close(FO);
-            clusterCopy("/server/pub/hackdiet/Invitations/$pw.hdi");
             print($fh quoteHTML($pw), "\n");
         }
 
@@ -12450,7 +12414,6 @@ EOD
         die("Cannot create monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb");
     $mlog->save(\*FL);
     close(FL);
-    clusterCopy("/server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb");
 
     }
 
@@ -12513,7 +12476,6 @@ EOD
         die("Cannot create monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb");
     $mlog->save(\*FL);
     close(FL);
-    clusterCopy("/server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb");
 
 
     $ltrend = $mlog->{trend}[$mlog->monthdays()];
@@ -12535,7 +12497,6 @@ EOD
            die("Cannot append to history file /server/pub/hackdiet/Users/$user_file/History.hdh");
         print(FH "$type," . time() . ",$ENV{REMOTE_ADDR}$extra\n");
         close(FH);
-        clusterCopy("/server/pub/hackdiet/Users/$user_file/History.hdh");
     }
 
     
@@ -12551,7 +12512,6 @@ EOD
 $now
 EOD
         close(FL);
-        clusterCopy("/server/pub/hackdiet/Users/$user_file/LastTransaction.hdl");
    }
 
     
@@ -12588,7 +12548,6 @@ EOD
                 return 1;
             } else {
                 unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
-                clusterDelete("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
 #print(STDERR "is_user_session_open abstergifying orphaned session /server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda\n");
             }
         }
