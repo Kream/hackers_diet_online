@@ -10,7 +10,7 @@
 
 - src/Makefile and src/Makefile.mkf are dead upstream build files: they build everything from hdiet.w, which is not in this repo, and still list the removed jig.pl. Decide whether to delete them.
 
-- Trend carry-forward is stored with different digits depending on which path wrote the month last. The log save for a new month (HackDiet.pl around L4797-4810) stores the raw previous trend, e.g. 82.69685; propagate_trend (around L12940) stores sprintf("%.4f") with trailing zeros stripped, e.g. 82.6968. Same value, different text. The XML import round trip in the golden harness shows it: propagate_trend from "0000-00" rewrites April. Next: make the log save format it the same way, in its own commit. The file-vs-db shadow diff should compare carry-forward as a number, not text.
+- Trend carry-forward is stored with different digits depending on which path wrote the month last. The log save for a new month (HackDiet.pl around L4797-4810) stores the raw previous trend, e.g. 82.69685; propagate_trend (around L12940) stores sprintf("%.4f") with trailing zeros stripped, e.g. 82.6968. Same value, different text. The XML import round trip in the golden harness shows it: propagate_trend from "0000-00" rewrites April. Fixed in c02eced: the log save now formats it the same way. Months written before that still hold the raw text, so the file-vs-db shadow diff should compare carry-forward as a number, not text. Quirk kept on purpose: the trailing-zero strip only works when no other 0 comes before the trailing zeros, so 82.103 is stored as 82.1030, while 82.1000 becomes 82.1.
 
 REPORTED BY GROK BOT 2026-11-16
 
