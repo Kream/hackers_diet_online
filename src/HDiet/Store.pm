@@ -210,6 +210,28 @@ sub list_users {
     return @names;
 }
 
+# has_user is true if the account directory Users/<user> exists.
+sub has_user {
+    my ($class, $user_file_name) = @_;
+
+    return -d "/server/pub/hackdiet/Users/$user_file_name";
+}
+
+# has_session is true if Sessions/<id>.hds exists.
+sub has_session {
+    my ($class, $session_id) = @_;
+
+    return -f "/server/pub/hackdiet/Sessions/$session_id.hds";
+}
+
+# has_pubname is true if Pubname/<file>.hdp exists, where <file> is the
+# public name already quoted with quoteUserName.
+sub has_pubname {
+    my ($class, $pub_file_name) = @_;
+
+    return -f "/server/pub/hackdiet/Pubname/$pub_file_name.hdp";
+}
+
 # _line reads one line with trailing whitespace removed, dying at end of
 # file with the same message as main::in.
 sub _line {

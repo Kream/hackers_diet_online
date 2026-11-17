@@ -2848,7 +2848,7 @@ if (0) {        # Set to 1 to investigate reports of account creation problems
         push(@goofs, "User name is blank");
     } else {
         $user_file_name = quoteUserName($CGIargs{HDiet_username});
-        if (-d "/server/pub/hackdiet/Users/$user_file_name") {
+        if (HDiet::Store->has_user($user_file_name)) {
             push(@goofs, "User name is already taken: please choose another");
         }
     }
@@ -8977,7 +8977,7 @@ EOD
 
     $user_file_name = quoteUserName($CGIargs{useracct});
 
-    if (!(-d "/server/pub/hackdiet/Users/$user_file_name")) {
+    if (!(HDiet::Store->has_user($user_file_name))) {
         write_XHTML_prologue($fh, $homeBase, "Invalid Access Request", undef, $session->{handheld});
         generate_XHTML_navigation_bar($fh, $homeBase, $session->{session_id}, undef, undef, $browse_public, $timeZoneOffset);
         
@@ -9354,7 +9354,7 @@ EOD
     my $aufn = $user_file_name;     # Save administrator's user file name
     $user_file_name = quoteUserName($CGIargs{useracct});
 
-    if (!(-d "/server/pub/hackdiet/Users/$user_file_name")) {
+    if (!(HDiet::Store->has_user($user_file_name))) {
         print $fh <<"EOD";
 <h3>There is no user account named <b>$qun</b>.</h3>
 
@@ -9713,7 +9713,7 @@ EOD
     my $aufn = $user_file_name;     # Save administrator's user file name
     $user_file_name = quoteUserName($CGIargs{useracct});
 
-    if (!(-d "/server/pub/hackdiet/Users/$user_file_name")) {
+    if (!(HDiet::Store->has_user($user_file_name))) {
         print $fh <<"EOD";
 <h3>There is no user account named <b>$qun</b>.</h3>
 EOD
@@ -11728,7 +11728,7 @@ EOD
 
     
     if (($CGIargs{sessionid} !~ m/^[0-9FGJKQW]{40}$/) ||
-        (!-f "/server/pub/hackdiet/Sessions/$CGIargs{sessionid}.hds")) {
+        (!HDiet::Store->has_session($CGIargs{sessionid}))) {
         write_XHTML_prologue($fh, $homeBase, "No Such Session", undef, $session->{handheld});
         generate_XHTML_navigation_bar($fh, $homeBase, $session->{session_id}, undef, undef, $browse_public, $timeZoneOffset);
         
@@ -12584,7 +12584,7 @@ EOD
 
         my $user_file_name = quoteUserName($user_name);
         if (defined(my $asn = HDiet::Store->read_active_session($user_file_name))) {
-            if (-f "/server/pub/hackdiet/Sessions/$asn.hds") {
+            if (HDiet::Store->has_session($asn)) {
                 return 1;
             } else {
                 unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");

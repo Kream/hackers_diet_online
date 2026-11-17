@@ -89,7 +89,7 @@
         while (1) {
             $name = $self->generateRandomName();
             my $ufn = HDiet::user::quoteUserName($name);
-            if (!(-f "/server/pub/hackdiet/Pubname/$ufn.hdp")) {
+            if (!HDiet::Store->has_pubname($ufn)) {
                 last;
             }
         }
