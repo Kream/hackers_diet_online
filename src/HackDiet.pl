@@ -2930,7 +2930,7 @@ EOD
     }
 
     
-    if (mkdir("/server/pub/hackdiet/Users/$user_file_name")) {
+    if (HDiet::Store->create_user($user_file_name)) {
         my $ui = HDiet::user->new($CGIargs{HDiet_username});
         
     if (defined($CGIargs{HDiet_height_cm})) {
@@ -2978,10 +2978,8 @@ EOD
     }
 
         
-    open(FU, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    HDiet::Store->write_user($user_file_name, $ui) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    $ui->save(\*FU);
-    close(FU);
 
     if (open(my $slf, ">>:utf8", "/server/pub/hackdiet/log/hdo.log")) {
         my @t = gmtime(time() + 19800);
@@ -3687,10 +3685,8 @@ EOD
     }
 
         
-    open(FU, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    HDiet::Store->write_user($user_file_name, $ui) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    $ui->save(\*FU);
-    close(FU);
 
     }
 
@@ -3923,10 +3919,8 @@ for a stranger to guess.
 \n") ||
         die("There was an error properly sending the password reset email. The password was not changed.");
 
-    open(FU, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+    HDiet::Store->write_user($user_file_name, $ui) ||
         die("Cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-    $ui->save(\*FU);
-    close(FU);
 
 
     

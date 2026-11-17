@@ -337,6 +337,27 @@ sub delete_cookie {
     return unlink("/server/pub/hackdiet/RememberMe/$cookie_id.hdr");
 }
 
+# create_user makes the account directory Users/<user>. Returns mkdir's
+# result: false if it already exists or cannot be made.
+sub create_user {
+    my ($class, $user_file_name) = @_;
+
+    return mkdir("/server/pub/hackdiet/Users/$user_file_name");
+}
+
+# write_user saves an HDiet::user object (password included, as before)
+# to Users/<user>/UserAccount.hdu.
+sub write_user {
+    my ($class, $user_file_name, $ui) = @_;
+
+    open(my $fh, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu")
+        or return 0;
+    $ui->save($fh);
+    close($fh);
+
+    return 1;
+}
+
 # _line reads one line with trailing whitespace removed, dying at end of
 # file with the same message as main::in.
 sub _line {
