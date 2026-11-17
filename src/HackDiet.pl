@@ -7336,18 +7336,12 @@ EOD
     
     my %accounts;
 
-    opendir(CD, "/server/pub/hackdiet/Pubname") ||
-        die("Cannot open directory /server/pub/hackdiet/Pubname");
-    for my $f (grep(/.*\.hdp$/, readdir(CD))) {
-        open(FU, "<:utf8", "/server/pub/hackdiet/Pubname/$f") ||
-            die("Cannot open user account directory /server/pub/hackdiet/Pubname/$f");
-        my $pn = HDiet::pubname->new();
-        $pn->load(\*FU);
-        close(FU);
+    for my $pfn (HDiet::Store->list_pubnames()) {
+        my $pn = HDiet::Store->read_pubname($pfn) ||
+            die("Cannot open user account directory /server/pub/hackdiet/Pubname/$pfn.hdp");
         my $sortcode = $pn->{public_name};
         $accounts{$sortcode} = $pn->{true_name};
     }
-    closedir(CD);
 
 
     print $fh <<"EOD";

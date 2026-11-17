@@ -6,6 +6,7 @@ use HDiet::monthlog;
 use HDiet::user ();
 use HDiet::session ();
 use HDiet::cookie ();
+use HDiet::pubname ();
 
 # File-backed month-log storage.
 # read_month returns a loaded HDiet::monthlog object,
@@ -139,6 +140,37 @@ sub list_cookies {
     closedir($dh);
 
     return @ids;
+}
+
+# read_pubname returns a loaded HDiet::pubname object for Pubname/<file>.hdp,
+# where <file> is the public name already quoted with quoteUserName,
+# or undef if the file does not exist or cannot be opened.
+sub read_pubname {
+    my ($class, $pub_file_name) = @_;
+
+    my $path = "/server/pub/hackdiet/Pubname/$pub_file_name.hdp";
+    return undef unless -f $path;
+    open(my $fh, "<:utf8", $path) or return undef;
+    my $pn = HDiet::pubname->new();
+    $pn->load($fh);
+    close($fh);
+
+    return $pn;
+}
+
+# list_pubnames returns the quoted file names (without .hdp) of every
+# public name in Pubname/, in readdir order. Same match as the old
+# browse loop: any name ending in .hdp.
+sub list_pubnames {
+    my ($class) = @_;
+
+    my $dir = "/server/pub/hackdiet/Pubname";
+    opendir(my $dh, $dir)
+        or die("Cannot open directory $dir");
+    my @names = map { /^(.*)\.hdp$/ ? $1 : () } readdir($dh);
+    closedir($dh);
+
+    return @names;
 }
 
 1;

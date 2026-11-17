@@ -12,6 +12,7 @@
     use Fcntl;
 
     use HDiet::Cluster;
+    use HDiet::Store;
 
     require Exporter;
     our @ISA = qw(Exporter);
@@ -149,9 +150,11 @@
         $self->{true_create_time} = $self->{public_create_time} = 0;
 
         my $pfn = HDiet::user::quoteUserName($pname);
-        if (open(PF, "<:utf8", "/server/pub/hackdiet/Pubname/$pfn.hdp")) {
-            $self->load(\*PF);
-            close(PF);
+        my $found = HDiet::Store->read_pubname($pfn);
+        if (defined($found)) {
+            for my $k (qw(public_name true_name true_create_time public_create_time)) {
+                $self->{$k} = $found->{$k};
+            }
             return $self->{true_name};
         }
 
