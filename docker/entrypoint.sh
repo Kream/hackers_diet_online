@@ -11,7 +11,6 @@ mkdir -p \
     "$DATA_ROOT/Users" \
     "$DATA_ROOT/Sessions" \
     "$DATA_ROOT/RememberMe" \
-    "$DATA_ROOT/ClusterSync" \
     "$DATA_ROOT/Pubname" \
     "$DATA_ROOT/Invitations" \
     "$DATA_ROOT/Backups"

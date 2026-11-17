@@ -46,11 +46,9 @@ RUN mkdir -p /server/bin/httpd/cgi-bin \
         /server/pub/hackdiet/Users \
         /server/pub/hackdiet/Sessions \
         /server/pub/hackdiet/RememberMe \
-        /server/pub/hackdiet/ClusterSync \
         /server/pub/hackdiet/Pubname \
         /server/pub/hackdiet/Invitations \
         /server/pub/hackdiet/Backups \
-        /server/run/ClusterSync \
         /server/log/hackdiet \
     && cp -r src/HDiet /server/bin/httpd/cgi-bin/ \
     && cp src/HackDiet.pl src/HackDietBadge.pl src/wz_jsgraphics.js /server/bin/httpd/cgi-bin/ \

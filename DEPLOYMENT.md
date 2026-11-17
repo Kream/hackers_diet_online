@@ -3,7 +3,7 @@
 ## Overview
 - The container runs Debian Bookworm with Apache 2 serving the CGI application at `/cgi-bin/HackDiet.pl`.
 - Static documentation from `webdoc` is published under `/hackdiet/online`.
-- Application data files live under `/server/pub/hackdiet` (subdirectories such as `Users`, `Sessions`, and `ClusterSync`). Mount this path to persist user data outside the container.
+- Application data files live under `/server/pub/hackdiet` (subdirectories such as `Users`, `Sessions`, and `Pubname`). Mount this path to persist user data outside the container.
 
 ## Build the Image
 ```sh
