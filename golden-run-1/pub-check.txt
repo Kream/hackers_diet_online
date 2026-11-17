@@ -1,0 +1,4 @@
+pubname_files=1
+pubname_true_name=golden1
+listed_in_browse=yes
+browsing_banner_on_log=yes

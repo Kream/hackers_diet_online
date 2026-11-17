@@ -18,6 +18,7 @@ echo "Restoring snapshot..."
 sudo rsync -a --delete /var/tmp/hdo-phase1-snapshot/ ./hackdiet-data/
 sudo chown -R www-data:www-data ./hackdiet-data
 sudo chmod -R u+rwX,g+rwX ./hackdiet-data
+sudo rm -f ./hackdiet-data/Pubname/*.hdp
 echo "Snapshot restored and ownership fixed."
 
 echo "Stopping any existing container..."
@@ -205,6 +206,64 @@ curl -s -o "$OUTDIR/remember-replay.html" \
 } > "$OUTDIR/remember-check.txt"
 echo "Remember-me checked."
 
+echo "Testing public names..."
+# edit_account replaces every setting with what the form sends, so send the same
+# values golden1 was created with. Fields left out (names, height, energy unit,
+# decimal character, password) come back the same as at creation.
+curl -s -o "$OUTDIR/pub-settings.html" -X POST \
+  -d 'q=edit_account' \
+  -d "s=$SESSION4" \
+  -d 'HDiet_email=golden@goldentest.com' \
+  -d 'HDiet_wunit=0' \
+  -d 'HDiet_dunit=0' \
+  -d 'HDiet_public=on' \
+  "$BASE"
+
+# Line 2 of the .hdp file is the pseudonym, line 3 the real user name
+PUBFILE=$(ls hackdiet-data/Pubname/*.hdp 2>/dev/null | head -1 || true)
+PUBNAME=""
+PUBTRUE=""
+if [[ -n "$PUBFILE" ]]; then
+  PUBNAME=$(sed -n 2p "$PUBFILE")
+  PUBTRUE=$(sed -n 3p "$PUBFILE")
+fi
+
+# The public list (default view is active accounts)
+curl -s -o "$OUTDIR/pub-browse.html" "$BASE?q=browsepub&s=$SESSION4"
+
+# Pick golden1's pseudonym from the list, the way the Access button does
+curl -s -o "$OUTDIR/pub-account.html" -X POST \
+  -d 'q=do_public_browseacct' \
+  -d "s=$SESSION4" \
+  --data-urlencode "pubacct=$PUBNAME" \
+  "$BASE"
+
+# A month log as the public sees it
+curl -s -o "$OUTDIR/pub-view-jan.html" "$BASE?q=log&m=2026-01&s=$SESSION4"
+
+{
+  echo "pubname_files=$(ls hackdiet-data/Pubname/*.hdp 2>/dev/null | wc -l)"
+  echo "pubname_true_name=$PUBTRUE"
+  if [[ -n "$PUBNAME" ]] && grep -qF "$PUBNAME" "$OUTDIR/pub-browse.html"; then
+    echo "listed_in_browse=yes"
+  else
+    echo "listed_in_browse=no"
+  fi
+  if grep -q 'Browsing public account' "$OUTDIR/pub-view-jan.html"; then
+    echo "browsing_banner_on_log=yes"
+  else
+    echo "browsing_banner_on_log=no"
+  fi
+} > "$OUTDIR/pub-check.txt"
+
+# The pseudonym is random: swap it for PUBNAME, both as written and with + for spaces
+if [[ -n "$PUBNAME" ]]; then
+  PN="$PUBNAME" PNPLUS="${PUBNAME// /+}" perl -pi -e 's/\Q$ENV{PN}\E/PUBNAME/g; s/\Q$ENV{PNPLUS}\E/PUBNAME/g' \
+    "$OUTDIR/pub-settings.html" "$OUTDIR/pub-browse.html" \
+    "$OUTDIR/pub-account.html" "$OUTDIR/pub-view-jan.html"
+fi
+echo "Public names checked."
+
 cp hackdiet-data/Users/golden1/2025-12.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-01.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-02.hdb "$OUTDIR/"
@@ -217,5 +276,6 @@ sha256sum 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml \
   view-feb.html view-apr.html chart-hist.png \
   LastTransaction.hdl session-check.txt session-old.html \
   remember-check.txt remember-login.html remember-cookie-login.html remember-replay.html \
+  pub-check.txt pub-settings.html pub-browse.html pub-account.html pub-view-jan.html \
   > SHA256SUMS.txt
 echo "Oracles and SHA256SUMS.txt written to $OUTDIR"
