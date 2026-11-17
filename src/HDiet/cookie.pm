@@ -184,10 +184,8 @@
         my ($ui) = @_;
 
         my $cook = HDiet::cookie->new($ui->{login_name}, time());
-         open(CO, ">:utf8", "/server/pub/hackdiet/RememberMe/$cook->{cookie_id}.hdr") ||
+        HDiet::Store->write_cookie($cook) ||
             die("Cannot create persistent login file /server/pub/hackdiet/RememberMe/$cook->{cookie_id}.hdr");
-        $cook->save(\*CO);
-        close(CO);
 
         return $cook->generateCookie('HDiet');
     }
@@ -202,16 +200,14 @@
             my $csig = $1;
             my $cid = checkCookieSignature($csig);
             if (defined($cid)) {
-                if (-f "/server/pub/hackdiet/RememberMe/$cid.hdr") {
-                    my $cook = HDiet::Store->read_cookie($cid);
-                    if (defined($cook)) {
-                        if (($cook->{cookie_id} eq $cid) &&
-                            ($cook->{expiry_time} >= time())) {
-                            $cuser = $cook->{login_name};
-                        }
+                my $cook = HDiet::Store->read_cookie($cid);
+                if (defined($cook)) {
+                    if (($cook->{cookie_id} eq $cid) &&
+                        ($cook->{expiry_time} >= time())) {
+                        $cuser = $cook->{login_name};
                     }
-                    unlink("/server/pub/hackdiet/RememberMe/$cid.hdr");
                 }
+                HDiet::Store->delete_cookie($cid);
             }
         }
         return $cuser;

@@ -316,6 +316,27 @@ sub delete_active_session {
     return unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
 }
 
+# write_cookie saves an HDiet::cookie object to RememberMe/<id>.hdr,
+# using its own cookie_id.
+sub write_cookie {
+    my ($class, $cookie) = @_;
+
+    open(my $fh, ">:utf8", "/server/pub/hackdiet/RememberMe/$cookie->{cookie_id}.hdr")
+        or return 0;
+    $cookie->save($fh);
+    close($fh);
+
+    return 1;
+}
+
+# delete_cookie removes RememberMe/<id>.hdr. Returns unlink's result:
+# 1 if a file was deleted, 0 if there was none.
+sub delete_cookie {
+    my ($class, $cookie_id) = @_;
+
+    return unlink("/server/pub/hackdiet/RememberMe/$cookie_id.hdr");
+}
+
 # _line reads one line with trailing whitespace removed, dying at end of
 # file with the same message as main::in.
 sub _line {

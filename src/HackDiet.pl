@@ -3399,7 +3399,7 @@ EOD
         my $cook = $cookies{$f};
         if ($cook->{login_name} eq $ui->{login_name}) {
 #            $cook->describe($fh);
-            $ndel += unlink("/server/pub/hackdiet/RememberMe/$f.hdr");
+            $ndel += HDiet::Store->delete_cookie($f);
         }
     }
 #print($fh "</pre>\n");
@@ -10493,9 +10493,7 @@ EOD
 
         my $qun = quoteUserName($cook->{login_name});
 
-        if (-f "/server/pub/hackdiet/RememberMe/$CGIargs{cookieid}.hdr") {
-            unlink("/server/pub/hackdiet/RememberMe/$CGIargs{cookieid}.hdr");
-        }
+        HDiet::Store->delete_cookie($CGIargs{cookieid});
 
         append_history($user_file_name, 17, "$qun,$cook->{cookie_id}");
     } else {
