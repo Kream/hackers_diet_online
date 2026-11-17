@@ -6,7 +6,9 @@
 
 
 
-- Remember HDiet::Aggregator (src/HDiet/Aggregator.pm). It powers the admin-only Global Statistics page (q=globalstats) and is the only code that reads every user's months at once, so the SQLite backend must serve it too. Its .hdb reads now go through HDiet::Store->read_month; UserAccount.hdu reads and the readdir of Users/ are still direct. The golden harness does not cover globalstats (needs an admin login). Pre-existing bug: when a month file is missing, retrieve() does not advance $j, so later days get the wrong dates until the next January resync. jig.pl imports HDiet::Aggregator but never calls it.
+- Remember HDiet::Aggregator (src/HDiet/Aggregator.pm). It powers the admin-only Global Statistics page (q=globalstats) and is the only code that reads every user's months at once, so the SQLite backend must serve it too. Its .hdb reads now go through HDiet::Store->read_month; UserAccount.hdu reads and the readdir of Users/ are still direct. The golden harness does not cover globalstats (needs an admin login). Pre-existing bug: when a month file is missing, retrieve() does not advance $j, so later days get the wrong dates until the next January resync. (jig.pl, which imported it but never called it, was removed from dev.)
+
+- src/Makefile and src/Makefile.mkf are dead upstream build files: they build everything from hdiet.w, which is not in this repo, and still list the removed jig.pl. Decide whether to delete them.
 
 REPORTED BY GROK BOT 2026-11-16
 

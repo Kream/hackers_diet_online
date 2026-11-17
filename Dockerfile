@@ -53,7 +53,7 @@ RUN mkdir -p /server/bin/httpd/cgi-bin \
         /server/run/ClusterSync \
         /server/log/hackdiet \
     && cp -r src/HDiet /server/bin/httpd/cgi-bin/ \
-    && cp src/HackDiet.pl src/HackDietBadge.pl src/jig.pl src/wz_jsgraphics.js /server/bin/httpd/cgi-bin/ \
+    && cp src/HackDiet.pl src/HackDietBadge.pl src/wz_jsgraphics.js /server/bin/httpd/cgi-bin/ \
     && ln -sf HackDiet.pl /server/bin/httpd/cgi-bin/HackDiet \
     && ln -sf HackDietBadge.pl /server/bin/httpd/cgi-bin/HackDietBadge \
     && mkdir -p /var/www/html/hackdiet \
