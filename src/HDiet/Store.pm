@@ -275,6 +275,47 @@ sub append_history {
     return 1;
 }
 
+# write_session saves an HDiet::session object to Sessions/<id>.hds,
+# using its own session_id.
+sub write_session {
+    my ($class, $session) = @_;
+
+    open(my $fh, ">:utf8", "/server/pub/hackdiet/Sessions/$session->{session_id}.hds")
+        or return 0;
+    $session->save($fh);
+    close($fh);
+
+    return 1;
+}
+
+# write_active_session saves the back-link Users/<user>/ActiveSession.hda
+# for an HDiet::session object.
+sub write_active_session {
+    my ($class, $user_file_name, $session) = @_;
+
+    open(my $fh, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda")
+        or return 0;
+    $session->save_active_session($fh);
+    close($fh);
+
+    return 1;
+}
+
+# delete_session removes Sessions/<id>.hds. Returns unlink's result;
+# no caller checks it today.
+sub delete_session {
+    my ($class, $session_id) = @_;
+
+    return unlink("/server/pub/hackdiet/Sessions/$session_id.hds");
+}
+
+# delete_active_session removes Users/<user>/ActiveSession.hda.
+sub delete_active_session {
+    my ($class, $user_file_name) = @_;
+
+    return unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
+}
+
 # _line reads one line with trailing whitespace removed, dying at end of
 # file with the same message as main::in.
 sub _line {

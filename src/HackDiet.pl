@@ -1608,8 +1608,8 @@ EOD
 
         
     if ((!$readOnly) && defined(my $asn = HDiet::Store->read_active_session($user_file_name))) {
-        unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
-        unlink("/server/pub/hackdiet/Sessions/$asn.hds");
+        HDiet::Store->delete_active_session($user_file_name);
+        HDiet::Store->delete_session($asn);
         append_history($user_file_name, 3);
     }
 
@@ -1619,17 +1619,13 @@ EOD
     my $s = HDiet::session->new($CGIargs{HDiet_username});
     $s->{read_only} = $readOnly;
     $s->{cookie} = $cookieLogin;
-    open(FS, ">:utf8", "/server/pub/hackdiet/Sessions/$s->{session_id}.hds") ||
+    HDiet::Store->write_session($s) ||
         die("Cannot create session file /server/pub/hackdiet/Sessions/$s->{session_id}.hds");
-    $s->save(\*FS);
-    close(FS);
 
     #   Add the ActiveSession.hda back-link to the user directory
     if (!$readOnly) {
-        open(FS, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda") ||
+        HDiet::Store->write_active_session($user_file_name, $s) ||
             die("Cannot create active session file /server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
-        $s->save_active_session(\*FS);
-        close(FS);
     }
 
 
@@ -1745,10 +1741,10 @@ EOD
 
 
     #   Delete active session file
-    unlink("/server/pub/hackdiet/Sessions/$CGIargs{s}.hds");
+    HDiet::Store->delete_session($CGIargs{s});
 
     if (!$readOnly) {
-        unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
+        HDiet::Store->delete_active_session($user_file_name);
         append_history($user_file_name, 2);
     }
 
@@ -2495,8 +2491,8 @@ EOD
         } else {
             if (!$readOnly) {
                 #   Delete active session file
-                unlink("/server/pub/hackdiet/Sessions/$CGIargs{s}.hds");
-                unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
+                HDiet::Store->delete_session($CGIargs{s});
+                HDiet::Store->delete_active_session($user_file_name);
 
                 
     my $tfn = timeXML(time());
@@ -3899,8 +3895,8 @@ EOD
 
     
     if ((!$readOnly) && defined(my $asn = HDiet::Store->read_active_session($user_file_name))) {
-        unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
-        unlink("/server/pub/hackdiet/Sessions/$asn.hds");
+        HDiet::Store->delete_active_session($user_file_name);
+        HDiet::Store->delete_session($asn);
         append_history($user_file_name, 3);
     }
 
@@ -7635,10 +7631,8 @@ EOD
 
     $session->{effective_name} = '';
     $session->{browse_name} = $pn->{public_name};
-    open(FS, ">:utf8", "/server/pub/hackdiet/Sessions/$session->{session_id}.hds") ||
+    HDiet::Store->write_session($session) ||
         die("Cannot create session file /server/pub/hackdiet/Sessions/$session->{session_id}.hds");
-    $session->save(\*FS);
-    close(FS);
     $CGIargs{q} = 'account';
     next;
 
@@ -7710,10 +7704,8 @@ EOD
 
     if ($assumed_identity || $browse_public) {
         $session->{effective_name} = $session->{browse_name} = '';
-        open(FS, ">:utf8", "/server/pub/hackdiet/Sessions/$session->{session_id}.hds") ||
+        HDiet::Store->write_session($session) ||
             die("Cannot create session file /server/pub/hackdiet/Sessions/$session->{session_id}.hds");
-        $session->save(\*FS);
-        close(FS);
     }
     $CGIargs{q} = 'account';
     next;
@@ -9009,10 +9001,8 @@ EOD
 
     $session->{effective_name} = $CGIargs{useracct};
     $session->{browse_name} = '';
-    open(FS, ">:utf8", "/server/pub/hackdiet/Sessions/$session->{session_id}.hds") ||
+    HDiet::Store->write_session($session) ||
         die("Cannot create session file /server/pub/hackdiet/Sessions/$session->{session_id}.hds");
-    $session->save(\*FS);
-    close(FS);
     $CGIargs{q} = 'account';
     next;
 
@@ -11842,8 +11832,8 @@ EOD
 
     
     if ((!$readOnly) && defined(my $asn = HDiet::Store->read_active_session($user_file_name))) {
-        unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
-        unlink("/server/pub/hackdiet/Sessions/$asn.hds");
+        HDiet::Store->delete_active_session($user_file_name);
+        HDiet::Store->delete_session($asn);
         append_history($user_file_name, 3);
     }
 
@@ -11853,8 +11843,8 @@ EOD
     #   in the Users directory, if the session close above did not
     #   delete the open session file, manually delete it now.
 
-    if (-f "/server/pub/hackdiet/Sessions/$CGIargs{sessionid}.hds") {
-        unlink("/server/pub/hackdiet/Sessions/$CGIargs{sessionid}.hds");
+    if (HDiet::Store->has_session($CGIargs{sessionid})) {
+        HDiet::Store->delete_session($CGIargs{sessionid});
 print(STDERR "Deleting bogus open session $CGIargs{sessionid} for user $user_file_name\n");
     }
 
@@ -12535,7 +12525,7 @@ EOD
             if (HDiet::Store->has_session($asn)) {
                 return 1;
             } else {
-                unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
+                HDiet::Store->delete_active_session($user_file_name);
 #print(STDERR "is_user_session_open abstergifying orphaned session /server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda\n");
             }
         }
