@@ -1608,10 +1608,7 @@ EOD
         }
 
         
-    if ((!$readOnly) && (-f "/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda")
-        && open(FS, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda")) {
-        my $asn = load_active_session(\*FS);
-        close(FS);
+    if ((!$readOnly) && defined(my $asn = HDiet::Store->read_active_session($user_file_name))) {
         unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
         clusterDelete("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
         unlink("/server/pub/hackdiet/Sessions/$asn.hds");
@@ -3932,10 +3929,7 @@ EOD
 
 
     
-    if ((!$readOnly) && (-f "/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda")
-        && open(FS, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda")) {
-        my $asn = load_active_session(\*FS);
-        close(FS);
+    if ((!$readOnly) && defined(my $asn = HDiet::Store->read_active_session($user_file_name))) {
         unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
         clusterDelete("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
         unlink("/server/pub/hackdiet/Sessions/$asn.hds");
@@ -9967,17 +9961,11 @@ EOD
     
     my %sessions;
 
-    opendir(CD, "/server/pub/hackdiet/Sessions") ||
-        die("Cannot open directory /server/pub/hackdiet/Sessions");
-    for my $f (grep(/\w+\.hds/, readdir(CD))) {
-        open(FU, "<:utf8", "/server/pub/hackdiet/Sessions/$f") ||
-            die("Cannot open session /server/pub/hackdiet/Sessions/$f");
-        my $session = HDiet::session->new();
-        $session->load(\*FU);
-        close(FU);
+    for my $id (HDiet::Store->list_sessions()) {
+        my $session = HDiet::Store->read_session($id) ||
+            die("Cannot open session /server/pub/hackdiet/Sessions/$id.hds");
         $sessions{$session->{login_name}} = $session->{session_id};
     }
-    closedir(CD);
 
 
     print $fh <<"EOD";
@@ -10001,11 +9989,8 @@ EOD
 
     
     for my $f (sort({ lc($a) cmp lc($b)} keys(%sessions))) {
-        open(FU, "<:utf8", "/server/pub/hackdiet/Sessions/$sessions{$f}.hds") ||
+        my $session = HDiet::Store->read_session($sessions{$f}) ||
             die("Cannot open session /server/pub/hackdiet/Sessions/$sessions{$f}.hds");
-        my $session = HDiet::session->new();
-        $session->load(\*FU);
-        close(FU);
         my $qun = quoteHTML($f);
         my $alink = quoteHTML($sessions{$f});
         my @sopen = gmtime($session->{login_time});
@@ -11837,17 +11822,11 @@ EOD
     
     my %sessions;
 
-    opendir(CD, "/server/pub/hackdiet/Sessions") ||
-        die("Cannot open directory /server/pub/hackdiet/Sessions");
-    for my $f (grep(/\w+\.hds/, readdir(CD))) {
-        open(FU, "<:utf8", "/server/pub/hackdiet/Sessions/$f") ||
-            die("Cannot open session /server/pub/hackdiet/Sessions/$f");
-        my $session = HDiet::session->new();
-        $session->load(\*FU);
-        close(FU);
+    for my $id (HDiet::Store->list_sessions()) {
+        my $session = HDiet::Store->read_session($id) ||
+            die("Cannot open session /server/pub/hackdiet/Sessions/$id.hds");
         $sessions{$session->{login_name}} = $session->{session_id};
     }
-    closedir(CD);
 
 
     my $user = '';
@@ -11929,10 +11908,7 @@ EOD
     $user_file_name = quoteUserName($user);
 
     
-    if ((!$readOnly) && (-f "/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda")
-        && open(FS, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda")) {
-        my $asn = load_active_session(\*FS);
-        close(FS);
+    if ((!$readOnly) && defined(my $asn = HDiet::Store->read_active_session($user_file_name))) {
         unlink("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
         clusterDelete("/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda");
         unlink("/server/pub/hackdiet/Sessions/$asn.hds");
@@ -12650,10 +12626,7 @@ EOD
         my ($user_name) = @_;
 
         my $user_file_name = quoteUserName($user_name);
-        if ((-f "/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda")
-            && open(FS, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/ActiveSession.hda")) {
-            my $asn = load_active_session(\*FS);
-            close(FS);
+        if (defined(my $asn = HDiet::Store->read_active_session($user_file_name))) {
             if (-f "/server/pub/hackdiet/Sessions/$asn.hds") {
                 return 1;
             } else {
