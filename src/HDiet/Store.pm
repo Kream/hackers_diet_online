@@ -232,6 +232,13 @@ sub has_pubname {
     return -f "/server/pub/hackdiet/Pubname/$pub_file_name.hdp";
 }
 
+# has_month is true if Users/<user>/<YYYY-MM>.hdb exists.
+sub has_month {
+    my ($class, $user_file_name, $year_month) = @_;
+
+    return -f "/server/pub/hackdiet/Users/$user_file_name/$year_month.hdb";
+}
+
 # ---- Writes ----
 # Each write method returns true on success, or false if the file cannot
 # be opened, so the caller keeps its own die message.
@@ -353,6 +360,19 @@ sub write_user {
     open(my $fh, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu")
         or return 0;
     $ui->save($fh);
+    close($fh);
+
+    return 1;
+}
+
+# write_month saves an HDiet::monthlog object to Users/<user>/<YYYY-MM>.hdb.
+# The caller sets last_modification_time first, as before.
+sub write_month {
+    my ($class, $user_file_name, $year_month, $mlog) = @_;
+
+    open(my $fh, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/$year_month.hdb")
+        or return 0;
+    $mlog->save($fh);
     close($fh);
 
     return 1;

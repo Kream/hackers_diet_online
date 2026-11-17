@@ -4595,10 +4595,8 @@ EOD
     
     if (($changes > 0) && (!$readOnly)) {
         $mlog->{last_modification_time} = time();
-        open(FL, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb") ||
+        HDiet::Store->write_month($user_file_name, $CGIargs{m}, $mlog) ||
             die("Cannot update monthly log file /server/pub/hackdiet/Users/$user_file_name/$CGIargs{m}.hdb");
-        $mlog->save(\*FL);
-        close(FL);
 
         if (($mlog->{year} == $userYear) && ($mlog->{month} == $userMon)) {
             my $today_weight = defined($mlog->{weight}[$userMday]) ? $mlog->{weight}[$userMday] : '';
@@ -6460,7 +6458,7 @@ EOD
     } else {
         $mlog = HDiet::monthlog->new();
         $monchanges{$monkey} = 0;
-        if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
+        if (HDiet::Store->has_month($user_file_name, $monkey)) {
             $mlog = HDiet::Store->read_month($user_file_name, $monkey);
             die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb")
                 unless defined $mlog;
@@ -6599,7 +6597,7 @@ EOD
     } else {
         $mlog = HDiet::monthlog->new();
         $monchanges{$monkey} = 0;
-        if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
+        if (HDiet::Store->has_month($user_file_name, $monkey)) {
             $mlog = HDiet::Store->read_month($user_file_name, $monkey);
             die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb")
                 unless defined $mlog;
@@ -6695,7 +6693,7 @@ EOD
     } else {
         $mlog = HDiet::monthlog->new();
         $monchanges{$monkey} = 0;
-        if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
+        if (HDiet::Store->has_month($user_file_name, $monkey)) {
             $mlog = HDiet::Store->read_month($user_file_name, $monkey);
             die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$monkey.hdb")
                 unless defined $mlog;
@@ -6771,10 +6769,8 @@ EOD
         foreach $md (sort(keys(%mondb))) {
             if ($monchanges{$md} > 0) {
                 $mondb{$md}->{last_modification_time} = time();
-                open(FL, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/$md.hdb") ||
+                HDiet::Store->write_month($user_file_name, $md, $mondb{$md}) ||
                     die("Cannot open monthly log file /server/pub/hackdiet/Users/$user_file_name/$md.hdb");
-                $mondb{$md}->save(\*FL);
-                close(FL);
             }
         }
         if ($imported > 0) {
@@ -12387,10 +12383,8 @@ EOD
 
         
     $mlog->{last_modification_time} = time();
-    open(FL, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb") ||
+    HDiet::Store->write_month($user_file_name, $logs[$i], $mlog) ||
         die("Cannot create monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb");
-    $mlog->save(\*FL);
-    close(FL);
 
     }
 
@@ -12449,10 +12443,8 @@ EOD
 
     
     $mlog->{last_modification_time} = time();
-    open(FL, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb") ||
+    HDiet::Store->write_month($user_file_name, $logs[$i], $mlog) ||
         die("Cannot create monthly log file /server/pub/hackdiet/Users/$user_file_name/$logs[$i].hdb");
-    $mlog->save(\*FL);
-    close(FL);
 
 
     $ltrend = $mlog->{trend}[$mlog->monthdays()];

@@ -1060,10 +1060,8 @@
     for my $k (keys(%logs)) {
         my $mlog = $logs{$k};
         $mlog->{last_modification_time} = time();
-        open(FL, ">:utf8", "/server/pub/hackdiet/Users/$user_file_name/$k.hdb") ||
+        HDiet::Store->write_month($user_file_name, $k, $mlog) ||
             die("Cannot update monthly log file /server/pub/hackdiet/Users/$user_file_name/$k.hdb");
-        $mlog->save(\*FL);
-        close(FL);
     }
 
     if (scalar(keys(%logs)) > 0) {
