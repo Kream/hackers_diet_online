@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Fcntl qw(O_CREAT O_EXCL O_WRONLY);
 use HDiet::monthlog;
+use HDiet::xml qw(timeXML);
 use HDiet::user ();
 use HDiet::session ();
 use HDiet::cookie ();
@@ -401,6 +402,33 @@ sub delete_pubname {
     my ($class, $pubname_file) = @_;
 
     return unlink("/server/pub/hackdiet/Pubname/$pubname_file.hdp");
+}
+
+# backup_user writes Backups/<user>_<time>.bz2, a tar of Users/<user>.
+# Same command as before, run through main::do_command so the --test
+# and --verbose switches still apply.
+sub backup_user {
+    my ($class, $user_file_name) = @_;
+
+    my $tfn = timeXML(time());
+    $tfn =~ s/:/./g;            # Avoid idiot tar treating time as hostname
+    main::do_command("( cd /server/pub/hackdiet/Backups; tar cfj ${user_file_name}_" .
+        $tfn . ".bz2 -C ../Users $user_file_name )");
+}
+
+# delete_month removes Users/<user>/<YYYY-MM>.hdb and returns unlink's result.
+sub delete_month {
+    my ($class, $user_file_name, $year_month) = @_;
+
+    return unlink("/server/pub/hackdiet/Users/$user_file_name/$year_month.hdb");
+}
+
+# delete_user removes the whole Users/<user> directory. Same command as
+# before, through main::do_command. Callers back up first.
+sub delete_user {
+    my ($class, $user_file_name) = @_;
+
+    main::do_command("rm -rf /server/pub/hackdiet/Users/$user_file_name");
 }
 
 # _line reads one line with trailing whitespace removed, dying at end of

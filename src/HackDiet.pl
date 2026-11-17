@@ -2097,17 +2097,12 @@ EOD
     } else {
         if (!$readOnly) {
             
-    my $tfn = timeXML(time());
-    $tfn =~ s/:/./g;            # Avoid idiot tar treating time as hostname
-    if ("/server/pub/hackdiet/Backups" ne '') {
-        do_command("( cd /server/pub/hackdiet/Backups; tar cfj ${user_file_name}_" .
-            $tfn . ".bz2 -C ../Users $user_file_name )");
-    }
+    HDiet::Store->backup_user($user_file_name);
 
 
             my @months = $ui->enumerateMonths();
             for my $m (@months) {
-                unlink("/server/pub/hackdiet/Users/$user_file_name/$m.hdb") ||
+                HDiet::Store->delete_month($user_file_name, $m) ||
                    die("Cannot delete log file /server/pub/hackdiet/Users/$user_file_name/$m.hdb");
             }
 
@@ -2495,17 +2490,12 @@ EOD
                 HDiet::Store->delete_active_session($user_file_name);
 
                 
-    my $tfn = timeXML(time());
-    $tfn =~ s/:/./g;            # Avoid idiot tar treating time as hostname
-    if ("/server/pub/hackdiet/Backups" ne '') {
-        do_command("( cd /server/pub/hackdiet/Backups; tar cfj ${user_file_name}_" .
-            $tfn . ".bz2 -C ../Users $user_file_name )");
-    }
+    HDiet::Store->backup_user($user_file_name);
 
 
                 #   At this point the user is logged out.  We can now delete
                 #   the user directory and all its contents.
-                do_command("rm -rf /server/pub/hackdiet/Users/$user_file_name");
+                HDiet::Store->delete_user($user_file_name);
             }
 
             print $fh <<"EOD";
@@ -9325,16 +9315,11 @@ EOD
         my $mont = 'month' . (($nmonths != 1) ? 's' : '');
 
         
-    my $tfn = timeXML(time());
-    $tfn =~ s/:/./g;            # Avoid idiot tar treating time as hostname
-    if ("/server/pub/hackdiet/Backups" ne '') {
-        do_command("( cd /server/pub/hackdiet/Backups; tar cfj ${user_file_name}_" .
-            $tfn . ".bz2 -C ../Users $user_file_name )");
-    }
+    HDiet::Store->backup_user($user_file_name);
 
 
         for my $m (@months) {
-            unlink("/server/pub/hackdiet/Users/$user_file_name/$m.hdb") ||
+            HDiet::Store->delete_month($user_file_name, $m) ||
                die("Cannot delete log file /server/pub/hackdiet/Users/$user_file_name/$m.hdb");
 #print($fh "<pre>unlink /server/pub/hackdiet/Users/$user_file_name/$m.hdb</pre>\n");
         }
@@ -9688,14 +9673,9 @@ the database.  Return here after the logs have been purged.</h3>
 EOD
         } else {
             
-    my $tfn = timeXML(time());
-    $tfn =~ s/:/./g;            # Avoid idiot tar treating time as hostname
-    if ("/server/pub/hackdiet/Backups" ne '') {
-        do_command("( cd /server/pub/hackdiet/Backups; tar cfj ${user_file_name}_" .
-            $tfn . ".bz2 -C ../Users $user_file_name )");
-    }
+    HDiet::Store->backup_user($user_file_name);
 
-            do_command("rm -rf /server/pub/hackdiet/Users/$user_file_name");
+            HDiet::Store->delete_user($user_file_name);
 
             print $fh <<"EOD";
 <h1 class="c">Account Deleted</h1>
