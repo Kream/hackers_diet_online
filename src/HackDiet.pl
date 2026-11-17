@@ -6459,7 +6459,6 @@ EOD
         $mlog = $mondb{$monkey};
     } else {
         $mlog = HDiet::monthlog->new();
-        $mondb{$monkey} = $mlog;
         $monchanges{$monkey} = 0;
         if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
             $mlog = HDiet::Store->read_month($user_file_name, $monkey);
@@ -6472,6 +6471,7 @@ EOD
             $mlog->{trend_carry_forward} = 0;
             $mlog->{last_modification_time} = 0;
         }
+        $mondb{$monkey} = $mlog;
     }
 
 
@@ -6598,7 +6598,6 @@ EOD
         $mlog = $mondb{$monkey};
     } else {
         $mlog = HDiet::monthlog->new();
-        $mondb{$monkey} = $mlog;
         $monchanges{$monkey} = 0;
         if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
             $mlog = HDiet::Store->read_month($user_file_name, $monkey);
@@ -6611,6 +6610,7 @@ EOD
             $mlog->{trend_carry_forward} = 0;
             $mlog->{last_modification_time} = 0;
         }
+        $mondb{$monkey} = $mlog;
     }
 
 
@@ -6694,7 +6694,6 @@ EOD
         $mlog = $mondb{$monkey};
     } else {
         $mlog = HDiet::monthlog->new();
-        $mondb{$monkey} = $mlog;
         $monchanges{$monkey} = 0;
         if (-f "/server/pub/hackdiet/Users/$user_file_name/$monkey.hdb") {
             $mlog = HDiet::Store->read_month($user_file_name, $monkey);
@@ -6707,6 +6706,7 @@ EOD
             $mlog->{trend_carry_forward} = 0;
             $mlog->{last_modification_time} = 0;
         }
+        $mondb{$monkey} = $mlog;
     }
 
 
