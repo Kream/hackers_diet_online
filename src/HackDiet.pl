@@ -1532,8 +1532,7 @@ EOD
 
         if ($cookieLogin) {
             $user_file_name = quoteUserName($cookieUser);
-            if (!(-f "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu")
-                || (!open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu"))) {
+            if (!defined($ui = HDiet::Store->read_user($user_file_name))) {
                 
     
     my @lt = localtime(time());
@@ -1559,9 +1558,6 @@ EOD
     last;
 
             }
-            $ui = HDiet::user->new();
-            $ui->load(\*FU);
-            close(FU);
             $CGIargs{HDiet_username} = $ui->{login_name};
             $CGIargs{HDiet_remember} = 'y';
         } else {
@@ -1569,8 +1565,7 @@ EOD
     #   Verify user account directory exists and contains
     #   valid user information file.
     $user_file_name = quoteUserName($CGIargs{HDiet_username});
-    if (!(-f "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu")
-        || (!open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu"))) {
+    if (!defined($ui = HDiet::Store->read_user($user_file_name))) {
         
     
     my @lt = localtime(time());
@@ -1597,10 +1592,7 @@ EOD
 
     }
 
-    #   Read user account information and check password
-    $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
+    #   Check password
     if (($CGIargs{HDiet_password} eq '') && $ui->{read_only}) {
         $readOnly = 1;
     } elsif ($CGIargs{HDiet_password} ne $ui->{password}) {
@@ -3898,8 +3890,8 @@ EOD
     #   Verify user account directory exists and contains
     #   valid user information file.
     my $user_file_name = quoteUserName($CGIargs{HDiet_username});
-    if (!(-f "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu")
-        || (!open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu"))) {
+    my $ui;
+    if (!defined($ui = HDiet::Store->read_user($user_file_name))) {
         
     
     my @lt = localtime(time());
@@ -3925,11 +3917,6 @@ EOD
     last;
 
     }
-
-    #   Read user account information
-    my $ui = HDiet::user->new();
-    $ui->load(\*FU);
-    close(FU);
 
     
     if ($CGIargs{HDiet_email} ne $ui->{e_mail}) {
@@ -7505,11 +7492,8 @@ EOD
             }
         }
 
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$qun/UserAccount.hdu") ||
+        my $ui = HDiet::Store->read_user($qun) ||
             next;
-        my $ui = HDiet::user->new();
-        $ui->load(\*FU);
-        close(FU);
         my $alink = quoteHTML($n);
         my @acreate = gmtime($ui->{account_created});
         my $acr = sprintf("%04d-%02d-%02d", $acreate[5] + 1900, $acreate[4] + 1, $acreate[3]);
@@ -8816,11 +8800,8 @@ EOD
     my ($naccts, $npub) = (0, 0);
     for my $n (sort({ lc($a) cmp lc($b)} keys(%accounts))) {
         my $qn = quoteHTML($n);
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$accounts{$n}/UserAccount.hdu") ||
+        my $ui = HDiet::Store->read_user($accounts{$n}) ||
             die("Cannot open user account directory /server/pub/hackdiet/Users/$accounts{$n}/UserAccount.hdu");
-        my $ui = HDiet::user->new();
-        $ui->load(\*FU);
-        close(FU);
         my $alink = quoteHTML($n);
         my @acreate = gmtime($ui->{account_created});
         my $acr = sprintf("%04d-%02d-%02d", $acreate[5] + 1900, $acreate[4] + 1, $acreate[3]);
@@ -9480,11 +9461,8 @@ it before the database can be purged.</h3>
 <h4 class="nav"><a href="/cgi-bin/HackDiet?q=acctmgr&amp;s=$session->{session_id}$tzOff">Return to account manager</a></h4>
 EOD
     } else {
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        my $di = HDiet::Store->read_user($user_file_name) ||
             die("Administrator purge logs: cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        my $di = HDiet::user->new();
-        $di->load(\*FU);
-        close(FU);
 
         my @months = $di->enumerateMonths();
         my $nmonths = $#months + 1;
@@ -9842,11 +9820,8 @@ it before the account can be deleted.</h3>
 <h4 class="nav"><a href="/cgi-bin/HackDiet?q=acctmgr&amp;s=$session->{session_id}$tzOff">Return to account manager</a></h4>
 EOD
     } else {
-        open(FU, "<:utf8", "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu") ||
+        my $di = HDiet::Store->read_user($user_file_name) ||
             die("Administrator delete account: cannot open user account file /server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu");
-        my $di = HDiet::user->new();
-        $di->load(\*FU);
-        close(FU);
         my @months = $di->enumerateMonths();
         my $nmonths = $#months + 1;
         my $mont = 'month' . (($nmonths != 1) ? 's' : '');

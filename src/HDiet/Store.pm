@@ -49,12 +49,13 @@ sub list_months {
 }
 
 # read_user returns a loaded HDiet::user object for UserAccount.hdu,
-# or undef if the file cannot be opened. Callers keep their own die
+# or undef if the file does not exist or cannot be opened. Callers keep their own die
 # or fallback, so error messages stay exactly as they were.
 sub read_user {
     my ($class, $user_file_name) = @_;
 
     my $path = "/server/pub/hackdiet/Users/$user_file_name/UserAccount.hdu";
+    return undef unless -f $path;
     open(my $fh, "<:utf8", $path) or return undef;
     my $ui = HDiet::user->new();
     $ui->load($fh);
