@@ -173,4 +173,37 @@ sub list_pubnames {
     return @names;
 }
 
+# read_last_transaction returns the time (epoch seconds) stored in
+# Users/<user>/LastTransaction.hdl, or 0 if the file cannot be opened,
+# has the wrong version, or holds a non-numeric time. Like main::in,
+# it dies if the file ends before a line it expects.
+sub read_last_transaction {
+    my ($class, $user_file_name) = @_;
+
+    my $path = "/server/pub/hackdiet/Users/$user_file_name/LastTransaction.hdl";
+    open(my $fh, "<:utf8", $path) or return 0;
+    my $lt = 0;
+    my $s = _line($fh);
+    if ($s == 1) {          # Only proceed if version correct
+        $s = _line($fh);
+        if ($s =~ m/^\d+$/) {
+            $lt = $s;
+        }
+    }
+    close($fh);
+
+    return $lt;
+}
+
+# _line reads one line with trailing whitespace removed, dying at end of
+# file with the same message as main::in.
+sub _line {
+    my ($fh) = @_;
+
+    my $s = <$fh>;
+    die("main::in: Unexpected end of file") unless defined($s);
+    $s =~ s/\s+$//;
+    return $s;
+}
+
 1;

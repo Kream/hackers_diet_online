@@ -12561,20 +12561,7 @@ EOD
     sub last_transaction_time {
         my ($user_file) = @_;
 
-        if (open(FL, "<:utf8", "/server/pub/hackdiet/Users/$user_file/LastTransaction.hdl")) {
-            my $lt = 0;
-            my $s = in(\*FL);
-            if ($s == 1) {          # Only proceed if version correct
-                $s = in(\*FL);
-                if ($s =~ m/^\d+$/) {
-                    $lt = $s;
-                }
-            }
-            close(FL);
-            return $lt;
-        } else {
-            return 0;
-        }
+        return HDiet::Store->read_last_transaction($user_file);
    }
 
    
