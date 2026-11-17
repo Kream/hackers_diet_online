@@ -26,7 +26,7 @@ sanitize() {
 fail=0
 
 # Exact files
-for f in 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml chart-jan.png chart-hist.png LastTransaction.hdl session-check.txt remember-check.txt pub-check.txt import-check.txt; do
+for f in 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml chart-jan.png chart-hist.png LastTransaction.hdl session-check.txt remember-check.txt pub-check.txt import-check.txt import-existing-check.txt; do
   if ! cmp -s "$TEST/$f" "$REF/$f"; then
     echo "MISMATCH (exact): $f"
     fail=1

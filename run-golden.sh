@@ -312,6 +312,59 @@ cp hackdiet-data/Users/golden1/2026-02.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/2026-04.hdb "$OUTDIR/"
 cp hackdiet-data/Users/golden1/LastTransaction.hdl "$OUTDIR/"
 
+echo "Testing XML import into a month that already has days..."
+# April already has weights on days 2 and 5 and a comment on day 5.
+# Import days 10 and 12 into it: the old days must stay and both new
+# days must be saved (the first imported day used to be dropped).
+APR=hackdiet-data/Users/golden1/2026-04.hdb
+cat > "$OUTDIR/import-apr.xml" <<'XML'
+<?xml version="1.0" encoding="UTF-8"?>
+<hackersdiet version="1.0">
+    <monthlog version="1.0">
+        <properties>
+            <year>2026</year>
+            <month>4</month>
+            <weight-unit>kilogram</weight-unit>
+        </properties>
+        <days ndays="30">
+            <day>
+                <date>10</date>
+                <weight>80.8</weight>
+                <comment>imported tenth</comment>
+            </day>
+            <day>
+                <date>12</date>
+                <weight>80.6</weight>
+            </day>
+        </days>
+    </monthlog>
+</hackersdiet>
+XML
+curl -s -o /dev/null \
+  -F 'q=csv_import_data' \
+  -F "s=$SESSION4" \
+  -F "file=<$OUTDIR/import-apr.xml" \
+  "$BASE"
+
+# Line 4 of a .hdb file is the weights, one comma-separated field per day.
+# Split on | so an empty day stays an empty field instead of shifting the rest.
+IFS='|' read -r D2 D5 D10 D12 <<< "$(awk -F, 'NR==4 {print $2 "|" $5 "|" $10 "|" $12}' "$APR")"
+{
+  [[ "$D2" == "81.6" && "$D5" == "81.2" ]] \
+    && echo "existing_weights_kept=yes" || echo "existing_weights_kept=no"
+  # Line 7 holds every comment, run together: 5"..."10"..."
+  COMMENTS=$(sed -n 7p "$APR")
+  [[ "$COMMENTS" == *'5"golden april"'* ]] \
+    && echo "existing_comment_kept=yes" || echo "existing_comment_kept=no"
+  [[ "$COMMENTS" == *'10"imported tenth"'* ]] \
+    && echo "imported_comment_saved=yes" || echo "imported_comment_saved=no"
+  [[ "$D10" == "80.8" ]] \
+    && echo "first_imported_day_saved=yes" || echo "first_imported_day_saved=no"
+  [[ "$D12" == "80.6" ]] \
+    && echo "second_imported_day_saved=yes" || echo "second_imported_day_saved=no"
+} > "$OUTDIR/import-existing-check.txt"
+echo "Import into an existing month checked."
+
 cd "$OUTDIR"
 sha256sum 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml \
   view-jan.html view-trend.html view-cal.html view-mar.html chart-jan.png \
@@ -319,6 +372,6 @@ sha256sum 2025-12.hdb 2026-01.hdb 2026-02.hdb 2026-04.hdb export-jan.xml \
   LastTransaction.hdl session-check.txt session-old.html \
   remember-check.txt remember-login.html remember-cookie-login.html remember-replay.html \
   pub-check.txt pub-settings.html pub-browse.html pub-account.html pub-view-jan.html \
-  import-check.txt import-jan.html \
+  import-check.txt import-jan.html import-existing-check.txt \
   > SHA256SUMS.txt
 echo "Oracles and SHA256SUMS.txt written to $OUTDIR"

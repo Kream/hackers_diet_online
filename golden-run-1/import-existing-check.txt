@@ -1,0 +1,5 @@
+existing_weights_kept=yes
+existing_comment_kept=yes
+imported_comment_saved=yes
+first_imported_day_saved=yes
+second_imported_day_saved=yes
