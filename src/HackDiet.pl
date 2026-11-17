@@ -256,8 +256,8 @@ This program is in the public domain.
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -266,8 +266,6 @@ This program is in the public domain.
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -456,8 +454,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -466,8 +464,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -550,8 +546,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -560,8 +556,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -702,8 +696,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -712,8 +706,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -857,8 +849,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -867,8 +859,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -988,8 +978,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -998,8 +988,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -1102,8 +1090,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -1112,8 +1100,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -1212,8 +1198,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -1222,8 +1208,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -1300,8 +1284,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -1310,8 +1294,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -1741,8 +1723,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -1751,8 +1733,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -1802,8 +1782,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -1812,8 +1792,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -2002,8 +1980,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -2012,8 +1990,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -2187,8 +2163,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -2197,8 +2173,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -2383,8 +2357,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -2393,8 +2367,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -2587,8 +2559,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -2597,8 +2569,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -3135,8 +3105,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -3145,8 +3115,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -3339,8 +3307,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -3349,8 +3317,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -3510,8 +3476,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -3520,8 +3486,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -4069,8 +4033,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -4079,8 +4043,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -4531,8 +4493,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -4541,8 +4503,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -4849,8 +4809,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -4859,8 +4819,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -5078,8 +5036,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -5088,8 +5046,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -5634,8 +5590,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -5644,8 +5600,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -6156,8 +6110,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -6166,8 +6120,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -6346,8 +6298,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -6356,8 +6308,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -6926,8 +6876,8 @@ Log items imported: $imported.<br />\n");
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -6936,8 +6886,6 @@ Log items imported: $imported.<br />\n");
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -7287,8 +7235,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -7297,8 +7245,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -7546,8 +7492,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -7556,8 +7502,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -7754,8 +7698,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -7764,8 +7708,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -7833,8 +7775,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -7843,8 +7785,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -8007,8 +7947,8 @@ write_XHTML_epilogue($fh, $homeBase);
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -8017,8 +7957,6 @@ write_XHTML_epilogue($fh, $homeBase);
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -8286,8 +8224,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -8296,8 +8234,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -8537,8 +8473,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -8547,8 +8483,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -8879,8 +8813,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -8889,8 +8823,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -9145,8 +9077,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -9155,8 +9087,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -9506,8 +9436,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -9516,8 +9446,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -9867,8 +9795,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -9877,8 +9805,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -10130,8 +10056,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -10140,8 +10066,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -10385,8 +10309,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -10395,8 +10319,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -10684,8 +10606,8 @@ print(STDERR "Bogus delete cookie request for $CGIargs{cookieid}\n");
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -10694,8 +10616,6 @@ print(STDERR "Bogus delete cookie request for $CGIargs{cookieid}\n");
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -11231,8 +11151,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -11241,8 +11161,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -11667,8 +11585,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -11677,8 +11595,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -12051,8 +11967,8 @@ print(STDERR "Deleting bogus open session $CGIargs{sessionid} for user $user_fil
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -12061,8 +11977,6 @@ print(STDERR "Deleting bogus open session $CGIargs{sessionid} for user $user_fil
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -12252,8 +12166,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -12262,8 +12176,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';
@@ -12483,8 +12395,8 @@ EOD
     if ($CGIargs{s} !~ m/^[0-9FGJKQW]{40}$/) {
         die("Invalid (probably spoofed) session identifier ($CGIargs{s})");
     }
-    my $session = HDiet::session->new();
-    if (!open(FS, "<:utf8", "/server/pub/hackdiet/Sessions/$CGIargs{s}.hds")) {
+    my $session = HDiet::Store->read_session($CGIargs{s});
+    if (!defined($session)) {
         %CGIargs = (
             q => "relogin",
         );
@@ -12493,8 +12405,6 @@ EOD
         }
         next;
     }
-    $session->load(\*FS);
-    close(FS);
     my $user_name = $session->{login_name};
     my $real_user_name = $user_name;
     my $effective_user_name = '';

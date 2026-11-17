@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use HDiet::monthlog;
 use HDiet::user ();
+use HDiet::session ();
 
 # File-backed month-log storage.
 # read_month returns a loaded HDiet::monthlog object,
@@ -62,6 +63,21 @@ sub read_user {
     close($fh);
 
     return $ui;
+}
+
+# read_session returns a loaded HDiet::session object for Sessions/<id>.hds,
+# or undef if the file does not exist or cannot be opened.
+sub read_session {
+    my ($class, $session_id) = @_;
+
+    my $path = "/server/pub/hackdiet/Sessions/$session_id.hds";
+    return undef unless -f $path;
+    open(my $fh, "<:utf8", $path) or return undef;
+    my $session = HDiet::session->new();
+    $session->load($fh);
+    close($fh);
+
+    return $session;
 }
 
 1;
